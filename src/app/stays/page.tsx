@@ -1,0 +1,341 @@
+"use client"
+
+import { Button } from "@/components/ui/Button"
+import { Input } from "@/components/ui/Input"
+import { Card, CardContent } from "@/components/ui/Card"
+import { Badge } from "@/components/ui/Badge"
+import { EmptyState } from "@/components/ui/EmptyState"
+import { ErrorDisplay } from "@/components/ui/ErrorDisplay"
+import { Search, MapPin, Calendar, Star, Wifi, Car, Coffee, ShieldCheck, Home } from "lucide-react"
+import { motion } from "framer-motion"
+import { fadeInUp, staggerContainer } from "@/lib/animations"
+import { useState, useEffect } from "react"
+import { useRealtimeListings } from "@/lib/hooks"
+
+interface Accommodation {
+    id: string;
+    name: string;
+    description: string;
+    property_type: string;
+    city: string;
+    country: string;
+    bedrooms: number;
+    bathrooms: number;
+    max_guests: number;
+    price_per_night: number;
+    currency: string;
+    amenities: string[];
+    images: string[];
+    average_rating: number;
+    total_reviews: number;
+}
+
+export default function StaysPage() {
+    const [stays, setStays] = useState<Accommodation[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const [searchParams, setSearchParams] = useState({
+        city: '',
+        checkIn: '',
+        checkOut: '',
+    });
+
+    // Set up real-time subscription for accommodations
+    useRealtimeListings({
+        listingType: 'accommodations',
+        onInsert: (listing) => {
+            setStays(prev => [listing as Accommodation, ...prev]);
+        },
+        onUpdate: (listing) => {
+            setStays(prev => prev.map(s => s.id === listing.id ? listing as Accommodation : s));
+        },
+        onDelete: (listing) => {
+            setStays(prev => prev.filter(s => s.id !== listing.id));
+        },
+    });
+
+    useEffect(() => {
+        fetchStays();
+    }, []);
+
+    const fetchStays = async () => {
+        try {
+            setError(null);
+            
+            const params = new URLSearchParams({ limit: '20' });
+            if (searchParams.city) params.append('city', searchParams.city);
+            if (searchParams.checkIn) params.append('startDate', searchParams.checkIn);
+            if (searchParams.checkOut) params.append('endDate', searchParams.checkOut);
+            
+            const url = `/api/stays?${params}`;
+            console.log('[Stays Page] Fetching from:', url);
+            
+            const response = await fetch(url);
+            
+            console.log('[Stays Page] Response status:', response.status, response.statusText);
+            
+            if (!response.ok) {
+                throw new Error('Failed to fetch accommodations');
+            }
+            
+            const data = await response.json();
+            
+            console.log('[Stays Page] Response data:', {
+                success: data.success,
+                hasData: !!data.data,
+                dataType: typeof data.data,
+                isArray: Array.isArray(data.data),
+                dataLength: Array.isArray(data.data) ? data.data.length : 'N/A',
+                nestedDataLength: data.data?.data?.length || 'N/A'
+            });
+            
+            if (data.success) {
+                // Handle both direct array and paginated response
+                const staysArray = Array.isArray(data.data) ? data.data : (data.data?.data || []);
+                console.log('[Stays Page] Setting stays:', staysArray.length, 'items');
+                setStays(staysArray);
+            } else {
+                throw new Error(data.error?.message || 'Failed to load accommodations');
+            }
+        } catch (err) {
+            console.error('[Stays Page] Error fetching stays:', err);
+            setError(err instanceof Error ? err.message : 'An error occurred');
+        }
+    };
+
+    const handleSearch = () => {
+        fetchStays();
+    };
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-background pb-20">
+                <section className="relative py-20 px-4">
+                    <div className="container mx-auto max-w-5xl">
+                        <ErrorDisplay
+                            type="network"
+                            title="Failed to Load Accommodations"
+                            message={error}
+                            action={{
+                                label: "Retry",
+                                onClick: fetchStays,
+                            }}
+                        />
+                    </div>
+                </section>
+            </div>
+        );
+    }
+
+    return (
+        <div className="min-h-screen bg-background pb-20">
+            {/* Hero Search Section */}
+            <section className="relative py-20 px-4">
+                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20 dark:opacity-10 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background pointer-events-none" />
+
+                <div className="relative z-10 container mx-auto max-w-5xl">
+                    <motion.div
+                        className="text-center mb-10"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <h1 className="text-4xl md:text-6xl font-bold mb-4">
+                            Find Your <span className="bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">Sanctuary</span>
+                        </h1>
+                        <p className="text-muted-foreground text-lg">
+                            Discover verified apartments, hotels, and shortlets for your stay.
+                        </p>
+                    </motion.div>
+
+                    {/* Search Box */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
+                        <Card className="glass-strong border-white/10 max-w-4xl mx-auto">
+                            <CardContent className="p-5">
+                                <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+                                    <div className="md:col-span-4 space-y-1.5">
+                                        <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
+                                            <MapPin className="w-3 h-3" /> Location
+                                        </label>
+                                        <Input 
+                                            placeholder="Lekki Phase 1, Lagos" 
+                                            value={searchParams.city}
+                                            onChange={(e) => setSearchParams(prev => ({ ...prev, city: e.target.value }))}
+                                            className="h-10 text-center md:text-left"
+                                        />
+                                    </div>
+                                    <div className="md:col-span-3 space-y-1.5">
+                                        <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
+                                            <Calendar className="w-3 h-3" /> Check-in
+                                        </label>
+                                        <Input 
+                                            type="date" 
+                                            className="h-10 text-center md:text-left [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                                            value={searchParams.checkIn}
+                                            onChange={(e) => setSearchParams(prev => ({ ...prev, checkIn: e.target.value }))}
+                                            placeholder="Select date"
+                                        />
+                                    </div>
+                                    <div className="md:col-span-3 space-y-1.5">
+                                        <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
+                                            <Calendar className="w-3 h-3" /> Check-out
+                                        </label>
+                                        <Input 
+                                            type="date" 
+                                            className="h-10 text-center md:text-left [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                                            value={searchParams.checkOut}
+                                            onChange={(e) => setSearchParams(prev => ({ ...prev, checkOut: e.target.value }))}
+                                            placeholder="Select date"
+                                        />
+                                    </div>
+                                    <div className="md:col-span-2">
+                                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                                            <Button 
+                                                className="w-full h-10 bg-pink-700 hover:bg-pink-800 text-white font-semibold shadow-lg shadow-pink-500/30"
+                                                onClick={handleSearch}
+                                                aria-label="Search for accommodations"
+                                            >
+                                                <Search className="w-4 h-4 mr-2" /> Search
+                                            </Button>
+                                        </motion.div>
+                                    </div>
+                                </div>
+
+                                <motion.div
+                                    className="mt-3 flex flex-wrap justify-center gap-2"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.4 }}
+                                >
+                                    {["Entire Place", "Private Room", "Hotel", "Verified Host"].map((filter, i) => (
+                                        <motion.div key={filter} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                            <Badge
+                                                variant={i === 0 ? "secondary" : "outline"}
+                                                className={`cursor-pointer ${i === 0 ? "hover:bg-muted" : "hover:bg-muted border-border"}`}
+                                            >
+                                                {filter}
+                                            </Badge>
+                                        </motion.div>
+                                    ))}
+                                </motion.div>
+                            </CardContent>
+                        </Card>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* Featured Stays */}
+            <section className="container mx-auto px-4 py-10">
+                <motion.h2
+                    className="text-2xl font-bold mb-6 flex items-center gap-2"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                >
+                    <Star className="w-6 h-6 text-yellow-500" />
+                    Top Rated Stays
+                </motion.h2>
+
+                {stays.length === 0 ? (
+                    <EmptyState
+                        title="No Accommodations Found"
+                        message="We couldn't find any stays matching your search. Try different dates or locations."
+                        illustration={
+                            <div className="mb-6 flex items-center justify-center w-24 h-24 rounded-full bg-pink-500/10">
+                                <Home className="w-12 h-12 text-pink-500" />
+                            </div>
+                        }
+                        action={{
+                            label: "Browse All Stays",
+                            onClick: fetchStays,
+                        }}
+                    />
+                ) : (
+                    <motion.div
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        variants={staggerContainer}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                    >
+                        {stays.map((stay) => (
+                            <StayCard key={stay.id} stay={stay} />
+                        ))}
+                    </motion.div>
+                )}
+            </section>
+        </div>
+    )
+}
+
+function StayCard({ stay }: { stay: Accommodation }) {
+    const image = stay.images[0] || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070&auto=format&fit=crop";
+    
+    return (
+        <motion.div
+            variants={fadeInUp}
+            whileHover={{ y: -8, scale: 1.02 }}
+            transition={{ duration: 0.3 }}
+            className="h-full"
+        >
+            <Card className="overflow-hidden hover:border-pink-500/50 transition-all duration-300 group cursor-pointer glass h-full flex flex-col">
+                <div className="relative h-64 overflow-hidden flex-shrink-0">
+                    <motion.img
+                        src={image}
+                        alt={stay.name}
+                        className="w-full h-full object-cover"
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 0.5 }}
+                    />
+                    <div className="absolute top-4 right-4 flex gap-2">
+                        <Badge variant="success" className="backdrop-blur-md bg-green-500/20 text-green-400 border-0">
+                            <ShieldCheck className="w-3 h-3 mr-1" /> Verified
+                        </Badge>
+                    </div>
+                </div>
+                <CardContent className="p-5 flex flex-col flex-grow">
+                    <div className="flex justify-between items-start mb-2">
+                        <div className="flex-grow min-w-0">
+                            <h3 className="text-xl font-bold text-foreground group-hover:text-pink-400 transition-colors truncate">{stay.name}</h3>
+                            <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
+                                <MapPin className="w-3 h-3 flex-shrink-0" /> 
+                                <span className="truncate">{stay.city}, {stay.country}</span>
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-1 text-sm font-medium flex-shrink-0 ml-2">
+                            <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                            {stay.average_rating.toFixed(1)} <span className="text-muted-foreground">({stay.total_reviews})</span>
+                        </div>
+                    </div>
+
+                    <div className="flex gap-4 my-4 text-muted-foreground text-xs h-5">
+                        {stay.amenities.includes('wifi') && <div className="flex items-center gap-1"><Wifi className="w-3 h-3" /> Fast Wifi</div>}
+                        {stay.amenities.includes('parking') && <div className="flex items-center gap-1"><Car className="w-3 h-3" /> Parking</div>}
+                        {stay.amenities.includes('breakfast') && <div className="flex items-center gap-1"><Coffee className="w-3 h-3" /> Breakfast</div>}
+                    </div>
+
+                    <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
+                        <div>
+                            <motion.span
+                                className="text-2xl font-bold text-foreground"
+                                whileHover={{ scale: 1.1 }}
+                            >
+                                {stay.currency === 'NGN' ? '₦' : stay.currency}{stay.price_per_night.toLocaleString()}
+                            </motion.span>
+                            <span className="text-sm text-muted-foreground"> / night</span>
+                        </div>
+                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                            <Button size="sm" className="bg-muted hover:bg-muted/80 text-foreground border-0">
+                                View Details
+                            </Button>
+                        </motion.div>
+                    </div>
+                </CardContent>
+            </Card>
+        </motion.div>
+    )
+}
