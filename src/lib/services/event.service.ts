@@ -328,7 +328,7 @@ export async function cancelEventRegistration(
     .eq('id', booking.reference_id)
     .single()
 
-  if (event) {
+  if (event && event.available_spots !== null) {
     const restoreUpdate: Database['public']['Tables']['events']['Update'] = {
       available_spots: event.available_spots + booking.guests,
       updated_at: new Date().toISOString(),
