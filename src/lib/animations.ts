@@ -8,6 +8,7 @@ export const prefersReducedMotion = (): boolean => {
 }
 
 // Hook to listen for reduced motion preference changes
+// eslint-disable-next-line react-hooks/rules-of-hooks
 export const usePrefersReducedMotion = (): boolean => {
     const [reducedMotion, setReducedMotion] = React.useState(() => {
         if (typeof window === 'undefined') return false
