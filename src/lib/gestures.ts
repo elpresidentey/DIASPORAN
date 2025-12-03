@@ -3,7 +3,7 @@
  * Provides utilities for handling touch gestures
  */
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useMemo } from 'react';
 
 export interface SwipeEvent {
   direction: 'left' | 'right' | 'up' | 'down';
@@ -60,7 +60,7 @@ export function useGestures(
   handlers: GestureHandlers,
   options: GestureOptions = {}
 ) {
-  const opts = { ...DEFAULT_OPTIONS, ...options };
+  const opts = useMemo(() => ({ ...DEFAULT_OPTIONS, ...options }), [options]);
   const touchStart = useRef<TouchPoint | null>(null);
   const touchEnd = useRef<TouchPoint | null>(null);
   const lastTap = useRef<TapEvent | null>(null);

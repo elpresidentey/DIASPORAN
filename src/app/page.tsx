@@ -80,29 +80,38 @@ export default function HomePage() {
         {/* Simplified Animated Elements - Reduced for performance */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Floating elements - reduced from 15 to 6 */}
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                width: Math.random() * 10 + 5 + 'px',
-                height: Math.random() * 10 + 5 + 'px',
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                backgroundColor: `rgba(${Math.random() * 100 + 155}, ${Math.random() * 100 + 100}, 255, 0.5)`,
-              }}
-              animate={{
-                y: [0, -15, 0],
-                opacity: [0.2, 0.6, 0.2],
-              }}
-              transition={{
-                duration: Math.random() * 5 + 5,
-                repeat: Infinity,
-                ease: "linear",
-                delay: Math.random() * 3,
-              }}
-            />
-          ))}
+          {[...Array(6)].map((_, i) => {
+            const size = Math.random() * 10 + 5;
+            const left = Math.random() * 100;
+            const top = Math.random() * 100;
+            const color = `rgba(${Math.random() * 100 + 155}, ${Math.random() * 100 + 100}, 255, 0.5)`;
+            const duration = Math.random() * 5 + 5;
+            const delay = Math.random() * 3;
+            
+            return (
+              <motion.div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  width: size + 'px',
+                  height: size + 'px',
+                  left: `${left}%`,
+                  top: `${top}%`,
+                  backgroundColor: color,
+                }}
+                animate={{
+                  y: [0, -15, 0],
+                  opacity: [0.2, 0.6, 0.2],
+                }}
+                transition={{
+                  duration,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay,
+                }}
+              />
+            );
+          })}
         </div>
 
         {/* Content */}
@@ -227,20 +236,28 @@ export default function HomePage() {
       <section className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-black dark:to-gray-900 relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden opacity-20">
-          {[...Array(20)].map((_, i) => (
-            <div 
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                width: Math.random() * 300 + 50 + 'px',
-                height: Math.random() * 300 + 50 + 'px',
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                background: `radial-gradient(circle, rgba(${Math.random() * 100 + 155}, ${Math.random() * 100 + 100}, 255, 0.1) 0%, rgba(0,0,0,0) 70%)`,
-                transform: `translate(-50%, -50%)`,
-              }}
-            />
-          ))}
+          {[...Array(20)].map((_, i) => {
+            const size = Math.random() * 300 + 50;
+            const left = Math.random() * 100;
+            const top = Math.random() * 100;
+            const color1 = Math.random() * 100 + 155;
+            const color2 = Math.random() * 100 + 100;
+            
+            return (
+              <div 
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  width: size + 'px',
+                  height: size + 'px',
+                  left: `${left}%`,
+                  top: `${top}%`,
+                  background: `radial-gradient(circle, rgba(${color1}, ${color2}, 255, 0.1) 0%, rgba(0,0,0,0) 70%)`,
+                  transform: `translate(-50%, -50%)`,
+                }}
+              />
+            );
+          })}
         </div>
         
         <div className="container mx-auto px-6 relative z-10">

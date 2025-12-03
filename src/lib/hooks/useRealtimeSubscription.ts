@@ -155,7 +155,7 @@ export function useRealtimeSubscription<T extends TableName>(
     return () => {
       cleanup()
     }
-  }, [enabled, config.table, config.event, config.filter])
+  }, [enabled, config.table, config.event, config.filter, connect, cleanup])
 
   return {
     ...state,
