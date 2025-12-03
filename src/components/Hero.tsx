@@ -41,7 +41,6 @@ const Hero = () => {
         // Fallback to safe defaults
         setIsMobile(false);
         setIsLowEndDevice(false);
-        setShouldLoadVideo(true);
       }
     };
 
