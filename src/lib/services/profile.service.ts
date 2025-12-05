@@ -41,14 +41,16 @@ export async function initializeProfile(
 ): Promise<{ profile: UserProfile | null; error: ProfileServiceError | null }> {
   const supabase = createClient()
 
-  const { data: profile, error } = await supabase
-    .from('users_profiles')
-    .insert({
-      id: userId,
-      email,
-      full_name: fullName || null,
-      preferences: {},
-    })
+  const profileData: Database['public']['Tables']['users_profiles']['Insert'] = {
+    id: userId,
+    email,
+    full_name: fullName || null,
+    preferences: {},
+  }
+
+  const profileInsertQuery: any = supabase.from('users_profiles')
+  const { data: profile, error } = await profileInsertQuery
+    .insert(profileData)
     .select()
     .single()
 
@@ -109,7 +111,7 @@ export async function getProfileWithStats(
     .eq('id', userId)
     .single()
 
-  if (profileError) {
+  if (profileError || !profile) {
     return {
       profile: null,
       error: {
@@ -128,7 +130,7 @@ export async function getProfileWithStats(
   ])
 
   const profileWithStats: ProfileWithStats = {
-    ...profile,
+    ...(profile as UserProfile),
     total_bookings: bookingsResult.count || 0,
     total_reviews: reviewsResult.count || 0,
     total_saved_items: savedItemsResult.count || 0,
@@ -151,8 +153,8 @@ export async function updateProfile(
     updated_at: new Date().toISOString(),
   }
 
-  const { data: profile, error } = await supabase
-    .from('users_profiles')
+  const profileUpdateQuery: any = supabase.from('users_profiles')
+  const { data: profile, error } = await profileUpdateQuery
     .update(updateData)
     .eq('id', userId)
     .select()
@@ -210,9 +212,14 @@ export async function uploadProfilePicture(
   const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(filePath)
 
   // Update profile with new avatar URL
-  const { error: updateError } = await supabase
-    .from('users_profiles')
-    .update({ avatar_url: urlData.publicUrl, updated_at: new Date().toISOString() })
+  const avatarUpdateData: UserProfileUpdate = { 
+    avatar_url: urlData.publicUrl, 
+    updated_at: new Date().toISOString() 
+  }
+  
+  const avatarUpdateQuery: any = supabase.from('users_profiles')
+  const { error: updateError } = await avatarUpdateQuery
+    .update(avatarUpdateData)
     .eq('id', userId)
 
   if (updateError) {
@@ -314,8 +321,8 @@ export async function updateProfileServer(
     updated_at: new Date().toISOString(),
   }
 
-  const { data: profile, error } = await supabase
-    .from('users_profiles')
+  const profileUpdateServerQuery: any = supabase.from('users_profiles')
+  const { data: profile, error } = await profileUpdateServerQuery
     .update(updateData)
     .eq('id', userId)
     .select()
@@ -372,9 +379,14 @@ export async function uploadProfilePictureServer(
   const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(filePath)
 
   // Update profile with new avatar URL
-  const { error: updateError } = await supabase
-    .from('users_profiles')
-    .update({ avatar_url: urlData.publicUrl, updated_at: new Date().toISOString() })
+  const avatarUpdateServerData: UserProfileUpdate = { 
+    avatar_url: urlData.publicUrl, 
+    updated_at: new Date().toISOString() 
+  }
+  
+  const avatarUpdateServerQuery: any = supabase.from('users_profiles')
+  const { error: updateError } = await avatarUpdateServerQuery
+    .update(avatarUpdateServerData)
     .eq('id', userId)
 
   if (updateError) {

@@ -130,9 +130,9 @@ export async function saveEmergencyContacts(
     .from('users_profiles')
     .select('preferences')
     .eq('id', userId)
-    .single()
+    .single() as { data: { preferences: any } | null; error: any }
 
-  if (fetchError) {
+  if (fetchError || !profile) {
     return {
       success: false,
       error: {
@@ -149,12 +149,14 @@ export async function saveEmergencyContacts(
     emergency_contacts: contacts,
   }
 
-  const { error: updateError } = await supabase
-    .from('users_profiles')
-    .update({
-      preferences: updatedPreferences,
-      updated_at: new Date().toISOString(),
-    })
+  const emergencyUpdateData: Database['public']['Tables']['users_profiles']['Update'] = {
+    preferences: updatedPreferences,
+    updated_at: new Date().toISOString(),
+  }
+
+  const emergencyUpdateQuery: any = supabase.from('users_profiles')
+  const { error: updateError } = await emergencyUpdateQuery
+    .update(emergencyUpdateData)
     .eq('id', userId)
 
   if (updateError) {
@@ -183,9 +185,9 @@ export async function getEmergencyContacts(
     .from('users_profiles')
     .select('preferences')
     .eq('id', userId)
-    .single()
+    .single() as { data: { preferences: any } | null; error: any }
 
-  if (error) {
+  if (error || !profile) {
     return {
       contacts: null,
       error: {
@@ -221,8 +223,8 @@ export async function createSafetyReport(
     status: 'pending',
   }
 
-  const { data: report, error } = await supabase
-    .from('safety_reports')
+  const safetyReportInsertQuery: any = supabase.from('safety_reports')
+  const { data: report, error } = await safetyReportInsertQuery
     .insert(insertData)
     .select()
     .single()
@@ -332,9 +334,9 @@ export async function saveEmergencyContactsServer(
     .from('users_profiles')
     .select('preferences')
     .eq('id', userId)
-    .single()
+    .single() as { data: { preferences: any } | null; error: any }
 
-  if (fetchError) {
+  if (fetchError || !profile) {
     return {
       success: false,
       error: {
@@ -351,12 +353,14 @@ export async function saveEmergencyContactsServer(
     emergency_contacts: contacts,
   }
 
-  const { error: updateError } = await supabase
-    .from('users_profiles')
-    .update({
-      preferences: updatedPreferences,
-      updated_at: new Date().toISOString(),
-    })
+  const emergencyUpdateServerData: Database['public']['Tables']['users_profiles']['Update'] = {
+    preferences: updatedPreferences,
+    updated_at: new Date().toISOString(),
+  }
+
+  const emergencyUpdateServerQuery: any = supabase.from('users_profiles')
+  const { error: updateError } = await emergencyUpdateServerQuery
+    .update(emergencyUpdateServerData)
     .eq('id', userId)
 
   if (updateError) {
@@ -393,8 +397,8 @@ export async function createSafetyReportServer(
     status: 'pending',
   }
 
-  const { data: report, error } = await supabase
-    .from('safety_reports')
+  const safetyReportInsertServerQuery: any = supabase.from('safety_reports')
+  const { data: report, error } = await safetyReportInsertServerQuery
     .insert(insertData)
     .select()
     .single()
@@ -427,8 +431,8 @@ export async function createSafetyInformationServer(
     created_by: adminUserId,
   }
 
-  const { data: safetyInfo, error } = await supabase
-    .from('safety_information')
+  const safetyInfoInsertQuery: any = supabase.from('safety_information')
+  const { data: safetyInfo, error } = await safetyInfoInsertQuery
     .insert(insertData)
     .select()
     .single()
@@ -462,8 +466,8 @@ export async function updateSafetyInformationServer(
     last_updated: new Date().toISOString(),
   }
 
-  const { data: safetyInfo, error } = await supabase
-    .from('safety_information')
+  const safetyInfoUpdateQuery: any = supabase.from('safety_information')
+  const { data: safetyInfo, error } = await safetyInfoUpdateQuery
     .update(updateData)
     .eq('id', id)
     .select()
@@ -564,8 +568,8 @@ export async function updateSafetyReportStatusServer(
     ...(status === 'resolved' ? { resolved_at: new Date().toISOString() } : {}),
   }
 
-  const { data: report, error } = await supabase
-    .from('safety_reports')
+  const safetyReportUpdateQuery: any = supabase.from('safety_reports')
+  const { data: report, error } = await safetyReportUpdateQuery
     .update(updateData)
     .eq('id', id)
     .select()

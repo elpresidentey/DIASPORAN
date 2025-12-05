@@ -201,8 +201,8 @@ export async function createTransportBooking(
     special_requests: specialRequests || null,
   }
 
-  const { data: booking, error: bookingError } = await supabase
-    .from('bookings')
+  const transportBookingInsertQuery: any = supabase.from('bookings')
+  const { data: booking, error: bookingError } = await transportBookingInsertQuery
     .insert(bookingData)
     .select()
     .single()
@@ -224,8 +224,8 @@ export async function createTransportBooking(
     updated_at: new Date().toISOString(),
   }
 
-  const { error: updateError } = await supabase
-    .from('transport_options')
+  const transportUpdateQuery: any = supabase.from('transport_options')
+  const { error: updateError } = await transportUpdateQuery
     .update(transportUpdate)
     .eq('id', transportId)
 
@@ -262,7 +262,7 @@ export async function cancelTransportBooking(
     .eq('id', bookingId)
     .eq('user_id', userId)
     .eq('booking_type', 'transport')
-    .single()
+    .single() as { data: Booking | null; error: any }
 
   if (fetchError || !booking) {
     return {
@@ -293,8 +293,8 @@ export async function cancelTransportBooking(
     updated_at: new Date().toISOString(),
   }
 
-  const { error: updateError } = await supabase
-    .from('bookings')
+  const bookingCancelQuery: any = supabase.from('bookings')
+  const { error: updateError } = await bookingCancelQuery
     .update(bookingUpdate)
     .eq('id', bookingId)
 
@@ -314,7 +314,7 @@ export async function cancelTransportBooking(
     .from('transport_options')
     .select('available_seats')
     .eq('id', booking.reference_id)
-    .single()
+    .single() as { data: { available_seats: number } | null; error: any }
 
   if (transport) {
     const restoreUpdate: Database['public']['Tables']['transport_options']['Update'] = {
@@ -322,8 +322,8 @@ export async function cancelTransportBooking(
       updated_at: new Date().toISOString(),
     }
 
-    await supabase
-      .from('transport_options')
+    const transportRestoreQuery: any = supabase.from('transport_options')
+    await transportRestoreQuery
       .update(restoreUpdate)
       .eq('id', booking.reference_id)
   }
@@ -351,8 +351,8 @@ export async function updateTransportSchedule(
     updated_at: new Date().toISOString(),
   }
 
-  const { data: transport, error } = await supabase
-    .from('transport_options')
+  const transportScheduleUpdateQuery: any = supabase.from('transport_options')
+  const { data: transport, error } = await transportScheduleUpdateQuery
     .update(updateData)
     .eq('id', transportId)
     .select()

@@ -155,8 +155,8 @@ export async function createReview(
   }
 
   // Insert review
-  const { data: review, error } = await supabase
-    .from('reviews')
+  const reviewInsertQuery: any = supabase.from('reviews')
+  const { data: review, error } = await reviewInsertQuery
     .insert(insertData)
     .select()
     .single()
@@ -318,9 +318,9 @@ export async function updateReview(
   }
 
   // Update the review (RLS ensures user owns it)
-  const { data: review, error } = await supabase
-    .from('reviews')
-    .update(updateData as any)
+  const reviewUpdateQuery: any = supabase.from('reviews')
+  const { data: review, error } = await reviewUpdateQuery
+    .update(updateData)
     .eq('id', reviewId)
     .eq('user_id', userId)
     .select()
@@ -417,8 +417,8 @@ export async function createReviewServer(
   }
 
   // Insert review
-  const { data: review, error } = await supabase
-    .from('reviews')
+  const reviewInsertServerQuery: any = supabase.from('reviews')
+  const { data: review, error } = await reviewInsertServerQuery
     .insert(insertData)
     .select()
     .single()
@@ -578,9 +578,9 @@ export async function updateReviewServer(
   }
 
   // Update the review (RLS ensures user owns it)
-  const { data: review, error } = await supabase
-    .from('reviews')
-    .update(updateData as any)
+  const reviewUpdateServerQuery: any = supabase.from('reviews')
+  const { data: review, error } = await reviewUpdateServerQuery
+    .update(updateData)
     .eq('id', reviewId)
     .eq('user_id', userId)
     .select()

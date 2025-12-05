@@ -198,14 +198,16 @@ export async function saveFlight(
   }
 
   // Create saved item
-  const { data: savedItem, error: saveError } = await supabase
-    .from('saved_items')
-    .insert({
-      user_id: userId,
-      item_type: 'flight',
-      item_id: flightId,
-      notes: notes || null,
-    } as Database['public']['Tables']['saved_items']['Insert'])
+  const savedItemData: Database['public']['Tables']['saved_items']['Insert'] = {
+    user_id: userId,
+    item_type: 'flight',
+    item_id: flightId,
+    notes: notes || null,
+  }
+
+  const savedItemQuery: any = supabase.from('saved_items')
+  const { data: savedItem, error: saveError } = await savedItemQuery
+    .insert(savedItemData)
     .select()
     .single()
 
@@ -266,7 +268,7 @@ export async function getSavedFlights(
     .from('saved_items')
     .select('item_id')
     .eq('user_id', userId)
-    .eq('item_type', 'flight' as Database['public']['Tables']['saved_items']['Row']['item_type'])
+    .eq('item_type', 'flight' as Database['public']['Tables']['saved_items']['Row']['item_type']) as { data: { item_id: string }[] | null; error: any }
 
   if (savedError) {
     return {
@@ -314,12 +316,14 @@ export async function updateFlightPrice(
 ): Promise<{ flight: Flight | null; error: FlightServiceError | null }> {
   const supabase = createClient()
 
-  const { data: flight, error } = await supabase
-    .from('flights')
-    .update({
-      price: newPrice,
-      updated_at: new Date().toISOString(),
-    } as Database['public']['Tables']['flights']['Update'])
+  const flightUpdate: Database['public']['Tables']['flights']['Update'] = {
+    price: newPrice,
+    updated_at: new Date().toISOString(),
+  }
+
+  const flightUpdateQuery: any = supabase.from('flights')
+  const { data: flight, error } = await flightUpdateQuery
+    .update(flightUpdate)
     .eq('id', flightId)
     .select()
     .single()

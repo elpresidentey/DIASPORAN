@@ -322,13 +322,13 @@ export async function cancelEventRegistration(
   }
 
   // Restore available spots
-  const { data: event } = await supabase
+  const { data: event, error: eventFetchError } = await supabase
     .from('events')
     .select('available_spots')
     .eq('id', booking.reference_id)
-    .single()
+    .single() as { data: { available_spots: number } | null; error: any }
 
-  if (event && event.available_spots !== null) {
+  if (event && !eventFetchError && typeof event.available_spots === 'number') {
     const restoreUpdate: Database['public']['Tables']['events']['Update'] = {
       available_spots: event.available_spots + booking.guests,
       updated_at: new Date().toISOString(),
