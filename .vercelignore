@@ -1,0 +1,47 @@
+# Git
+.git
+.gitignore
+
+# Dependencies
+node_modules
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Testing
+tests/
+vitest.config.ts
+jest.config.js
+coverage/
+
+# Environment
+.env.local
+.env.local.example
+
+# Documentation
+*.md
+README.md
+QUICK_START.md
+FUNCTIONALITY_STATUS.md
+AUTH_README.md
+SUPABASE_SETUP.md
+.kiro/
+.gemini/
+
+# Development
+.next/dev/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
