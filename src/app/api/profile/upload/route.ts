@@ -1,10 +1,13 @@
 /**
+export const dynamic = 'force-dynamic';
  * Profile Picture Upload API Route
  * POST /api/profile/upload - Upload a profile picture
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+
+export const dynamic = 'force-dynamic';
 import { uploadProfilePictureServer } from '@/lib/services/profile.service'
 
 /**
@@ -116,3 +119,5 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
+

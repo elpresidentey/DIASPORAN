@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Admin Safety Information API Routes
  * POST /api/admin/safety - Create safety information
  * PATCH /api/admin/safety - Update safety information
@@ -8,6 +9,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import type { Database } from '@/types/supabase'
+
+export const dynamic = 'force-dynamic';
 import {
   createSafetyInformationServer,
   updateSafetyInformationServer,
@@ -350,3 +353,5 @@ export async function DELETE(request: NextRequest) {
     )
   }
 }
+
+

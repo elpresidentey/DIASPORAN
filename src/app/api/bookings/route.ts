@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Bookings API Route
  * POST /api/bookings - Create a new booking
  * GET /api/bookings - Get user's bookings
@@ -10,6 +11,8 @@ import { createAccommodationBooking } from '@/lib/services/accommodation.service
 import { registerForEvent } from '@/lib/services/event.service'
 import { createTransportBooking } from '@/lib/services/transport.service'
 import { getUserBookingsServer } from '@/lib/services/booking.service'
+
+export const dynamic = 'force-dynamic';
 import {
   validateBody,
   validateQuery,
@@ -229,3 +232,5 @@ export async function GET(request: NextRequest) {
     return ErrorResponses.internal()
   }
 }
+
+

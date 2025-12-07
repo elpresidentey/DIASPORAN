@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Reviews API Routes
  * POST /api/reviews - Create a new review
  * GET /api/reviews - List reviews with filters
@@ -7,6 +8,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { getCacheHeaders } from '@/lib/cache'
+
+export const dynamic = 'force-dynamic';
 import { 
   createReviewServer, 
   getReviewsServer,
@@ -226,3 +229,5 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+

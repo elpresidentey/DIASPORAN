@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Safety Reports API Routes
  * POST /api/safety/reports - Create a safety report
  * GET /api/safety/reports - Get safety reports (user's own or all for admin)
@@ -6,6 +7,8 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+
+export const dynamic = 'force-dynamic';
 import {
   createSafetyReportServer,
   getUserSafetyReports,
@@ -171,3 +174,5 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+

@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Emergency Contacts API Routes
  * POST /api/profile/emergency-contacts - Save emergency contacts
  * GET /api/profile/emergency-contacts - Get emergency contacts
@@ -6,6 +7,8 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+
+export const dynamic = 'force-dynamic';
 import {
   saveEmergencyContactsServer,
   getEmergencyContacts,
@@ -157,3 +160,5 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+

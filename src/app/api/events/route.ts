@@ -8,6 +8,8 @@ import { getEventsServer } from '@/lib/services/event.service'
 import { getCacheHeaders } from '@/lib/cache'
 import type { EventFilters } from '@/types/supabase'
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
@@ -68,3 +70,4 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+

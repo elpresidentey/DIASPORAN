@@ -1,10 +1,13 @@
 /**
+export const dynamic = 'force-dynamic';
  * Safety Information API Routes
  * GET /api/safety - Get safety information with optional filters
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getSafetyInformationServer } from '@/lib/services/safety.service'
+
+export const dynamic = 'force-dynamic';
 import { getCacheHeaders } from '@/lib/cache'
 
 export async function GET(request: NextRequest) {
@@ -59,3 +62,5 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+

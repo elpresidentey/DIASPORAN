@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Admin Listings API Routes
  * POST /api/admin/listings - Create a new listing
  * GET /api/admin/listings - Get all listings (including soft-deleted)
@@ -6,6 +7,8 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/middleware/auth.middleware'
+
+export const dynamic = 'force-dynamic';
 import {
   createListing,
   getAdminListings,
@@ -197,3 +200,5 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+

@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Transport API Routes
  * GET /api/transport - Search transport options
  */
@@ -6,6 +7,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getTransportOptionsServer } from '@/lib/services/transport.service'
 import { getCacheHeaders } from '@/lib/cache'
+
+export const dynamic = 'force-dynamic';
 import type { TransportFilters } from '@/types/supabase'
 
 /**
@@ -72,3 +75,5 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+

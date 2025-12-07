@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Admin Media Upload API Routes
  * POST /api/admin/media - Upload media files to Supabase Storage
  * DELETE /api/admin/media - Delete media files from Supabase Storage
@@ -6,6 +7,8 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/middleware/auth.middleware'
+
+export const dynamic = 'force-dynamic';
 import { uploadMedia, deleteMedia } from '@/lib/services/admin.service'
 
 /**
@@ -167,3 +170,5 @@ export async function DELETE(request: NextRequest) {
     )
   }
 }
+
+

@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Saved Flights API Route
  * GET /api/saved/flights - Get user's saved flights
  * POST /api/saved/flights - Save a flight
@@ -7,6 +8,8 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { saveFlight, unsaveFlight, getSavedFlights } from '@/lib/services/flight.service'
+
+export const dynamic = 'force-dynamic';
 import { getCurrentUser } from '@/lib/services/auth.service'
 
 /**
@@ -228,3 +231,5 @@ export async function DELETE(request: NextRequest) {
     )
   }
 }
+
+

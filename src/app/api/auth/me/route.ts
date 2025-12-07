@@ -1,9 +1,12 @@
 /**
+export const dynamic = 'force-dynamic';
  * GET /api/auth/me
  * Returns the current authenticated user's information
  */
 
 import { NextResponse } from 'next/server'
+
+export const dynamic = 'force-dynamic';
 import { requireAuth } from '@/lib/middleware/auth.middleware'
 
 export async function GET() {
@@ -25,3 +28,5 @@ export async function GET() {
     },
   })
 }
+
+

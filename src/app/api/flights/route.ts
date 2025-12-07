@@ -8,6 +8,8 @@ import { getFlightsServer } from '@/lib/services/flight.service'
 import { getCacheHeaders } from '@/lib/cache'
 import type { FlightFilters } from '@/types/supabase'
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
@@ -89,3 +91,5 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+

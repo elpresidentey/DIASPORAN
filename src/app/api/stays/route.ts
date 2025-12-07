@@ -8,6 +8,8 @@ import { getAccommodationsServer } from '@/lib/services/accommodation.service'
 import { getCacheHeaders } from '@/lib/cache'
 import type { AccommodationFilters } from '@/types/supabase'
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -73,3 +75,6 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+
+

@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Saved Items API Route
  * POST /api/saved - Save an item
  * GET /api/saved - Get user's saved items
@@ -7,6 +8,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { saveItemServer, getSavedItemsServer } from '@/lib/services/saved-items.service'
 import { getCurrentUser } from '@/lib/services/auth.service'
+
+export const dynamic = 'force-dynamic';
 import type { Database } from '@/types/supabase'
 
 type ItemType = Database['public']['Tables']['saved_items']['Row']['item_type']
@@ -188,3 +191,5 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+

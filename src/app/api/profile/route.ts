@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Profile API Routes
  * GET /api/profile - Get current user's profile
  * PATCH /api/profile - Update current user's profile
@@ -14,6 +15,8 @@ import {
   getProfileWithStats,
 } from '@/lib/services/profile.service'
 import type { UpdateProfileData } from '@/lib/services/profile.service'
+
+export const dynamic = 'force-dynamic';
 import {
   validateBody,
   schemas,
@@ -182,3 +185,5 @@ export async function DELETE(request: NextRequest) {
     return ErrorResponses.internal()
   }
 }
+
+
