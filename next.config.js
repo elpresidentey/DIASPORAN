@@ -5,6 +5,9 @@ const nextConfig = {
   // Enable React strict mode for better development experience
   reactStrictMode: true,
   
+  // Output mode for Vercel deployment
+  output: 'standalone',
+  
   // ESLint configuration - don't fail build on warnings
   eslint: {
     // Warning: This allows production builds to successfully complete even if
@@ -14,6 +17,9 @@ const nextConfig = {
   
   // Optimize production builds
   swcMinify: true,
+  
+  // Skip trailing slash redirect for cleaner URLs
+  trailingSlash: false,
   
   // Compiler optimizations
   compiler: {
