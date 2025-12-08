@@ -6,11 +6,13 @@ import { Card, CardContent } from "@/components/ui/Card"
 import { Badge } from "@/components/ui/Badge"
 import { EmptyState } from "@/components/ui/EmptyState"
 import { ErrorDisplay } from "@/components/ui/ErrorDisplay"
+import { ListSkeleton } from "@/components/ui/ListingSkeleton"
+import { PaymentDialog } from "@/components/ui/PaymentDialog"
 import { Search, MapPin, Calendar, Star, Wifi, Car, Coffee, ShieldCheck, Home } from "lucide-react"
 import { motion } from "framer-motion"
 import { fadeInUp, staggerContainer } from "@/lib/animations"
-import { useState, useEffect } from "react"
-import { useRealtimeListings } from "@/lib/hooks"
+import { useState } from "react"
+import { useCachedFetch } from "@/lib/hooks/useCachedFetch"
 
 interface Accommodation {
     id: string;
@@ -31,79 +33,35 @@ interface Accommodation {
 }
 
 export default function StaysPage() {
-    const [stays, setStays] = useState<Accommodation[]>([]);
-    const [error, setError] = useState<string | null>(null);
     const [searchParams, setSearchParams] = useState({
         city: '',
         checkIn: '',
         checkOut: '',
     });
+    const [activeSearch, setActiveSearch] = useState(false);
+    const [selectedStay, setSelectedStay] = useState<Accommodation | null>(null);
+    const [isPaymentOpen, setIsPaymentOpen] = useState(false);
 
-    // Set up real-time subscription for accommodations
-    useRealtimeListings({
-        listingType: 'accommodations',
-        onInsert: (listing) => {
-            setStays(prev => [listing as Accommodation, ...prev]);
+    // Use React Query for cached, instant loading
+    const { data: stays = [], isLoading, error, refetch } = useCachedFetch<Accommodation[]>({
+        endpoint: '/api/stays',
+        params: {
+            limit: '20',
+            ...(activeSearch && searchParams.city && { city: searchParams.city }),
+            ...(activeSearch && searchParams.checkIn && { startDate: searchParams.checkIn }),
+            ...(activeSearch && searchParams.checkOut && { endDate: searchParams.checkOut }),
         },
-        onUpdate: (listing) => {
-            setStays(prev => prev.map(s => s.id === listing.id ? listing as Accommodation : s));
-        },
-        onDelete: (listing) => {
-            setStays(prev => prev.filter(s => s.id !== listing.id));
-        },
+        queryKey: ['stays', searchParams.city, searchParams.checkIn, searchParams.checkOut],
     });
 
-    useEffect(() => {
-        fetchStays();
-    }, []);
-
-    const fetchStays = async () => {
-        try {
-            setError(null);
-            
-            const params = new URLSearchParams({ limit: '20' });
-            if (searchParams.city) params.append('city', searchParams.city);
-            if (searchParams.checkIn) params.append('startDate', searchParams.checkIn);
-            if (searchParams.checkOut) params.append('endDate', searchParams.checkOut);
-            
-            const url = `/api/stays?${params}`;
-            console.log('[Stays Page] Fetching from:', url);
-            
-            const response = await fetch(url);
-            
-            console.log('[Stays Page] Response status:', response.status, response.statusText);
-            
-            if (!response.ok) {
-                throw new Error('Failed to fetch accommodations');
-            }
-            
-            const data = await response.json();
-            
-            console.log('[Stays Page] Response data:', {
-                success: data.success,
-                hasData: !!data.data,
-                dataType: typeof data.data,
-                isArray: Array.isArray(data.data),
-                dataLength: Array.isArray(data.data) ? data.data.length : 'N/A',
-                nestedDataLength: data.data?.data?.length || 'N/A'
-            });
-            
-            if (data.success) {
-                // Handle both direct array and paginated response
-                const staysArray = Array.isArray(data.data) ? data.data : (data.data?.data || []);
-                console.log('[Stays Page] Setting stays:', staysArray.length, 'items');
-                setStays(staysArray);
-            } else {
-                throw new Error(data.error?.message || 'Failed to load accommodations');
-            }
-        } catch (err) {
-            console.error('[Stays Page] Error fetching stays:', err);
-            setError(err instanceof Error ? err.message : 'An error occurred');
-        }
+    const handleSearch = () => {
+        setActiveSearch(true);
+        refetch();
     };
 
-    const handleSearch = () => {
-        fetchStays();
+    const handleBookStay = (stay: Accommodation) => {
+        setSelectedStay(stay);
+        setIsPaymentOpen(true);
     };
 
     if (error) {
@@ -114,10 +72,10 @@ export default function StaysPage() {
                         <ErrorDisplay
                             type="network"
                             title="Failed to Load Accommodations"
-                            message={error}
+                            message={error instanceof Error ? error.message : 'An error occurred'}
                             action={{
                                 label: "Retry",
-                                onClick: fetchStays,
+                                onClick: () => refetch(),
                             }}
                         />
                     </div>
@@ -161,8 +119,8 @@ export default function StaysPage() {
                                         <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
                                             <MapPin className="w-3 h-3" /> Location
                                         </label>
-                                        <Input 
-                                            placeholder="Lekki Phase 1, Lagos" 
+                                        <Input
+                                            placeholder="Lekki Phase 1, Lagos"
                                             value={searchParams.city}
                                             onChange={(e) => setSearchParams(prev => ({ ...prev, city: e.target.value }))}
                                             className="h-10 text-center md:text-left"
@@ -172,8 +130,8 @@ export default function StaysPage() {
                                         <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
                                             <Calendar className="w-3 h-3" /> Check-in
                                         </label>
-                                        <Input 
-                                            type="date" 
+                                        <Input
+                                            type="date"
                                             className="h-10 text-center md:text-left [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                                             value={searchParams.checkIn}
                                             onChange={(e) => setSearchParams(prev => ({ ...prev, checkIn: e.target.value }))}
@@ -184,8 +142,8 @@ export default function StaysPage() {
                                         <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
                                             <Calendar className="w-3 h-3" /> Check-out
                                         </label>
-                                        <Input 
-                                            type="date" 
+                                        <Input
+                                            type="date"
                                             className="h-10 text-center md:text-left [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                                             value={searchParams.checkOut}
                                             onChange={(e) => setSearchParams(prev => ({ ...prev, checkOut: e.target.value }))}
@@ -194,7 +152,7 @@ export default function StaysPage() {
                                     </div>
                                     <div className="md:col-span-2">
                                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                                            <Button 
+                                            <Button
                                                 className="w-full h-10 bg-pink-700 hover:bg-pink-800 text-white font-semibold shadow-lg shadow-pink-500/30"
                                                 onClick={handleSearch}
                                                 aria-label="Search for accommodations"
@@ -240,7 +198,9 @@ export default function StaysPage() {
                     Top Rated Stays
                 </motion.h2>
 
-                {stays.length === 0 ? (
+                {isLoading ? (
+                    <ListSkeleton count={6} type="accommodation" />
+                ) : stays.length === 0 ? (
                     <EmptyState
                         title="No Accommodations Found"
                         message="We couldn't find any stays matching your search. Try different dates or locations."
@@ -251,7 +211,7 @@ export default function StaysPage() {
                         }
                         action={{
                             label: "Browse All Stays",
-                            onClick: fetchStays,
+                            onClick: () => refetch(),
                         }}
                     />
                 ) : (
@@ -263,18 +223,36 @@ export default function StaysPage() {
                         viewport={{ once: true }}
                     >
                         {stays.map((stay) => (
-                            <StayCard key={stay.id} stay={stay} />
+                            <StayCard key={stay.id} stay={stay} onClick={() => handleBookStay(stay)} />
                         ))}
                     </motion.div>
                 )}
             </section>
+
+            {/* Payment Dialog */}
+            <PaymentDialog
+                isOpen={isPaymentOpen}
+                onClose={() => setIsPaymentOpen(false)}
+                itemType="stay"
+                itemName={selectedStay?.name || ""}
+                itemPrice={selectedStay?.price_per_night || 0}
+                itemCurrency={selectedStay?.currency}
+                itemImage={selectedStay?.images[0]}
+                itemDetails={{
+                    location: selectedStay ? `${selectedStay.city}, ${selectedStay.country}` : "",
+                    guests: selectedStay?.max_guests,
+                    duration: searchParams.checkIn && searchParams.checkOut
+                        ? `${searchParams.checkIn} - ${searchParams.checkOut}`
+                        : undefined,
+                }}
+            />
         </div>
     )
 }
 
-function StayCard({ stay }: { stay: Accommodation }) {
+function StayCard({ stay, onClick }: { stay: Accommodation; onClick: () => void }) {
     const image = stay.images[0] || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070&auto=format&fit=crop";
-    
+
     return (
         <motion.div
             variants={fadeInUp}
@@ -282,7 +260,10 @@ function StayCard({ stay }: { stay: Accommodation }) {
             transition={{ duration: 0.3 }}
             className="h-full"
         >
-            <Card className="overflow-hidden hover:border-pink-500/50 transition-all duration-300 group cursor-pointer glass h-full flex flex-col">
+            <Card
+                onClick={onClick}
+                className="overflow-hidden hover:border-pink-500/50 transition-all duration-300 group cursor-pointer glass h-full flex flex-col"
+            >
                 <div className="relative h-64 overflow-hidden flex-shrink-0">
                     <motion.img
                         src={image}
@@ -302,7 +283,7 @@ function StayCard({ stay }: { stay: Accommodation }) {
                         <div className="flex-grow min-w-0">
                             <h3 className="text-xl font-bold text-foreground group-hover:text-pink-400 transition-colors truncate">{stay.name}</h3>
                             <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
-                                <MapPin className="w-3 h-3 flex-shrink-0" /> 
+                                <MapPin className="w-3 h-3 flex-shrink-0" />
                                 <span className="truncate">{stay.city}, {stay.country}</span>
                             </p>
                         </div>
@@ -329,8 +310,8 @@ function StayCard({ stay }: { stay: Accommodation }) {
                             <span className="text-sm text-muted-foreground"> / night</span>
                         </div>
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                            <Button size="sm" className="bg-muted hover:bg-muted/80 text-foreground border-0">
-                                View Details
+                            <Button size="sm" className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white border-0">
+                                Book Now
                             </Button>
                         </motion.div>
                     </div>

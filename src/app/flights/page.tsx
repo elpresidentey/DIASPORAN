@@ -6,10 +6,13 @@ import { Select } from "@/components/ui/Select";
 import { Card, CardContent } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorDisplay } from "@/components/ui/ErrorDisplay";
+import { ListSkeleton } from "@/components/ui/ListingSkeleton";
+import { PaymentDialog } from "@/components/ui/PaymentDialog";
 import { Plane, Calendar, MapPin, Search } from "lucide-react";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useCachedFetch } from "@/lib/hooks/useCachedFetch";
 
 interface Flight {
   id: string;
@@ -27,67 +30,36 @@ interface Flight {
 }
 
 export default function FlightsPage() {
-  const [flights, setFlights] = useState<Flight[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useState({
     origin: '',
     destination: '',
     departureDate: '',
     returnDate: '',
   });
+  const [activeSearch, setActiveSearch] = useState(false);
+  const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null);
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
 
-  useEffect(() => {
-    fetchFlights();
-  }, []);
-
-  const fetchFlights = async () => {
-    try {
-      setError(null);
-      
-      const params = new URLSearchParams({ limit: '20' });
-      if (searchParams.origin) params.append('origin', searchParams.origin);
-      if (searchParams.destination) params.append('destination', searchParams.destination);
-      if (searchParams.departureDate) params.append('departureDate', searchParams.departureDate);
-      
-      const url = `/api/flights?${params}`;
-      console.log('[Flights Page] Fetching from:', url);
-      
-      const response = await fetch(url);
-      
-      console.log('[Flights Page] Response status:', response.status, response.statusText);
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch flights');
-      }
-      
-      const data = await response.json();
-      
-      console.log('[Flights Page] Response data:', {
-        success: data.success,
-        hasData: !!data.data,
-        dataType: typeof data.data,
-        dataKeys: data.data ? Object.keys(data.data) : [],
-        isArray: Array.isArray(data.data),
-        dataLength: Array.isArray(data.data) ? data.data.length : 'N/A',
-        nestedDataLength: data.data?.data?.length || 'N/A'
-      });
-      
-      if (data.success) {
-        // Handle both direct array and paginated response
-        const flightsArray = Array.isArray(data.data) ? data.data : (data.data?.data || []);
-        console.log('[Flights Page] Setting flights:', flightsArray.length, 'items');
-        setFlights(flightsArray);
-      } else {
-        throw new Error(data.error?.message || 'Failed to load flights');
-      }
-    } catch (err) {
-      console.error('[Flights Page] Error fetching flights:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    }
-  };
+  // Use React Query for cached, instant loading
+  const { data: flights = [], isLoading, error, refetch } = useCachedFetch<Flight[]>({
+    endpoint: '/api/flights',
+    params: {
+      limit: '20',
+      ...(activeSearch && searchParams.origin && { origin: searchParams.origin }),
+      ...(activeSearch && searchParams.destination && { destination: searchParams.destination }),
+      ...(activeSearch && searchParams.departureDate && { departureDate: searchParams.departureDate }),
+    },
+    queryKey: ['flights', searchParams.origin, searchParams.destination, searchParams.departureDate],
+  });
 
   const handleSearch = () => {
-    fetchFlights();
+    setActiveSearch(true);
+    refetch();
+  };
+
+  const handleBookFlight = (flight: Flight) => {
+    setSelectedFlight(flight);
+    setIsPaymentOpen(true);
   };
 
   if (error) {
@@ -98,10 +70,10 @@ export default function FlightsPage() {
             <ErrorDisplay
               type="network"
               title="Failed to Load Flights"
-              message={error}
+              message={error instanceof Error ? error.message : 'An error occurred'}
               action={{
                 label: "Retry",
-                onClick: fetchFlights,
+                onClick: () => refetch(),
               }}
             />
           </div>
@@ -122,7 +94,7 @@ export default function FlightsPage() {
             className="text-center mb-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
               Find Your Way{" "}
@@ -139,52 +111,16 @@ export default function FlightsPage() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
           >
-            <Card className="glass-strong border-white/10 max-w-5xl mx-auto">
+            <Card className="glass-strong border-white/10 max-w-4xl mx-auto">
               <CardContent className="p-5">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
-                  <Select defaultValue="round-trip" className="h-10 text-center md:text-left">
-                    <option value="round-trip" className="bg-background">
-                      Round Trip
-                    </option>
-                    <option value="one-way" className="bg-background">
-                      One Way
-                    </option>
-                    <option value="multi-city" className="bg-background">
-                      Multi-City
-                    </option>
-                  </Select>
-                  <Select defaultValue="1" className="h-10 text-center md:text-left">
-                    <option value="1" className="bg-background">
-                      1 Passenger
-                    </option>
-                    <option value="2" className="bg-background">
-                      2 Passengers
-                    </option>
-                    <option value="3" className="bg-background">
-                      3+ Passengers
-                    </option>
-                  </Select>
-                  <Select defaultValue="economy" className="h-10 text-center md:text-left">
-                    <option value="economy" className="bg-background">
-                      Economy
-                    </option>
-                    <option value="business" className="bg-background">
-                      Business
-                    </option>
-                    <option value="first" className="bg-background">
-                      First Class
-                    </option>
-                  </Select>
-                </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
                   <div className="md:col-span-3 space-y-1.5">
                     <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                      <MapPin className="w-3 h-3" /> From
+                      <Plane className="w-3 h-3 rotate-45" /> From
                     </label>
-                    <Input 
+                    <Input
                       placeholder="London (LHR)"
                       value={searchParams.origin}
                       onChange={(e) => setSearchParams(prev => ({ ...prev, origin: e.target.value }))}
@@ -195,7 +131,7 @@ export default function FlightsPage() {
                     <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
                       <MapPin className="w-3 h-3" /> To
                     </label>
-                    <Input 
+                    <Input
                       placeholder="Lagos (LOS)"
                       value={searchParams.destination}
                       onChange={(e) => setSearchParams(prev => ({ ...prev, destination: e.target.value }))}
@@ -204,35 +140,30 @@ export default function FlightsPage() {
                   </div>
                   <div className="md:col-span-2 space-y-1.5">
                     <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                      <Calendar className="w-3 h-3" /> Departure
+                      <Calendar className="w-3 h-3" /> Depart
                     </label>
-                    <Input 
-                      type="date" 
+                    <Input
+                      type="date"
                       className="h-10 text-center md:text-left [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                       value={searchParams.departureDate}
                       onChange={(e) => setSearchParams(prev => ({ ...prev, departureDate: e.target.value }))}
-                      placeholder="Select date"
                     />
                   </div>
                   <div className="md:col-span-2 space-y-1.5">
                     <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
                       <Calendar className="w-3 h-3" /> Return
                     </label>
-                    <Input 
-                      type="date" 
+                    <Input
+                      type="date"
                       className="h-10 text-center md:text-left [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                       value={searchParams.returnDate}
                       onChange={(e) => setSearchParams(prev => ({ ...prev, returnDate: e.target.value }))}
-                      placeholder="Select date"
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <motion.div
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Button 
-                        className="w-full h-10 bg-purple-700 hover:bg-purple-800 text-white font-semibold shadow-lg shadow-purple-500/30"
+                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                      <Button
+                        className="w-full h-10 bg-purple-600 hover:bg-purple-700 text-white font-semibold shadow-lg shadow-purple-500/30"
                         onClick={handleSearch}
                         aria-label="Search for flights"
                       >
@@ -259,7 +190,9 @@ export default function FlightsPage() {
           Popular Flight Deals
         </motion.h2>
 
-        {flights.length === 0 ? (
+        {isLoading ? (
+          <ListSkeleton count={6} type="flight" />
+        ) : flights.length === 0 ? (
           <EmptyState
             title="No Flights Available"
             message="We couldn't find any flights for your search criteria. Try adjusting your dates or destinations."
@@ -270,7 +203,7 @@ export default function FlightsPage() {
             }
             action={{
               label: "Refresh",
-              onClick: fetchFlights,
+              onClick: () => refetch(),
             }}
           />
         ) : (
@@ -282,16 +215,33 @@ export default function FlightsPage() {
             viewport={{ once: true }}
           >
             {flights.map((flight) => (
-              <FlightCard key={flight.id} flight={flight} />
+              <FlightCard key={flight.id} flight={flight} onClick={() => handleBookFlight(flight)} />
             ))}
           </motion.div>
         )}
       </section>
+
+      {/* Payment Dialog */}
+      <PaymentDialog
+        isOpen={isPaymentOpen}
+        onClose={() => setIsPaymentOpen(false)}
+        itemType="flight"
+        itemName={`${selectedFlight?.airline} - ${selectedFlight?.flight_number}`}
+        itemPrice={selectedFlight?.price || 0}
+        itemCurrency={selectedFlight?.currency}
+        itemDetails={{
+          location: selectedFlight ? `${selectedFlight.origin_airport} → ${selectedFlight.destination_airport}` : "",
+          date: selectedFlight?.departure_time ? new Date(selectedFlight.departure_time).toLocaleDateString() : "",
+          duration: selectedFlight ? `${Math.floor(selectedFlight.duration_minutes / 60)}h ${selectedFlight.duration_minutes % 60}m` : "",
+        }}
+        // Flight images are usually airline logos, but we can pass a generic flight image if needed
+        itemImage="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074&auto=format&fit=crop"
+      />
     </div>
   );
 }
 
-function FlightCard({ flight }: { flight: Flight }) {
+function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }) {
   const formatDuration = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
@@ -299,8 +249,8 @@ function FlightCard({ flight }: { flight: Flight }) {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', { 
-      month: 'short', 
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
@@ -310,10 +260,13 @@ function FlightCard({ flight }: { flight: Flight }) {
   return (
     <motion.div
       variants={fadeInUp}
-      whileHover={{ y: -8, scale: 1.02 }}
-      transition={{ duration: 0.3 }}
+      whileHover={{ y: -4, scale: 1.01 }}
+      transition={{ duration: 0.2 }}
     >
-      <Card className="hover:border-purple-500/50 transition-colors group cursor-pointer glass">
+      <Card
+        className="hover:border-purple-500/50 transition-colors group cursor-pointer glass"
+        onClick={onClick}
+      >
         <CardContent className="p-5">
           <div className="flex justify-between items-start mb-4">
             <div className="bg-muted px-3 py-1 rounded text-xs font-medium text-purple-400 dark:text-purple-300">
@@ -355,8 +308,8 @@ function FlightCard({ flight }: { flight: Flight }) {
           </div>
 
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Button className="w-full bg-muted hover:bg-purple-600 hover:text-white transition-colors border-border">
-              View Deal
+            <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 shadow-lg shadow-purple-500/20">
+              Book Ticket
             </Button>
           </motion.div>
         </CardContent>

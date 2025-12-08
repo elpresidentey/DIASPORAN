@@ -1,11 +1,21 @@
 "use client"
 
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Heart } from "lucide-react"
 import { motion } from "framer-motion"
+import { smoothScrollTo } from "@/lib/smoothScroll"
 
 export default function Footer() {
     const currentYear = new Date().getFullYear()
+    const pathname = usePathname()
+
+    const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (pathname === '/') {
+            e.preventDefault()
+            smoothScrollTo(0, { duration: 600, offset: 0 })
+        }
+    }
 
     const footerLinks = {
         product: [
@@ -57,14 +67,18 @@ export default function Footer() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5 }}
                         >
-                            <div className="flex items-center gap-3 mb-6">
+                            <Link
+                                href="/"
+                                onClick={handleLogoClick}
+                                className="flex items-center gap-3 mb-6 w-fit hover:opacity-80 transition-opacity cursor-pointer"
+                            >
                                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-glow-purple flex-shrink-0">
                                     <span className="text-white font-bold text-2xl leading-none">D</span>
                                 </div>
                                 <span className="text-2xl font-bold text-gradient-rainbow leading-none">
                                     Diasporan
                                 </span>
-                            </div>
+                            </Link>
                             <p className="text-muted-foreground mb-6 leading-relaxed max-w-md">
                                 Your ultimate companion for Detty December. Book flights, find stays, discover events, and stay safe while experiencing the best of Africa.
                             </p>

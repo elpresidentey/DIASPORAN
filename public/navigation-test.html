@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Test - Diasporan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Fixed Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+        }
+
+        nav .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #a855f7;
+        }
+
+        /* Sections */
+        section {
+            min-height: 100vh;
+            padding: 6rem 2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            scroll-margin-top: 80px;
+        }
+
+        section[id] {
+            scroll-margin-top: 80px;
+        }
+
+        #hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        #features {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        #how-it-works {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        #testimonials {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+
+        #cta {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+        }
+
+        .section-content {
+            text-align: center;
+            max-width: 800px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .test-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 10px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Navigation -->
+    <nav>
+        <div class="logo">Diasporan</div>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="#cta">Get Started</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="section-content">
+            <h1>Navigation Test Page</h1>
+            <p>Click the navigation links above to test smooth scrolling with proper offset for the fixed navbar.</p>
+            <div class="test-info">
+                <strong>✅ Fixed:</strong> Sections now scroll into view below the navbar<br>
+                <strong>Offset:</strong> 80px (64px navbar + 16px padding)
+            </div>
+            <div class="scroll-indicator">↓ Scroll Down ↓</div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="section-content">
+            <h2>Features Section</h2>
+            <p>Notice how this section's heading is visible below the navbar, not hidden underneath it.</p>
+            <div class="test-info">
+                <strong>CSS Applied:</strong><br>
+                <code>scroll-margin-top: 80px;</code><br>
+                <code>scroll-padding-top: 80px;</code>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works">
+        <div class="section-content">
+            <h2>How It Works</h2>
+            <p>The scroll-margin-top property creates an invisible margin at the top of each section, ensuring content appears below the fixed navbar.</p>
+            <div class="test-info">
+                <strong>Browser Support:</strong><br>
+                ✅ Chrome/Edge | ✅ Firefox | ✅ Safari | ✅ Mobile
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <div class="section-content">
+            <h2>Testimonials</h2>
+            <p>Try clicking the navigation links multiple times. Each section should smoothly scroll into view with perfect positioning.</p>
+            <div class="test-info">
+                <strong>Test Actions:</strong><br>
+                1. Click nav links<br>
+                2. Use browser back/forward<br>
+                3. Direct URL with hash (#features)
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta">
+        <div class="section-content">
+            <h2>Get Started</h2>
+            <p>Navigation is now working perfectly! All sections scroll into view with the correct offset.</p>
+            <div class="test-info">
+                <strong>✨ Success!</strong><br>
+                Your navigation issues have been resolved.
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Log scroll events for debugging
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const sections = document.querySelectorAll('section[id]');
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top >= 64 && rect.top <= 100) {
+                        console.log(`Section ${section.id} is properly positioned at ${rect.top}px from top`);
+                    }
+                });
+            }, 100);
+        });
+
+        // Test programmatic scrolling
+        console.log('Navigation Test Page Loaded');
+        console.log('Try clicking navigation links to test scroll behavior');
+    </script>
+</body>
+</html>

@@ -25,6 +25,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 
+import { smoothScrollTo } from "@/lib/smoothScroll";
+
 const features = [
   {
     icon: Plane,
@@ -67,8 +69,8 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Gradient Background - Video removed for performance */}
+      <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Gradient Background - Optimized for LCP */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-purple-200/30 via-white to-pink-200/30 dark:from-purple-900/40 dark:via-black dark:to-pink-900/40" />
         </div>
@@ -77,44 +79,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/90 to-white/95 dark:from-black/80 dark:via-black/60 dark:to-black/90" />
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-pink-500/10 dark:from-purple-900/20 dark:via-transparent dark:to-pink-900/20" />
 
-        {/* Simplified Animated Elements - Reduced for performance */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Floating elements - reduced from 15 to 6 */}
-          {[...Array(6)].map((_, i) => {
-            const size = Math.random() * 10 + 5;
-            const left = Math.random() * 100;
-            const top = Math.random() * 100;
-            const color = `rgba(${Math.random() * 100 + 155}, ${Math.random() * 100 + 100}, 255, 0.5)`;
-            const duration = Math.random() * 5 + 5;
-            const delay = Math.random() * 3;
-            
-            return (
-              <motion.div
-                key={i}
-                className="absolute rounded-full"
-                style={{
-                  width: size + 'px',
-                  height: size + 'px',
-                  left: `${left}%`,
-                  top: `${top}%`,
-                  backgroundColor: color,
-                }}
-                animate={{
-                  y: [0, -15, 0],
-                  opacity: [0.2, 0.6, 0.2],
-                }}
-                transition={{
-                  duration,
-                  repeat: Infinity,
-                  ease: "linear",
-                  delay,
-                }}
-              />
-            );
-          })}
-        </div>
-
-        {/* Content */}
+        {/* Content - Priority for LCP */}
         <div className="relative z-10 container mx-auto px-6 max-w-7xl">
           <motion.div
             className="text-center space-y-8"
@@ -123,7 +88,7 @@ export default function HomePage() {
             animate="visible"
           >
             {/* Badge */}
-            <motion.div className="flex justify-center" variants={fadeInUp}>
+            <motion.div className="flex justify-center" variants={fadeInUp} transition={{ duration: 0.5, delay: 0 }}>
               <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/20">
                 <Sparkles className="w-4 h-4" />
                 <span className="text-sm font-semibold">
@@ -149,7 +114,7 @@ export default function HomePage() {
               className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
               variants={fadeInUp}
             >
-              <Link href="/events">
+              <Link href="/events" prefetch={true}>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -167,7 +132,7 @@ export default function HomePage() {
                   </Button>
                 </motion.div>
               </Link>
-              <Link href="/events">
+              <Link href="/events" prefetch={true}>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -210,20 +175,17 @@ export default function HomePage() {
         </div>
 
         {/* Scrolling Indicator */}
-        <motion.div 
+        <motion.div
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center group cursor-pointer"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
           onClick={() => {
-            window.scrollTo({
-              top: window.innerHeight,
-              behavior: 'smooth'
-            });
+            smoothScrollTo('#stats', { duration: 600, offset: 80 });
           }}
         >
           <span className="text-sm text-gray-600 dark:text-gray-400 mb-2 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Scroll to explore</span>
           <div className="w-8 h-12 border-2 border-gray-400 dark:border-gray-600 rounded-full flex justify-center p-1 group-hover:border-purple-500 transition-colors">
-            <motion.div 
+            <motion.div
               className="w-1 h-3 bg-gradient-to-b from-purple-400 to-pink-400 rounded-full"
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
@@ -233,7 +195,7 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-black dark:to-gray-900 relative overflow-hidden">
+      <section id="stats" className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-black dark:to-gray-900 relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden opacity-20">
           {[...Array(20)].map((_, i) => {
@@ -242,9 +204,9 @@ export default function HomePage() {
             const top = Math.random() * 100;
             const color1 = Math.random() * 100 + 155;
             const color2 = Math.random() * 100 + 100;
-            
+
             return (
-              <div 
+              <div
                 key={i}
                 className="absolute rounded-full"
                 style={{
@@ -259,11 +221,11 @@ export default function HomePage() {
             );
           })}
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {stats.map((stat, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 className="bg-white/80 dark:bg-gradient-to-br dark:from-gray-900/50 dark:to-black/50 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-xl p-4 text-center hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
                 whileHover={{ y: -5 }}
@@ -279,7 +241,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative overflow-hidden">
+      <section id="features" className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20">
           <div className="absolute top-1/4 -left-20 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
@@ -289,7 +251,7 @@ export default function HomePage() {
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto mb-16">
-            <motion.h2 
+            <motion.h2
               className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -298,7 +260,7 @@ export default function HomePage() {
             >
               Your Complete Detty December Experience
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-lg text-gray-600 dark:text-gray-400"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -308,7 +270,7 @@ export default function HomePage() {
               Everything you need for an unforgettable holiday season in Africa, all in one place
             </motion.p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (
               <motion.div
@@ -327,8 +289,9 @@ export default function HomePage() {
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
                   <p className="text-gray-600 dark:text-gray-400 mb-4">{feature.description}</p>
-                  <Link 
+                  <Link
                     href={feature.href}
+                    prefetch={true}
                     className="inline-flex items-center text-sm font-medium text-purple-400 hover:text-purple-300 group-hover:translate-x-1 transition-transform"
                   >
                     Learn more
@@ -342,10 +305,10 @@ export default function HomePage() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-black relative overflow-hidden">
+      <section id="how-it-works" className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-black relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto mb-16">
-            <motion.h2 
+            <motion.h2
               className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -354,7 +317,7 @@ export default function HomePage() {
             >
               How It Works
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-lg text-gray-600 dark:text-gray-400"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -368,7 +331,7 @@ export default function HomePage() {
           <div className="relative">
             {/* Timeline line */}
             <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500/20 via-pink-500/20 to-transparent"></div>
-            
+
             {/* Steps */}
             <div className="space-y-12 md:space-y-24">
               {[
@@ -401,11 +364,10 @@ export default function HomePage() {
                   direction: "right"
                 }
               ].map((item, index) => (
-                <motion.div 
+                <motion.div
                   key={index}
-                  className={`relative flex flex-col md:flex-row items-center gap-6 ${
-                    item.direction === 'right' ? 'md:flex-row-reverse' : ''
-                  }`}
+                  className={`relative flex flex-col md:flex-row items-center gap-6 ${item.direction === 'right' ? 'md:flex-row-reverse' : ''
+                    }`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -423,14 +385,14 @@ export default function HomePage() {
                       <p className="text-gray-600 dark:text-gray-400">{item.description}</p>
                     </div>
                   </div>
-                  
+
                   {/* Center Circle */}
                   <div className="flex md:w-2/12 justify-center flex-shrink-0">
                     <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold text-xl z-10 shadow-lg shadow-purple-500/30">
                       {item.step}
                     </div>
                   </div>
-                  
+
                   {/* Empty Space (for alignment) */}
                   <div className="hidden md:block md:w-5/12"></div>
                 </motion.div>
@@ -441,14 +403,14 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-950 relative overflow-hidden">
+      <section id="testimonials" className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-950 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[url('/images/pattern.svg')] bg-repeat opacity-30"></div>
         </div>
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto mb-16">
-            <motion.h2 
+            <motion.h2
               className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -457,7 +419,7 @@ export default function HomePage() {
             >
               What Our Travelers Say
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-lg text-gray-600 dark:text-gray-400"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -489,7 +451,7 @@ export default function HomePage() {
                 rating: 5
               }
             ].map((testimonial, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 className="bg-white/90 dark:bg-gradient-to-br dark:from-gray-900/50 dark:to-black/50 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-2xl p-8 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
                 initial={{ opacity: 0, y: 20 }}
@@ -520,19 +482,19 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative overflow-hidden">
+      <section id="cta" className="relative overflow-hidden">
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-pink-900/20 to-purple-900/30"></div>
-        
+
         {/* Animated background elements */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0 bg-[url('/images/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
           <div className="absolute top-1/4 -left-20 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
           <div className="absolute top-1/3 -right-20 w-96 h-96 bg-pink-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
         </div>
-        
+
         <div className="container mx-auto px-6 py-24 relative z-10">
-          <motion.div 
+          <motion.div
             className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -546,20 +508,20 @@ export default function HomePage() {
               Join thousands of travelers experiencing the best of Africa this holiday season. Your adventure starts here.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/signup" className="group relative">
+              <Link href="/signup" prefetch={true} className="group relative">
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200 group-hover:duration-200"></div>
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="relative bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg"
                 >
                   Get Started for Free
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Link href="/events" className="group">
-                <Button 
-                  variant="outline" 
-                  size="lg" 
+              <Link href="/events" prefetch={true} className="group">
+                <Button
+                  variant="outline"
+                  size="lg"
                   className="relative overflow-hidden border-white/20 bg-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-white/30 transition-all duration-200 transform hover:-translate-y-0.5"
                 >
                   <Calendar className="mr-2 w-4 h-4" />
@@ -602,7 +564,7 @@ function FeatureCard({
 }) {
   return (
     <Link href={href}>
-      <motion.div 
+      <motion.div
         className="group relative bg-gradient-to-br from-gray-800/50 to-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 overflow-hidden hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300 h-full"
         whileHover={{ y: -5 }}
       >

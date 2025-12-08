@@ -15,22 +15,8 @@ export default function SafetyPage() {
                 <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background pointer-events-none" />
 
                 {/* Animated background elements */}
-                <motion.div
-                    className="absolute top-20 left-10 w-72 h-72 rounded-full bg-red-600/20 blur-3xl"
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.3, 0.5, 0.3],
-                    }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <motion.div
-                    className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-orange-600/20 blur-3xl"
-                    animate={{
-                        scale: [1.2, 1, 1.2],
-                        opacity: [0.3, 0.5, 0.3],
-                    }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                />
+                <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-red-600/20 blur-3xl opacity-30" />
+                <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-orange-600/20 blur-3xl opacity-30" />
 
                 <motion.div
                     className="relative z-10 container mx-auto max-w-5xl text-center"
@@ -121,14 +107,9 @@ export default function SafetyPage() {
                             </CardHeader>
                             <CardContent>
                                 <div className="p-6 bg-blue-500/10 rounded-xl border border-blue-500/20 mb-6 text-center">
-                                    <motion.div
-                                        animate={{
-                                            scale: [1, 1.1, 1],
-                                        }}
-                                        transition={{ duration: 2, repeat: Infinity }}
-                                    >
+                                    <div>
                                         <MapPin className="w-12 h-12 text-blue-500 mx-auto mb-4" />
-                                    </motion.div>
+                                    </div>
                                     <p className="text-sm text-muted-foreground mb-4">
                                         Generate a secure link to share your live location for the next hour.
                                     </p>

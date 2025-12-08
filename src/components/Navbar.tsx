@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { Menu, X, Plane, Calendar, Bed, Shield, User, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { smoothScrollTo } from "@/lib/smoothScroll";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -55,7 +56,7 @@ export default function Navbar() {
       const focusableElements = mobileMenuRef.current?.querySelectorAll(
         'a[href], button:not([disabled])'
       );
-      
+
       if (!focusableElements || focusableElements.length === 0) return;
 
       const firstElement = focusableElements[0] as HTMLElement;
@@ -99,6 +100,15 @@ export default function Navbar() {
     menuButtonRef.current?.focus();
   };
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // If already on homepage, scroll to top smoothly
+    if (pathname === '/') {
+      e.preventDefault();
+      smoothScrollTo(0, { duration: 600, offset: 0 });
+    }
+    // Otherwise, let Next.js Link handle navigation normally
+  };
+
   return (
     <>
       {/* Skip to content link for keyboard navigation */}
@@ -110,27 +120,27 @@ export default function Navbar() {
       </a>
 
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
-          isScrolled
-            ? "bg-background/80 backdrop-blur-md border-b border-border shadow-lg"
-            : "bg-background/90"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${isScrolled
+          ? "bg-background/80 backdrop-blur-md border-b border-border shadow-lg"
+          : "bg-background/90"
+          }`}
         role="navigation"
         aria-label="Main navigation"
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link 
-              href="/" 
+            <Link
+              href="/"
+              onClick={handleLogoClick}
               className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-background rounded-md p-1"
               aria-label="Diasporan Home"
             >
               <div className="flex-shrink-0">
-                <Image 
-                  src="/diasporan.png" 
-                  alt="Diasporan Logo" 
-                  width={40} 
+                <Image
+                  src="/diasporan.png"
+                  alt="Diasporan Logo"
+                  width={40}
                   height={40}
                   className="rounded-full object-cover"
                   priority
@@ -146,16 +156,16 @@ export default function Navbar() {
               {navLinks.map((link) => {
                 const active = isActive(link.href);
                 return (
-                  <Link 
-                    key={link.href} 
+                  <Link
+                    key={link.href}
                     href={link.href}
+                    prefetch={true}
                     role="menuitem"
                     aria-current={active ? "page" : undefined}
-                    className={`px-3 py-2 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-background ${
-                      active
-                        ? "text-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
+                    className={`px-3 py-2 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-background ${active
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                      }`}
                   >
                     {link.label}
                   </Link>
@@ -174,9 +184,9 @@ export default function Navbar() {
                       {user.user_metadata?.first_name || 'User'}
                     </Button>
                   </Link>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={signOut}
                     className="gap-2"
                   >
@@ -220,7 +230,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div 
+          <div
             id="mobile-menu"
             ref={mobileMenuRef}
             className="lg:hidden bg-background border-t border-border"
@@ -232,7 +242,7 @@ export default function Navbar() {
               <div className="flex justify-center pb-3 border-b border-border mb-3">
                 <ThemeToggle />
               </div>
-              
+
               {navLinks.map((link, index) => {
                 const active = isActive(link.href);
                 return (
@@ -240,14 +250,14 @@ export default function Navbar() {
                     key={link.href}
                     ref={index === 0 ? firstFocusableRef : null}
                     href={link.href}
+                    prefetch={true}
                     role="menuitem"
                     aria-current={active ? "page" : undefined}
                     onClick={closeMobileMenu}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-background ${
-                      active
-                        ? "bg-purple-600/20 border border-purple-500/30 text-foreground dark:bg-purple-600/20 dark:border-purple-500/30 light:bg-purple-100 light:border-purple-300"
-                        : "hover:bg-muted text-muted-foreground"
-                    }`}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-background ${active
+                      ? "bg-purple-600/20 border border-purple-500/30 text-foreground dark:bg-purple-600/20 dark:border-purple-500/30 light:bg-purple-100 light:border-purple-300"
+                      : "hover:bg-muted text-muted-foreground"
+                      }`}
                   >
                     <link.icon className={`w-5 h-5 ${active ? "text-purple-400 dark:text-purple-400 light:text-purple-600" : "text-purple-400 dark:text-purple-400 light:text-purple-600"}`} />
                     <span className="font-medium">{link.label}</span>
@@ -263,10 +273,10 @@ export default function Navbar() {
                         {user.user_metadata?.first_name || 'User'} {user.user_metadata?.last_name || ''}
                       </Button>
                     </Link>
-                    <Button 
+                    <Button
                       ref={lastFocusableRef}
-                      variant="outline" 
-                      size="default" 
+                      variant="outline"
+                      size="default"
                       className="w-full gap-2"
                       onClick={() => {
                         signOut();
@@ -285,10 +295,10 @@ export default function Navbar() {
                       </Button>
                     </Link>
                     <Link href="/signup" onClick={closeMobileMenu}>
-                      <Button 
+                      <Button
                         ref={lastFocusableRef}
-                        variant="primary" 
-                        size="default" 
+                        variant="primary"
+                        size="default"
                         className="w-full"
                       >
                         Get Started

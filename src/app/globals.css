@@ -5,6 +5,17 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    @apply border-border;
+  }
+
+  /* scroll-behavior: smooth disabled - using faster JS scroll in smoothScroll.ts */
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -55,7 +66,7 @@
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -111,9 +122,10 @@ html {
 }
 
 /* Smooth scrolling for the entire page */
-html {
+/* html {
   scroll-behavior: smooth;
-}
+} */
+/* Disabled - using faster JS scroll in smoothScroll.ts */
 
 /* Custom focus styles for interactive elements */
 button,
@@ -164,7 +176,8 @@ table {
   @apply w-full border-collapse;
 }
 
-th, td {
+th,
+td {
   @apply border border-border p-2 text-left;
 }
 
@@ -173,7 +186,8 @@ th {
 }
 
 /* Better list styles */
-ul, ol {
+ul,
+ol {
   @apply pl-5 my-4;
 }
 
@@ -190,7 +204,12 @@ li {
 }
 
 /* Better heading styles */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   @apply font-display font-bold tracking-tight mt-6 mb-4;
 }
 
@@ -239,6 +258,7 @@ hr {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -250,6 +270,7 @@ hr {
     opacity: 1;
     transform: scale(1);
   }
+
   to {
     opacity: 0;
     transform: scale(0.95);
@@ -264,6 +285,7 @@ hr {
   from {
     transform: translateX(var(--radix-toast-swipe-end-x));
   }
+
   to {
     transform: translateX(calc(100% + var(--viewport-padding)));
   }
@@ -379,6 +401,7 @@ hr {
 
 /* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -398,9 +421,12 @@ hr {
 }
 
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
+  /* Disabled - using faster JS scroll */
   font-size: 16px;
   line-height: 1.5;
+  scroll-padding-top: 80px;
+  /* Account for fixed navbar */
 }
 
 body {
@@ -412,7 +438,12 @@ body {
   transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1), color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Space Grotesk', 'Inter', sans-serif;
   font-weight: 700;
   line-height: 1.2;
@@ -426,7 +457,10 @@ a {
   transition: all 0.2s ease;
 }
 
-button, input, textarea, select {
+button,
+input,
+textarea,
+select {
   font: inherit;
   color: inherit;
   background: transparent;
@@ -436,12 +470,16 @@ button, input, textarea, select {
   transition: all 0.2s ease;
 }
 
-button:focus, input:focus, textarea:focus, select:focus {
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
   outline: 2px solid rgb(var(--primary));
   outline-offset: 2px;
 }
 
-img, video {
+img,
+video {
   max-width: 100%;
   height: auto;
   display: block;
@@ -478,72 +516,187 @@ img, video {
 
 /* Animation Keyframes */
 @keyframes gradient-x {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
-  50% { transform: translateY(0); animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+
+  0%,
+  100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideInRight {
-  from { transform: translateX(20px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes slideInLeft {
-  from { transform: translateX(-20px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes scaleIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes blob {
-  0% { transform: translate(0px, 0px) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-  100% { transform: translate(0px, 0px) scale(1); }
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
 }
 
 /* Animation Classes */
-.animate-float { animation: float 6s ease-in-out infinite; }
-.animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-.animate-spin-slow { animation: spin 3s linear infinite; }
-.animate-bounce-slow { animation: bounce 2s infinite; }
-.animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-.animate-slide-in-right { animation: slideInRight 0.5s ease-out forwards; }
-.animate-slide-in-left { animation: slideInLeft 0.5s ease-out forwards; }
-.animate-scale-in { animation: scaleIn 0.3s ease-out forwards; }
-.animate-blob { animation: blob 7s infinite; }
-.animate-delay-100 { animation-delay: 100ms; }
-.animate-delay-200 { animation-delay: 200ms; }
-.animate-delay-300 { animation-delay: 300ms; }
-.animation-delay-500 { animation-delay: 500ms; }
-.animation-delay-1000 { animation-delay: 1s; }
-.animation-delay-2000 { animation-delay: 2s; }
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
+}
+
+.animate-bounce-slow {
+  animation: bounce 2s infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out forwards;
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animate-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animate-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animate-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+.animation-delay-1000 {
+  animation-delay: 1s;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
 
 /* Gradient Text */
 .text-gradient-primary {
@@ -594,6 +747,20 @@ img, video {
 .dark .glass {
   background: rgba(15, 15, 15, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+.dark .glass-strong {
+  background: rgba(15, 15, 15, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 .glass-light {
@@ -718,16 +885,14 @@ img, video {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0) 40%,
-    rgba(255, 255, 255, 0.1) 48%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.1) 52%,
-    rgba(255, 255, 255, 0) 60%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(to bottom right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0.1) 48%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.1) 52%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0) 100%);
   transform: rotate(30deg);
   transition: all 0.8s ease;
   opacity: 0;
@@ -738,25 +903,36 @@ img, video {
   opacity: 1;
 }
 
+/* Scroll Navigation Utilities */
+section {
+  scroll-margin-top: 80px;
+  /* Account for fixed navbar */
+}
+
+/* For elements with IDs that might be navigation targets */
+[id] {
+  scroll-margin-top: 80px;
+}
+
 @layer utilities {
 
   /* Theme Transition Utilities - Optimized */
   .theme-transition {
-    transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1), 
-                border-color 200ms cubic-bezier(0.4, 0, 0.2, 1), 
-                color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .theme-transition-fast {
-    transition: background-color 100ms cubic-bezier(0.4, 0, 0.2, 1), 
-                border-color 100ms cubic-bezier(0.4, 0, 0.2, 1), 
-                color 100ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 100ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 100ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 100ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .theme-transition-slow {
-    transition: background-color 350ms cubic-bezier(0.4, 0, 0.2, 1), 
-                border-color 350ms cubic-bezier(0.4, 0, 0.2, 1), 
-                color 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 350ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 350ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 350ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Gradient Animations */
@@ -844,9 +1020,11 @@ img, video {
     0% {
       transform: translateX(-100%);
     }
+
     50% {
       transform: translateX(0%);
     }
+
     100% {
       transform: translateX(100%);
     }
@@ -1199,10 +1377,8 @@ img, video {
       linear-gradient(135deg, #8B5CF6, #EC4899, #F97316) border-box;
   }
 
-  /* Smooth Scroll */
-  html {
-    scroll-behavior: smooth;
-  }
+  /* Smooth Scroll - Disabled, using faster JS scroll in smoothScroll.ts */
+
 
   /* Custom Scrollbar - Theme Aware */
   ::-webkit-scrollbar {
@@ -1658,35 +1834,43 @@ img, video {
 
 /* Override purple-400 in light mode for better contrast */
 .text-purple-400 {
-  color: #7e22ce !important; /* purple-700 for better contrast in light mode */
+  color: #7e22ce !important;
+  /* purple-700 for better contrast in light mode */
 }
 
 .dark .text-purple-400 {
-  color: #c084fc !important; /* purple-400 for dark mode */
+  color: #c084fc !important;
+  /* purple-400 for dark mode */
 }
 
 /* Override pink-400 in light mode for better contrast */
 .text-pink-400 {
-  color: #be185d !important; /* pink-700 for better contrast in light mode */
+  color: #be185d !important;
+  /* pink-700 for better contrast in light mode */
 }
 
 .dark .text-pink-400 {
-  color: #f472b6 !important; /* pink-400 for dark mode */
+  color: #f472b6 !important;
+  /* pink-400 for dark mode */
 }
 
 /* Hover states with proper contrast */
 .hover\:text-purple-400:hover {
-  color: #9333ea !important; /* purple-600 */
+  color: #9333ea !important;
+  /* purple-600 */
 }
 
 .dark .hover\:text-purple-400:hover {
-  color: #d8b4fe !important; /* purple-300 */
+  color: #d8b4fe !important;
+  /* purple-300 */
 }
 
 .hover\:text-pink-400:hover {
-  color: #db2777 !important; /* pink-600 */
+  color: #db2777 !important;
+  /* pink-600 */
 }
 
 .dark .hover\:text-pink-400:hover {
-  color: #f9a8d4 !important; /* pink-300 */
+  color: #f9a8d4 !important;
+  /* pink-300 */
 }

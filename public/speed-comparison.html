@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Comparison - Fast vs Slow Scroll</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #0f0f23;
+            color: white;
+        }
+
+        .controls {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 1.5rem;
+            z-index: 100;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .controls h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .slow-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .fast-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .instant-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3);
+        }
+
+        .info {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(168, 85, 247, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .info code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            color: #a855f7;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 2rem;
+            scroll-margin-top: 120px;
+        }
+
+        .section-content {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        #section1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        #section2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        #section3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        #section4 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        #section5 {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .timer {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #a855f7;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #a855f7;
+            display: none;
+        }
+
+        .timer.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="controls">
+        <h1>⚡ Navigation Speed Comparison</h1>
+        <div class="button-group">
+            <button class="slow-btn" onclick="scrollSlow()">🐌 Slow (CSS ~1500ms)</button>
+            <button class="fast-btn" onclick="scrollFast()">⚡ Fast (JS 600ms)</button>
+            <button class="instant-btn" onclick="scrollInstant()">🚀 Instant (JS 300ms)</button>
+        </div>
+        <div class="info">
+            <strong>Try it:</strong> Click the buttons above to scroll to Section 5.
+            Notice the difference! <code>Fast (600ms)</code> is the new default for Diasporan.
+        </div>
+    </div>
+
+    <div class="timer" id="timer">0ms</div>
+
+    <section id="section1">
+        <div class="section-content">
+            <h2>Section 1</h2>
+            <p>This is the starting point. Click the buttons above to scroll to Section 5.</p>
+        </div>
+    </section>
+
+    <section id="section2">
+        <div class="section-content">
+            <h2>Section 2</h2>
+            <p>Halfway there...</p>
+        </div>
+    </section>
+
+    <section id="section3">
+        <div class="section-content">
+            <h2>Section 3</h2>
+            <p>Getting closer...</p>
+        </div>
+    </section>
+
+    <section id="section4">
+        <div class="section-content">
+            <h2>Section 4</h2>
+            <p>Almost there!</p>
+        </div>
+    </section>
+
+    <section id="section5">
+        <div class="section-content">
+            <h2>🎯 Section 5</h2>
+            <p>You made it! Now scroll back to the top and try different speeds.</p>
+        </div>
+    </section>
+
+    <script>
+        const timer = document.getElementById('timer');
+        let startTime;
+
+        function showTimer() {
+            timer.classList.add('active');
+            startTime = Date.now();
+            updateTimer();
+        }
+
+        function updateTimer() {
+            const elapsed = Date.now() - startTime;
+            timer.textContent = elapsed + 'ms';
+            if (elapsed < 2000) {
+                requestAnimationFrame(updateTimer);
+            } else {
+                setTimeout(() => timer.classList.remove('active'), 1000);
+            }
+        }
+
+        function scrollSlow() {
+            showTimer();
+            // Simulate slow CSS scroll-behavior
+            smoothScrollTo('#section5', 1500);
+        }
+
+        function scrollFast() {
+            showTimer();
+            // New Diasporan default
+            smoothScrollTo('#section5', 600);
+        }
+
+        function scrollInstant() {
+            showTimer();
+            // Super fast option
+            smoothScrollTo('#section5', 300);
+        }
+
+        function smoothScrollTo(target, duration) {
+            const element = document.querySelector(target);
+            if (!element) return;
+
+            const targetPosition = element.getBoundingClientRect().top + window.pageYOffset - 120;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const progress = Math.min(timeElapsed / duration, 1);
+                const ease = easeInOutCubic(progress);
+
+                window.scrollTo(0, startPosition + distance * ease);
+
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                }
+            }
+
+            requestAnimationFrame(animation);
+        }
+
+        function easeInOutCubic(t) {
+            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+        // Auto-scroll to top on load
+        window.addEventListener('load', () => {
+            setTimeout(() => window.scrollTo(0, 0), 100);
+        });
+    </script>
+</body>
+
+</html>

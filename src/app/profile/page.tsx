@@ -35,7 +35,7 @@ export default function ProfilePage() {
     const { user, loading: authLoading, signOut } = useAuth();
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [bookings, setBookings] = useState<Booking[]>([]);
-    const [error, setError] = useState<string | null>(null);
+    const [isLoadingData, setIsLoadingData] = useState(true);
 
     // Set up real-time subscription for bookings
     useRealtimeBookings({
@@ -55,38 +55,53 @@ export default function ProfilePage() {
         if (!authLoading && !user) {
             router.push('/login');
         } else if (user) {
-            fetchProfile();
-            fetchBookings();
+            loadData();
         }
     }, [user, authLoading, router]);
 
+    const loadData = async () => {
+        setIsLoadingData(true);
+        await Promise.all([fetchProfile(), fetchBookings()]);
+        setIsLoadingData(false);
+    };
+
     const fetchProfile = async () => {
         try {
-            setError(null);
-            
             const response = await fetch('/api/profile');
-            
+
             if (!response.ok) {
-                throw new Error('Failed to fetch profile');
+                // If API fails, fall back to auth data silently
+                console.warn('Profile API failed, using auth data fallback');
+                throw new Error('Using fallback');
             }
-            
+
             const data = await response.json();
-            
+
             if (data.success && data.data) {
                 setProfile(data.data);
             } else {
-                throw new Error(data.error?.message || 'Failed to load profile');
+                throw new Error('No data');
             }
         } catch (err) {
-            console.error('Error fetching profile:', err);
-            setError(err instanceof Error ? err.message : 'An error occurred');
+            // Fallback to user data from auth context
+            if (user) {
+                setProfile({
+                    id: user.id || '',
+                    email: user.email || '',
+                    full_name: user.user_metadata?.full_name || user.user_metadata?.name || 'User',
+                    avatar_url: user.user_metadata?.avatar_url || null,
+                    phone: user.phone || null,
+                    bio: null,
+                    created_at: user.created_at || new Date().toISOString(),
+                });
+            }
         }
     };
 
     const fetchBookings = async () => {
         try {
             const response = await fetch('/api/bookings?status=confirmed,pending&limit=5');
-            
+
             if (response.ok) {
                 const data = await response.json();
                 if (data.success && data.data) {
@@ -103,12 +118,13 @@ export default function ProfilePage() {
         router.push('/');
     };
 
-    if (authLoading) {
+    if (authLoading || isLoadingData) {
         return (
             <div className="min-h-screen bg-background pb-20 pt-24 px-4">
                 <div className="container mx-auto max-w-4xl">
-                    <div className="text-center py-20">
-                        <p className="text-muted-foreground">Loading profile...</p>
+                    <div className="flex flex-col items-center justify-center py-20 space-y-4">
+                        <div className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
+                        <p className="text-muted-foreground animate-pulse">Loading usage profile...</p>
                     </div>
                 </div>
             </div>
@@ -116,38 +132,11 @@ export default function ProfilePage() {
     }
 
     if (!user) {
-        return (
-            <div className="min-h-screen bg-background pb-20 pt-24 px-4">
-                <div className="container mx-auto max-w-4xl">
-                    <div className="text-center py-20">
-                        <p className="text-muted-foreground">Please log in to view your profile.</p>
-                    </div>
-                </div>
-            </div>
-        );
+        return null; // Redirect handled in useEffect
     }
 
-    if (error) {
-        return (
-            <div className="min-h-screen bg-background pb-20 pt-24 px-4">
-                <div className="container mx-auto max-w-4xl">
-                    <ErrorDisplay
-                        type="network"
-                        title="Failed to Load Profile"
-                        message={error}
-                        action={{
-                            label: "Retry",
-                            onClick: fetchProfile,
-                        }}
-                    />
-                </div>
-            </div>
-        );
-    }
-
-    if (!user || !profile) {
-        return null;
-    }
+    // Ensure we have a profile object before rendering
+    if (!profile) return null;
 
     const getInitials = () => {
         if (profile.full_name) {
@@ -158,8 +147,8 @@ export default function ProfilePage() {
     };
 
     const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', { 
-            month: 'short', 
+        return new Date(dateString).toLocaleDateString('en-US', {
+            month: 'short',
             day: 'numeric',
             year: 'numeric'
         });
@@ -181,9 +170,9 @@ export default function ProfilePage() {
                     <div className="md:col-span-1 space-y-6">
                         <Card className="bg-card border-border text-center p-6">
                             {profile.avatar_url ? (
-                                <img 
-                                    src={profile.avatar_url} 
-                                    alt={profile.full_name || 'Profile'} 
+                                <img
+                                    src={profile.avatar_url}
+                                    alt={profile.full_name || 'Profile'}
                                     className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                                 />
                             ) : (
@@ -211,8 +200,8 @@ export default function ProfilePage() {
                             <Button variant="ghost" className="w-full justify-start text-foreground hover:bg-muted">
                                 <Settings className="w-4 h-4 mr-2" /> Settings
                             </Button>
-                            <Button 
-                                variant="ghost" 
+                            <Button
+                                variant="ghost"
                                 className="w-full justify-start text-red-400 hover:bg-red-500/10 hover:text-red-500"
                                 onClick={handleLogout}
                             >
