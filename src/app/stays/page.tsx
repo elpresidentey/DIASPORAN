@@ -112,76 +112,86 @@ export default function StaysPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                     >
-                        <Card className="glass-strong border-white/10 max-w-4xl mx-auto">
-                            <CardContent className="p-5">
-                                <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
-                                    <div className="md:col-span-4 space-y-1.5">
-                                        <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                                            <MapPin className="w-3 h-3" /> Location
-                                        </label>
-                                        <Input
-                                            placeholder="Lekki Phase 1, Lagos"
-                                            value={searchParams.city}
-                                            onChange={(e) => setSearchParams(prev => ({ ...prev, city: e.target.value }))}
-                                            className="h-10 text-center md:text-left"
-                                        />
-                                    </div>
-                                    <div className="md:col-span-3 space-y-1.5">
-                                        <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                                            <Calendar className="w-3 h-3" /> Check-in
-                                        </label>
-                                        <Input
-                                            type="date"
-                                            className="h-10 text-center md:text-left [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
-                                            value={searchParams.checkIn}
-                                            onChange={(e) => setSearchParams(prev => ({ ...prev, checkIn: e.target.value }))}
-                                            placeholder="Select date"
-                                        />
-                                    </div>
-                                    <div className="md:col-span-3 space-y-1.5">
-                                        <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                                            <Calendar className="w-3 h-3" /> Check-out
-                                        </label>
-                                        <Input
-                                            type="date"
-                                            className="h-10 text-center md:text-left [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
-                                            value={searchParams.checkOut}
-                                            onChange={(e) => setSearchParams(prev => ({ ...prev, checkOut: e.target.value }))}
-                                            placeholder="Select date"
-                                        />
-                                    </div>
-                                    <div className="md:col-span-2">
-                                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                                            <Button
-                                                className="w-full h-10 bg-pink-700 hover:bg-pink-800 text-white font-semibold shadow-lg shadow-pink-500/30"
-                                                onClick={handleSearch}
-                                                aria-label="Search for accommodations"
-                                            >
-                                                <Search className="w-4 h-4 mr-2" /> Search
-                                            </Button>
-                                        </motion.div>
-                                    </div>
+                        <div className="glass-strong rounded-[2rem] border border-white/10 max-w-5xl mx-auto overflow-hidden shadow-2xl shadow-black/20">
+                            <div className="md:flex items-stretch">
+                                {/* Location Input */}
+                                <div className="flex-1 p-4 md:p-6 md:border-r border-white/5 relative group transition-colors hover:bg-white/5 cursor-pointer">
+                                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1.5">
+                                        <MapPin className="w-3.5 h-3.5 text-pink-500" /> Location
+                                    </label>
+                                    <Input
+                                        placeholder="Where are you going?"
+                                        value={searchParams.city}
+                                        onChange={(e) => setSearchParams(prev => ({ ...prev, city: e.target.value }))}
+                                        className="h-10 text-lg bg-transparent border-0 px-0 placeholder:text-muted-foreground/50 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none w-full text-foreground"
+                                    />
                                 </div>
 
-                                <motion.div
-                                    className="mt-3 flex flex-wrap justify-center gap-2"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 0.4 }}
-                                >
-                                    {["Entire Place", "Private Room", "Hotel", "Verified Host"].map((filter, i) => (
-                                        <motion.div key={filter} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                            <Badge
-                                                variant={i === 0 ? "secondary" : "outline"}
-                                                className={`cursor-pointer ${i === 0 ? "hover:bg-muted" : "hover:bg-muted border-border"}`}
-                                            >
-                                                {filter}
-                                            </Badge>
-                                        </motion.div>
-                                    ))}
+                                {/* Check-in Input */}
+                                <div className="flex-1 p-4 md:p-6 md:border-r border-white/5 relative group transition-colors hover:bg-white/5 cursor-pointer">
+                                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1.5">
+                                        <Calendar className="w-3.5 h-3.5 text-pink-500" /> Check-in
+                                    </label>
+                                    <Input
+                                        type="date"
+                                        className="h-10 text-lg bg-transparent border-0 px-0 text-muted-foreground/80 focus:text-foreground focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none w-full [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                                        value={searchParams.checkIn}
+                                        onChange={(e) => setSearchParams(prev => ({ ...prev, checkIn: e.target.value }))}
+                                        placeholder="Add dates"
+                                    />
+                                    {!searchParams.checkIn && <div className="absolute top-10 pointer-events-none text-lg text-muted-foreground/50">Add dates</div>}
+                                </div>
+
+                                {/* Check-out Input */}
+                                <div className="flex-1 p-4 md:p-6 relative group transition-colors hover:bg-white/5 cursor-pointer">
+                                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1.5">
+                                        <Calendar className="w-3.5 h-3.5 text-pink-500" /> Check-out
+                                    </label>
+                                    <Input
+                                        type="date"
+                                        className="h-10 text-lg bg-transparent border-0 px-0 text-muted-foreground/80 focus:text-foreground focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none w-full [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                                        value={searchParams.checkOut}
+                                        onChange={(e) => setSearchParams(prev => ({ ...prev, checkOut: e.target.value }))}
+                                        placeholder="Add dates"
+                                    />
+                                    {!searchParams.checkOut && <div className="absolute top-10 pointer-events-none text-lg text-muted-foreground/50">Add dates</div>}
+                                </div>
+
+                                {/* Search Button */}
+                                <div className="p-3 md:p-4 flex items-center justify-center bg-white/5 md:bg-transparent">
+                                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full md:w-auto">
+                                        <Button
+                                            className="w-full md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-pink-600 to-purple-700 hover:from-pink-500 hover:to-purple-600 text-white shadow-lg shadow-pink-500/25 border-0 flex items-center justify-center p-0"
+                                            onClick={handleSearch}
+                                            aria-label="Search"
+                                        >
+                                            <Search className="w-7 h-7" />
+                                        </Button>
+                                    </motion.div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <motion.div
+                            className="mt-6 flex flex-wrap justify-center gap-3"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.4 }}
+                        >
+                            {["Entire Place", "Private Room", "Hotel", "Verified Host"].map((filter, i) => (
+                                <motion.div key={filter} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                    <Badge
+                                        variant="outline"
+                                        className={`px-4 py-2 rounded-full text-sm cursor-pointer transition-all ${i === 0
+                                                ? "bg-pink-500/10 text-pink-500 border-pink-500/50 hover:bg-pink-500/20"
+                                                : "bg-secondary/50 text-muted-foreground border-transparent hover:bg-secondary hover:text-foreground"
+                                            }`}
+                                    >
+                                        {filter}
+                                    </Badge>
                                 </motion.div>
-                            </CardContent>
-                        </Card>
+                            ))}
+                        </motion.div>
                     </motion.div>
                 </div>
             </section>

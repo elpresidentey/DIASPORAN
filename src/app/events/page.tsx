@@ -115,29 +115,29 @@ export default function EventsPage() {
 
           {/* Search & Filter */}
           <motion.div
-            className="max-w-3xl mx-auto flex gap-2"
+            className="max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
           >
-            <div className="relative flex-grow">
-              <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+            <div className="glass-strong rounded-full p-2 pl-6 flex items-center border border-white/10 shadow-2xl shadow-orange-500/10 transition-colors hover:bg-white/5 group">
+              <Search className="w-5 h-5 text-muted-foreground mr-3 flex-shrink-0" />
               <Input
-                className="pl-10 h-10 glass border-white/10 text-center md:text-left"
+                className="flex-grow bg-transparent border-0 h-12 text-lg placeholder:text-muted-foreground/50 focus-visible:ring-0 focus-visible:ring-offset-0 px-0"
                 placeholder="Search events, artists, or venues..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               />
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex-shrink-0 ml-2">
+                <Button
+                  className="h-12 px-8 rounded-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white font-semibold shadow-lg shadow-orange-500/30 border-0"
+                  onClick={handleSearch}
+                >
+                  Find Events
+                </Button>
+              </motion.div>
             </div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                className="h-10 bg-orange-700 hover:bg-orange-800 text-white font-semibold shadow-lg shadow-orange-500/30"
-                onClick={handleSearch}
-              >
-                Find Events
-              </Button>
-            </motion.div>
           </motion.div>
 
           <motion.div
