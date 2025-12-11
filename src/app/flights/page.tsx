@@ -273,13 +273,13 @@ function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }
       className="h-full"
     >
       <Card
-        className="h-full overflow-hidden hover:border-purple-500/50 transition-all duration-300 group cursor-pointer border-white/5 bg-black/40 backdrop-blur-md flex flex-col"
+        className="h-full overflow-hidden hover:border-purple-500/50 transition-all duration-300 group cursor-pointer glass border-border/50 flex flex-col"
         onClick={onClick}
       >
         {/* Card Header - Airline & Price */}
-        <div className="p-4 border-b border-white/5 flex justify-between items-center bg-white/5">
+        <div className="p-4 border-b border-border/10 flex justify-between items-center bg-muted/30">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-xs">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-xs shadow-md">
               {flight.airline.charAt(0)}
             </div>
             <div>
@@ -288,7 +288,7 @@ function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }
             </div>
           </div>
           <div className="text-right">
-            <span className="text-lg font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <span className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
               {flight.currency === 'NGN' ? '₦' : flight.currency}{flight.price.toLocaleString()}
             </span>
           </div>
@@ -300,7 +300,7 @@ function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }
             {/* Origin */}
             <div className="text-center w-1/4">
               <div className="text-3xl font-black text-foreground tracking-tight">{flight.origin_airport}</div>
-              <div className="text-sm font-medium text-white/90">{getTime(flight.departure_time)}</div>
+              <div className="text-sm font-medium text-foreground/80">{getTime(flight.departure_time)}</div>
               <div className="text-xs text-muted-foreground">{getDate(flight.departure_time)}</div>
             </div>
 
@@ -309,7 +309,7 @@ function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }
               <div className="text-xs font-medium text-muted-foreground mb-1">{formatDuration(flight.duration_minutes)}</div>
               <div className="w-full flex items-center relative">
                 <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
-                <Plane className="w-5 h-5 text-purple-400 absolute left-1/2 -translate-x-1/2 rotate-90 stroke-[2.5px] drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
+                <Plane className="w-5 h-5 text-purple-500 absolute left-1/2 -translate-x-1/2 rotate-90 stroke-[2.5px] drop-shadow-[0_0_8px_rgba(168,85,247,0.4)]" />
               </div>
               <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1 font-medium">
                 {flight.stops === 0 || !flight.stops ? 'Direct' : `${flight.stops} Stop${flight.stops > 1 ? 's' : ''}`}
@@ -319,7 +319,7 @@ function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }
             {/* Destination */}
             <div className="text-center w-1/4">
               <div className="text-3xl font-black text-foreground tracking-tight">{flight.destination_airport}</div>
-              <div className="text-sm font-medium text-white/90">{getTime(flight.arrival_time)}</div>
+              <div className="text-sm font-medium text-foreground/80">{getTime(flight.arrival_time)}</div>
               <div className="text-xs text-muted-foreground">{getDate(flight.arrival_time)}</div>
             </div>
           </div>
@@ -327,10 +327,10 @@ function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }
 
         {/* Footer Info */}
         <div className="px-5 pb-5 pt-0 mt-auto">
-          <div className="w-full h-px bg-white/5 mb-4"></div>
+          <div className="w-full h-px bg-border/10 mb-4"></div>
 
           <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
-            <Badge variant="outline" className="border-purple-500/30 text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-0.5 h-6">
+            <Badge variant="outline" className="border-purple-500/30 text-purple-600 dark:text-purple-300 bg-purple-500/10 px-3 py-0.5 h-6">
               {flight.class_type}
             </Badge>
             <div className="flex items-center gap-1.5">
@@ -339,7 +339,7 @@ function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }
             </div>
           </div>
 
-          <Button className="w-full bg-white text-black hover:bg-gray-100 font-bold border-0 h-10 shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-transform active:scale-[0.98]">
+          <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold border-0 h-10 shadow-lg shadow-purple-500/20 transition-transform active:scale-[0.98]">
             Select Flight
           </Button>
         </div>
