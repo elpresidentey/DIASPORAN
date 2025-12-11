@@ -27,6 +27,7 @@ interface Flight {
   currency: string;
   class_type: string;
   available_seats: number;
+  stops?: number;
 }
 
 export default function FlightsPage() {
@@ -248,71 +249,99 @@ function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }
     return `${hours}h ${mins}m`;
   };
 
-  const formatDate = (dateString: string) => {
+  const getTime = (dateString: string) => {
+    return new Date(dateString).toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
+  const getDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      day: 'numeric'
     });
   };
 
   return (
     <motion.div
       variants={fadeInUp}
-      whileHover={{ y: -4, scale: 1.01 }}
-      transition={{ duration: 0.2 }}
+      whileHover={{ y: -5, scale: 1.01 }}
+      transition={{ duration: 0.3 }}
+      className="h-full"
     >
       <Card
-        className="hover:border-purple-500/50 transition-colors group cursor-pointer glass"
+        className="h-full overflow-hidden hover:border-purple-500/50 transition-all duration-300 group cursor-pointer border-white/5 bg-black/40 backdrop-blur-md flex flex-col"
         onClick={onClick}
       >
-        <CardContent className="p-5">
-          <div className="flex justify-between items-start mb-4">
-            <div className="bg-muted px-3 py-1 rounded text-xs font-medium text-purple-400 dark:text-purple-300">
-              {flight.airline}
+        {/* Card Header - Airline & Price */}
+        <div className="p-4 border-b border-white/5 flex justify-between items-center bg-white/5">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-xs">
+              {flight.airline.charAt(0)}
             </div>
-            <motion.span
-              className="text-xl font-bold text-foreground"
-              whileHover={{ scale: 1.1 }}
-            >
-              {flight.currency === 'NGN' ? '₦' : flight.currency}{flight.price.toLocaleString()}
-            </motion.span>
-          </div>
-
-          <div className="flex items-center justify-between mb-4 mt-2">
             <div>
-              <div className="text-2xl font-bold">
-                {flight.origin_airport}
-              </div>
-              <div className="text-xs text-muted-foreground">{formatDate(flight.departure_time)}</div>
+              <h3 className="text-sm font-bold text-foreground">{flight.airline}</h3>
+              <p className="text-xs text-muted-foreground">{flight.flight_number}</p>
             </div>
-            <div className="flex flex-col items-center px-4 flex-1">
-              <div className="text-xs text-muted-foreground mb-1">{formatDuration(flight.duration_minutes)}</div>
-              <div className="w-full h-[1px] bg-border relative flex items-center justify-center">
-                <Plane className="w-4 h-4 text-muted-foreground absolute rotate-90" />
-              </div>
-              <div className="text-xs text-purple-400 mt-1">{flight.class_type}</div>
+          </div>
+          <div className="text-right">
+            <span className="text-lg font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              {flight.currency === 'NGN' ? '₦' : flight.currency}{flight.price.toLocaleString()}
+            </span>
+          </div>
+        </div>
+
+        {/* Flight Path Visual */}
+        <div className="p-6 flex-grow flex flex-col justify-center">
+          <div className="flex items-center justify-between">
+            {/* Origin */}
+            <div className="text-center w-1/4">
+              <div className="text-3xl font-black text-foreground tracking-tight">{flight.origin_airport}</div>
+              <div className="text-sm font-medium text-white/90">{getTime(flight.departure_time)}</div>
+              <div className="text-xs text-muted-foreground">{getDate(flight.departure_time)}</div>
             </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold">
-                {flight.destination_airport}
+
+            {/* Path */}
+            <div className="flex-1 flex flex-col items-center px-2">
+              <div className="text-xs font-medium text-muted-foreground mb-1">{formatDuration(flight.duration_minutes)}</div>
+              <div className="w-full flex items-center relative">
+                <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
+                <Plane className="w-5 h-5 text-purple-400 absolute left-1/2 -translate-x-1/2 rotate-90 stroke-[2.5px] drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
               </div>
-              <div className="text-xs text-muted-foreground">{formatDate(flight.arrival_time)}</div>
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1 font-medium">
+                {flight.stops === 0 || !flight.stops ? 'Direct' : `${flight.stops} Stop${flight.stops > 1 ? 's' : ''}`}
+              </div>
+            </div>
+
+            {/* Destination */}
+            <div className="text-center w-1/4">
+              <div className="text-3xl font-black text-foreground tracking-tight">{flight.destination_airport}</div>
+              <div className="text-sm font-medium text-white/90">{getTime(flight.arrival_time)}</div>
+              <div className="text-xs text-muted-foreground">{getDate(flight.arrival_time)}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Info */}
+        <div className="px-5 pb-5 pt-0 mt-auto">
+          <div className="w-full h-px bg-white/5 mb-4"></div>
+
+          <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
+            <Badge variant="outline" className="border-purple-500/30 text-purple-300 bg-purple-500/10 hover:bg-purple-500/20 px-3 py-0.5 h-6">
+              {flight.class_type}
+            </Badge>
+            <div className="flex items-center gap-1.5">
+              <div className={`w-2 h-2 rounded-full ${flight.available_seats < 5 ? 'bg-red-500 animate-pulse' : 'bg-green-500'}`}></div>
+              <span>{flight.available_seats} seats left</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted p-2 rounded mb-4">
-            <Calendar className="w-4 h-4" />
-            {flight.available_seats} seats available
-          </div>
-
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 shadow-lg shadow-purple-500/20">
-              Book Ticket
-            </Button>
-          </motion.div>
-        </CardContent>
+          <Button className="w-full bg-white text-black hover:bg-gray-100 font-bold border-0 h-10 shadow-[0_0_15px_rgba(255,255,255,0.1)] transition-transform active:scale-[0.98]">
+            Select Flight
+          </Button>
+        </div>
       </Card>
     </motion.div>
   );
