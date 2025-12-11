@@ -237,7 +237,7 @@ export default function StaysPage() {
                 itemName={selectedStay?.name || ""}
                 itemPrice={selectedStay?.price_per_night || 0}
                 itemCurrency={selectedStay?.currency}
-                itemImage={selectedStay?.images[0]}
+                itemImage={selectedStay?.images?.[0]}
                 itemDetails={{
                     location: selectedStay ? `${selectedStay.city}, ${selectedStay.country}` : "",
                     guests: selectedStay?.max_guests,
@@ -251,7 +251,7 @@ export default function StaysPage() {
 }
 
 function StayCard({ stay, onClick }: { stay: Accommodation; onClick: () => void }) {
-    const image = stay.images[0] || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070&auto=format&fit=crop";
+    const image = stay.images?.[0] || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070&auto=format&fit=crop";
 
     return (
         <motion.div
