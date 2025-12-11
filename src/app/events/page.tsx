@@ -120,18 +120,18 @@ export default function EventsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
           >
-            <div className="glass-strong rounded-full p-2 pl-6 flex items-center border border-white/10 shadow-2xl shadow-orange-500/10 transition-colors hover:bg-white/5 group">
-              <Search className="w-5 h-5 text-muted-foreground mr-3 flex-shrink-0" />
+            <div className="glass-strong rounded-full p-3 pl-8 flex items-center border border-white/10 shadow-2xl shadow-orange-500/10 transition-colors hover:bg-white/5 group">
+              <Search className="w-6 h-6 text-muted-foreground mr-4 flex-shrink-0" />
               <Input
-                className="flex-grow bg-transparent border-0 h-12 text-lg placeholder:text-muted-foreground/50 focus-visible:ring-0 focus-visible:ring-offset-0 px-0"
+                className="flex-grow bg-transparent border-0 h-14 text-xl placeholder:text-muted-foreground/50 focus-visible:ring-0 focus-visible:ring-offset-0 px-0 font-medium"
                 placeholder="Search events, artists, or venues..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               />
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex-shrink-0 ml-2">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex-shrink-0 ml-3">
                 <Button
-                  className="h-12 px-8 rounded-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white font-semibold shadow-lg shadow-orange-500/30 border-0"
+                  className="h-14 px-10 rounded-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white font-bold text-lg shadow-lg shadow-orange-500/30 border-0"
                   onClick={handleSearch}
                 >
                   Find Events
