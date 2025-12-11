@@ -80,9 +80,9 @@ export default function EventsPage() {
   }
 
   // Calculate price for selected event
-  const selectedEventPrice = selectedEvent && selectedEvent.ticket_types.length > 0
+  const selectedEventPrice = selectedEvent && selectedEvent.ticket_types?.length > 0
     ? Math.min(...selectedEvent.ticket_types.map((t: any) => t.price))
-    : 0;
+    : (selectedEvent as any)?.price || 0;
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -212,7 +212,7 @@ export default function EventsPage() {
         itemName={selectedEvent?.title || ""}
         itemPrice={selectedEventPrice}
         itemCurrency="NGN" // Assuming NGN for local events
-        itemImage={selectedEvent?.images[0]}
+        itemImage={selectedEvent?.images?.[0]}
         itemDetails={{
           location: selectedEvent?.location,
           date: selectedEvent?.start_date ? new Date(selectedEvent.start_date).toLocaleDateString() : "",
@@ -225,13 +225,13 @@ export default function EventsPage() {
 
 function EventCard({ event, onBook }: { event: Event; onBook: () => void }) {
   const router = useRouter();
-  const image = event.images[0] || "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=2070&auto=format&fit=crop";
+  const image = event.images?.[0] || "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=2070&auto=format&fit=crop";
   const startDate = new Date(event.start_date);
   const formattedDate = startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   const formattedTime = startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-  const minPrice = event.ticket_types.length > 0
+  const minPrice = event.ticket_types?.length > 0
     ? Math.min(...event.ticket_types.map((t: any) => t.price))
-    : 0;
+    : (event as any).price || 0;
 
   const handleCardClick = (e: React.MouseEvent) => {
     // If the click is not on the button, navigate

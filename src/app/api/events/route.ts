@@ -88,10 +88,14 @@ const MOCK_EVENTS = [
     end_date: new Date(Date.now() + 86400000 * 7).toISOString(),
     price: 45000,
     currency: 'NGN',
-    image_url: 'https://images.unsplash.com/photo-1459749411177-287ce3274392?q=80&w=2070&auto=format&fit=crop',
+    images: ['https://images.unsplash.com/photo-1459749411177-287ce3274392?q=80&w=2070&auto=format&fit=crop'],
     category: 'Music',
     organizer_id: 'org-1',
     available_tickets: 5000,
+    ticket_types: [
+      { name: 'Regular', price: 45000, currency: 'NGN' },
+      { name: 'VIP', price: 150000, currency: 'NGN' }
+    ],
     created_at: new Date().toISOString()
   },
   {
@@ -105,10 +109,14 @@ const MOCK_EVENTS = [
     end_date: new Date(Date.now() + 86400000 * 13).toISOString(),
     price: 25000,
     currency: 'NGN',
-    image_url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2076&auto=format&fit=crop',
+    images: ['https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2076&auto=format&fit=crop'],
     category: 'Fashion',
     organizer_id: 'org-2',
     available_tickets: 1200,
+    ticket_types: [
+      { name: 'Standard', price: 25000, currency: 'NGN' },
+      { name: 'Front Row', price: 100000, currency: 'NGN' }
+    ],
     created_at: new Date().toISOString()
   },
   {
@@ -122,10 +130,14 @@ const MOCK_EVENTS = [
     end_date: new Date(Date.now() + 86400000 * 16).toISOString(),
     price: 15000,
     currency: 'NGN',
-    image_url: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=2012&auto=format&fit=crop',
+    images: ['https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=2012&auto=format&fit=crop'],
     category: 'Technology',
     organizer_id: 'org-3',
     available_tickets: 3000,
+    ticket_types: [
+      { name: 'General Admission', price: 15000, currency: 'NGN' },
+      { name: 'Developer', price: 25000, currency: 'NGN' }
+    ],
     created_at: new Date().toISOString()
   },
   {
@@ -139,10 +151,14 @@ const MOCK_EVENTS = [
     end_date: new Date(Date.now() + 86400000 * 3).toISOString(),
     price: 5000,
     currency: 'NGN',
-    image_url: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1974&auto=format&fit=crop',
+    images: ['https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1974&auto=format&fit=crop'],
     category: 'Food & Drink',
     organizer_id: 'org-4',
     available_tickets: 2000,
+    ticket_types: [
+      { name: 'Entry', price: 5000, currency: 'NGN' },
+      { name: 'VIP Tasting', price: 20000, currency: 'NGN' }
+    ],
     created_at: new Date().toISOString()
   }
 ];
