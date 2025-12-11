@@ -8,6 +8,7 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ErrorDisplay } from "@/components/ui/ErrorDisplay";
 import { ListSkeleton } from "@/components/ui/ListingSkeleton";
 import { PaymentDialog } from "@/components/ui/PaymentDialog";
+import { Badge } from "@/components/ui/Badge";
 import { Plane, Calendar, MapPin, Search } from "lucide-react";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
