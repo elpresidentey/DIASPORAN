@@ -69,7 +69,7 @@ export default function TransportPage() {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-black pb-20">
+            <div className="min-h-screen bg-background pb-20">
                 <section className="relative py-20 px-4">
                     <div className="container mx-auto max-w-5xl">
                         <ErrorDisplay
@@ -88,17 +88,17 @@ export default function TransportPage() {
     }
 
     return (
-        <div className="min-h-screen bg-black pb-20">
+        <div className="min-h-screen bg-background pb-20">
             {/* Hero Section */}
-            <section className="relative py-20 px-4">
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20 pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-b from-black via-black/60 to-black pointer-events-none" />
+            <section className="relative py-20 px-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20 dark:opacity-10" />
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-slate-900/80 dark:from-black/80 dark:via-black/60 dark:to-black/80" />
 
                 <div className="relative z-10 container mx-auto max-w-5xl text-center">
-                    <h1 className="text-4xl md:text-6xl font-bold mb-4">
+                    <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white">
                         Move Around <span className="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">Safely</span>
                     </h1>
-                    <p className="text-gray-400 text-lg mb-8">
+                    <p className="text-gray-200 dark:text-gray-300 text-lg mb-8">
                         Reliable transportation options for your daily commute and airport pickups.
                     </p>
                 </div>
@@ -108,7 +108,7 @@ export default function TransportPage() {
             <section className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                     {/* Ride Hailing */}
-                    <Card className="bg-black/40 border-white/10">
+                    <Card className="bg-card border-border">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Car className="w-6 h-6 text-green-500" /> Ride Hailing
@@ -116,32 +116,32 @@ export default function TransportPage() {
                             <CardDescription>Request a ride instantly from top providers.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/5 hover:border-green-500/30 transition-colors">
+                            <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg border border-border hover:border-green-500/30 transition-colors">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center font-bold text-white border border-white/10">UB</div>
+                                    <div className="w-10 h-10 bg-foreground rounded-full flex items-center justify-center font-bold text-background border border-border">UB</div>
                                     <div>
-                                        <div className="font-bold text-white">Uber</div>
-                                        <div className="text-xs text-gray-400">Reliable rides</div>
+                                        <div className="font-bold text-foreground">Uber</div>
+                                        <div className="text-xs text-muted-foreground">Reliable rides</div>
                                     </div>
                                 </div>
-                                <Button size="sm" className="bg-white text-black hover:bg-gray-200">Open App</Button>
+                                <Button size="sm" variant="secondary">Open App</Button>
                             </div>
 
-                            <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/5 hover:border-green-500/30 transition-colors">
+                            <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg border border-border hover:border-green-500/30 transition-colors">
                                 <div className="flex items-center gap-3">
                                     <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center font-bold text-white">B</div>
                                     <div>
-                                        <div className="font-bold text-white">Bolt</div>
-                                        <div className="text-xs text-gray-400">Fast & affordable</div>
+                                        <div className="font-bold text-foreground">Bolt</div>
+                                        <div className="text-xs text-muted-foreground">Fast & affordable</div>
                                     </div>
                                 </div>
-                                <Button size="sm" className="bg-green-500 hover:bg-green-600 text-white border-0">Open App</Button>
+                                <Button size="sm" className="bg-green-500 hover:bg-green-600 text-white">Open App</Button>
                             </div>
                         </CardContent>
                     </Card>
 
                     {/* Airport Pickup */}
-                    <Card className="bg-black/40 border-white/10">
+                    <Card className="bg-card border-border">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Users className="w-6 h-6 text-blue-500" /> Airport Pickup
@@ -154,7 +154,7 @@ export default function TransportPage() {
                                     <Shield className="w-5 h-5 text-blue-400 mt-1" />
                                     <div>
                                         <h4 className="font-bold text-blue-400 mb-1">Verified Drivers</h4>
-                                        <p className="text-sm text-gray-400">All our airport pickup partners are vetted for safety and reliability.</p>
+                                        <p className="text-sm text-muted-foreground">All our airport pickup partners are vetted for safety and reliability.</p>
                                     </div>
                                 </div>
                             </div>
@@ -167,27 +167,27 @@ export default function TransportPage() {
 
                 {/* Available Transport Routes */}
                 {transportOptions.length > 0 ? (
-                    <Card className="bg-black/40 border-white/10">
+                    <Card className="bg-card border-border">
                         <CardHeader>
                             <CardTitle>Available Routes</CardTitle>
                             <CardDescription>Pre-scheduled transport services</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-3">
                             {transportOptions.map((option) => (
-                                <div key={option.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/5 hover:border-blue-500/30 transition-colors">
+                                <div key={option.id} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg border border-border hover:border-blue-500/30 transition-colors">
                                     <div className="flex-1">
-                                        <div className="font-bold text-white">{option.route_name}</div>
-                                        <div className="text-sm text-gray-400 flex items-center gap-2 mt-1">
+                                        <div className="font-bold text-foreground">{option.route_name}</div>
+                                        <div className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
                                             <MapPin className="w-3 h-3" />
                                             {option.origin} → {option.destination}
                                         </div>
-                                        <div className="text-xs text-gray-500 mt-1">
+                                        <div className="text-xs text-muted-foreground mt-1">
                                             {option.transport_type} • {option.available_seats} seats available
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-lg font-bold text-white">{option.currency === 'NGN' ? '₦' : option.currency}{option.price.toLocaleString()}</div>
-                                        <Button size="sm" variant="outline" className="mt-2 border-white/10">
+                                        <div className="text-lg font-bold text-foreground">{option.currency === 'NGN' ? '₦' : option.currency}{option.price.toLocaleString()}</div>
+                                        <Button size="sm" variant="outline" className="mt-2">
                                             Book Now
                                         </Button>
                                     </div>
