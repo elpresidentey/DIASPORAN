@@ -193,11 +193,11 @@ export async function GET(request: NextRequest) {
       }
 
       if (filters.rating) {
-        filteredEvents = filteredEvents.filter(event => event.rating >= filters.rating!)
+        filteredEvents = filteredEvents.filter(event => event.average_rating >= filters.rating!)
       }
 
       if (filters.hasAvailability) {
-        filteredEvents = filteredEvents.filter(event => event.available_tickets > 0)
+        filteredEvents = filteredEvents.filter(event => event.available_spots > 0)
       }
 
       if (filters.startDate) {

@@ -185,7 +185,7 @@ export async function GET(request: NextRequest) {
       }
 
       if (filters.rating) {
-        filteredStays = filteredStays.filter(stay => stay.rating >= filters.rating!)
+        filteredStays = filteredStays.filter(stay => stay.average_rating >= filters.rating!)
       }
 
       if (filters.bedrooms) {
