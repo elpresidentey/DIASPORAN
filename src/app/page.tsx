@@ -157,8 +157,8 @@ export default function HomePage() {
               ease: "easeInOut",
             }}
           >
-            <div className="w-16 h-16 bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-gray-200/20 dark:border-gray-700/20">
-              <Plane className="w-8 h-8 text-gray-600 dark:text-gray-400" />
+            <div className="w-16 h-16 bg-white/10 dark:bg-gray-800/30 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-gray-200/20 dark:border-gray-600/30">
+              <Plane className="w-8 h-8 text-gray-700 dark:text-gray-300" />
             </div>
           </motion.div>
           
@@ -175,8 +175,8 @@ export default function HomePage() {
               delay: 1,
             }}
           >
-            <div className="w-14 h-14 bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-gray-200/20 dark:border-gray-700/20">
-              <Music className="w-7 h-7 text-gray-600 dark:text-gray-400" />
+            <div className="w-14 h-14 bg-white/10 dark:bg-gray-800/30 backdrop-blur-sm rounded-xl flex items-center justify-center border border-gray-200/20 dark:border-gray-600/30">
+              <Music className="w-7 h-7 text-gray-700 dark:text-gray-300" />
             </div>
           </motion.div>
           
@@ -193,8 +193,8 @@ export default function HomePage() {
               delay: 2,
             }}
           >
-            <div className="w-12 h-12 bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm rounded-lg flex items-center justify-center border border-gray-200/20 dark:border-gray-700/20">
-              <Hotel className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+            <div className="w-12 h-12 bg-white/10 dark:bg-gray-800/30 backdrop-blur-sm rounded-lg flex items-center justify-center border border-gray-200/20 dark:border-gray-600/30">
+              <Hotel className="w-6 h-6 text-gray-700 dark:text-gray-300" />
             </div>
           </motion.div>
 
@@ -211,8 +211,8 @@ export default function HomePage() {
               delay: 0.5,
             }}
           >
-            <div className="w-10 h-10 bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-gray-200/20 dark:border-gray-700/20">
-              <MapPin className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <div className="w-10 h-10 bg-white/10 dark:bg-gray-800/30 backdrop-blur-sm rounded-full flex items-center justify-center border border-gray-200/20 dark:border-gray-600/30">
+              <MapPin className="w-5 h-5 text-gray-700 dark:text-gray-300" />
             </div>
           </motion.div>
         </div>
@@ -232,7 +232,7 @@ export default function HomePage() {
               transition={{ duration: 0.5, delay: 0 }}
             >
               <motion.div 
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-slate-700 relative overflow-hidden group cursor-default"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-slate-600 relative overflow-hidden group cursor-default"
                 whileHover={{ 
                   scale: 1.05,
                   boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
@@ -303,13 +303,13 @@ export default function HomePage() {
                   ))}
                 </motion.span>
                 <motion.span 
-                  className="block text-slate-700 dark:text-slate-100 text-2xl md:text-3xl lg:text-4xl mt-4"
+                  className="block text-gray-800 dark:text-gray-100 text-2xl md:text-3xl lg:text-4xl mt-4"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, delay: 1.0 }}
                 >
                   <motion.span
-                    className="inline-block"
+                    className="inline-block dark:hidden"
                     animate={{
                       backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
                     }}
@@ -319,7 +319,27 @@ export default function HomePage() {
                       ease: "easeInOut",
                     }}
                     style={{
-                      background: "linear-gradient(90deg, #374151, #6b7280, #374151)",
+                      background: "linear-gradient(90deg, #1f2937, #374151, #1f2937)",
+                      backgroundSize: "200% 100%",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    Book flights, stays, events & more
+                  </motion.span>
+                  <motion.span
+                    className="hidden dark:inline-block"
+                    animate={{
+                      backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    style={{
+                      background: "linear-gradient(90deg, #f9fafb, #e5e7eb, #f9fafb)",
                       backgroundSize: "200% 100%",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
@@ -448,16 +468,16 @@ export default function HomePage() {
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 text-amber-400 fill-current" />
                   ))}
-                  <span className="ml-1 text-sm text-gray-600 dark:text-gray-400">4.9/5</span>
+                  <span className="ml-1 text-sm text-gray-700 dark:text-gray-300">4.9/5</span>
                 </div>
                 <div className="h-4 w-px bg-gray-300 dark:bg-gray-700"></div>
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <Users className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                  <Users className="w-4 h-4 text-gray-800 dark:text-gray-200" />
                   <span>50K+ Travelers</span>
                 </div>
                 <div className="h-4 w-px bg-gray-300 dark:bg-gray-700"></div>
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <CheckCircle className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                  <CheckCircle className="w-4 h-4 text-gray-800 dark:text-gray-200" />
                   <span>24/7 Support</span>
                 </div>
               </div>
@@ -474,10 +494,10 @@ export default function HomePage() {
             smoothScrollTo('#stats', { duration: 600, offset: 80 });
           }}
         >
-          <span className="text-sm text-gray-600 dark:text-gray-400 mb-2 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Scroll to explore</span>
-          <div className="w-8 h-12 border-2 border-gray-400 dark:border-gray-600 rounded-full flex justify-center p-1 group-hover:border-gray-600 dark:group-hover:border-gray-400 transition-colors">
+          <span className="text-sm text-gray-700 dark:text-gray-300 mb-2 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Scroll to explore</span>
+          <div className="w-8 h-12 border-2 border-gray-500 dark:border-gray-500 rounded-full flex justify-center p-1 group-hover:border-gray-700 dark:group-hover:border-gray-300 transition-colors">
             <motion.div
-              className="w-1 h-3 bg-gray-500 dark:bg-gray-400 rounded-full"
+              className="w-1 h-3 bg-gray-600 dark:bg-gray-300 rounded-full"
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             />
