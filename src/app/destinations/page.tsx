@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/Button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card"
+import { PaymentDialog } from "@/components/ui/PaymentDialog"
 import { MapPin, Star, Camera, Users, Clock, ArrowRight, Plane, Calendar } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
@@ -110,6 +111,9 @@ const destinations: Destination[] = [
 
 export default function DestinationsPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedDestination, setSelectedDestination] = useState<Destination | null>(null);
+  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const [bookingType, setBookingType] = useState<"flight" | "stay">("stay");
 
   const categories = [
     { id: "all", label: "All Destinations" },
@@ -118,6 +122,18 @@ export default function DestinationsPage() {
     { id: "southern-africa", label: "Southern Africa" },
     { id: "north-africa", label: "North Africa" }
   ];
+
+  const handleBookFlight = (destination: Destination) => {
+    setSelectedDestination(destination);
+    setBookingType("flight");
+    setIsPaymentOpen(true);
+  };
+
+  const handleBookStay = (destination: Destination) => {
+    setSelectedDestination(destination);
+    setBookingType("stay");
+    setIsPaymentOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -205,18 +221,24 @@ export default function DestinationsPage() {
                     <div className="font-bold text-lg">₦{destination.flightPrice.toLocaleString()}</div>
                   </div>
                   <div className="flex gap-2">
-                    <Link href={`/flights?destination=${destination.name}`}>
-                      <Button size="sm" variant="outline" className="gap-1">
-                        <Plane className="w-3 h-3" />
-                        Flights
-                      </Button>
-                    </Link>
-                    <Link href={`/stays?destination=${destination.name}`}>
-                      <Button size="sm" variant="primary" className="gap-1">
-                        <Calendar className="w-3 h-3" />
-                        Book Stay
-                      </Button>
-                    </Link>
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      className="gap-1"
+                      onClick={() => handleBookFlight(destination)}
+                    >
+                      <Plane className="w-3 h-3" />
+                      Book Flight
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="primary" 
+                      className="gap-1"
+                      onClick={() => handleBookStay(destination)}
+                    >
+                      <Calendar className="w-3 h-3" />
+                      Book Stay
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -276,6 +298,21 @@ export default function DestinationsPage() {
           </div>
         </div>
       </section>
+
+      {/* Payment Dialog */}
+      <PaymentDialog
+        isOpen={isPaymentOpen}
+        onClose={() => setIsPaymentOpen(false)}
+        itemType={bookingType}
+        itemName={selectedDestination?.name || ""}
+        itemPrice={bookingType === "flight" ? selectedDestination?.flightPrice || 0 : (selectedDestination?.flightPrice || 0) * 0.6} // Stay price is roughly 60% of flight price
+        itemCurrency="NGN"
+        itemImage={selectedDestination?.image}
+        itemDetails={{
+          location: selectedDestination ? `${selectedDestination.name}, ${selectedDestination.country}` : "",
+          duration: selectedDestination?.bestTime,
+        }}
+      />
     </div>
   )
 }
