@@ -54,7 +54,7 @@ export default function Footer() {
             <div className="absolute inset-0 dot-pattern opacity-30" />
 
             {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/5 to-background/50" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-muted/5 to-background/50" />
 
             <div className="relative z-10 container mx-auto px-4 py-16">
                 {/* Top Section */}
@@ -72,7 +72,7 @@ export default function Footer() {
                                 onClick={handleLogoClick}
                                 className="flex items-center gap-3 mb-6 w-fit hover:opacity-80 transition-opacity cursor-pointer"
                             >
-                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-glow-purple flex-shrink-0">
+                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-glow-neutral flex-shrink-0">
                                     <span className="text-white font-bold text-2xl leading-none">D</span>
                                 </div>
                                 <span className="text-2xl font-bold text-gradient-rainbow leading-none">
@@ -85,11 +85,11 @@ export default function Footer() {
 
                             {/* Contact Info */}
                             <div className="space-y-3">
-                                <a href="mailto:hello@diasporan.com" className="flex items-center gap-3 text-muted-foreground hover:text-purple-400 transition-colors">
+                                <a href="mailto:hello@diasporan.com" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
                                     <Mail className="w-5 h-5" />
                                     <span>hello@diasporan.com</span>
                                 </a>
-                                <a href="tel:+2341234567890" className="flex items-center gap-3 text-muted-foreground hover:text-purple-400 transition-colors">
+                                <a href="tel:+2341234567890" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
                                     <Phone className="w-5 h-5" />
                                     <span>+234 123 456 7890</span>
                                 </a>
@@ -114,7 +114,7 @@ export default function Footer() {
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="text-muted-foreground hover:text-purple-400 transition-colors inline-block hover:translate-x-1 transform duration-200"
+                                        className="text-muted-foreground hover:text-primary transition-colors inline-block hover:translate-x-1 transform duration-200"
                                     >
                                         {link.label}
                                     </Link>
@@ -136,7 +136,7 @@ export default function Footer() {
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="text-muted-foreground hover:text-purple-400 transition-colors inline-block hover:translate-x-1 transform duration-200"
+                                        className="text-muted-foreground hover:text-primary transition-colors inline-block hover:translate-x-1 transform duration-200"
                                     >
                                         {link.label}
                                     </Link>
@@ -158,7 +158,7 @@ export default function Footer() {
                                 <li key={link.href}>
                                     <Link
                                         href={link.href}
-                                        className="text-muted-foreground hover:text-purple-400 transition-colors inline-block hover:translate-x-1 transform duration-200"
+                                        className="text-muted-foreground hover:text-primary transition-colors inline-block hover:translate-x-1 transform duration-200"
                                     >
                                         {link.label}
                                     </Link>
@@ -229,10 +229,10 @@ export default function Footer() {
                             <input
                                 type="email"
                                 placeholder="Enter your email"
-                                className="flex-1 px-4 py-3 rounded-lg bg-background/50 border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                                className="flex-1 px-4 py-3 rounded-lg bg-background/50 border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                             />
                             <motion.button
-                                className="px-6 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold shadow-glow-purple hover:shadow-glow-pink transition-all"
+                                className="px-6 py-3 rounded-lg bg-gradient-to-r from-primary to-accent text-white font-semibold shadow-glow-neutral hover:shadow-glow-subtle transition-all"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >

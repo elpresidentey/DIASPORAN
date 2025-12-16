@@ -99,7 +99,7 @@ export default function StaysPage() {
                         transition={{ duration: 0.6 }}
                     >
                         <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                            Find Your <span className="bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">Sanctuary</span>
+                            Find Your <span className="text-gray-700 dark:text-gray-300">Sanctuary</span>
                         </h1>
                         <p className="text-muted-foreground text-lg">
                             Discover verified apartments, hotels, and shortlets for your stay.
@@ -153,7 +153,7 @@ export default function StaysPage() {
                                     <div className="md:col-span-2">
                                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                                             <Button
-                                                className="w-full h-10 bg-pink-700 hover:bg-pink-800 text-white font-semibold shadow-lg shadow-pink-500/30"
+                                                className="w-full h-10 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 font-semibold"
                                                 onClick={handleSearch}
                                                 aria-label="Search for accommodations"
                                             >
@@ -205,8 +205,8 @@ export default function StaysPage() {
                         title="No Accommodations Found"
                         message="We couldn't find any stays matching your search. Try different dates or locations."
                         illustration={
-                            <div className="mb-6 flex items-center justify-center w-24 h-24 rounded-full bg-pink-500/10">
-                                <Home className="w-12 h-12 text-pink-500" />
+                            <div className="mb-6 flex items-center justify-center w-24 h-24 rounded-full bg-gray-100 dark:bg-gray-800">
+                                <Home className="w-12 h-12 text-gray-600 dark:text-gray-400" />
                             </div>
                         }
                         action={{
@@ -237,7 +237,7 @@ export default function StaysPage() {
                 itemName={selectedStay?.name || ""}
                 itemPrice={selectedStay?.price_per_night || 0}
                 itemCurrency={selectedStay?.currency}
-                itemImage={selectedStay?.images[0]}
+                itemImage={selectedStay?.images && selectedStay.images[0]}
                 itemDetails={{
                     location: selectedStay ? `${selectedStay.city}, ${selectedStay.country}` : "",
                     guests: selectedStay?.max_guests,
@@ -251,7 +251,7 @@ export default function StaysPage() {
 }
 
 function StayCard({ stay, onClick }: { stay: Accommodation; onClick: () => void }) {
-    const image = stay.images[0] || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070&auto=format&fit=crop";
+    const image = (stay.images && stay.images[0]) || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070&auto=format&fit=crop";
 
     return (
         <motion.div
@@ -262,7 +262,7 @@ function StayCard({ stay, onClick }: { stay: Accommodation; onClick: () => void 
         >
             <Card
                 onClick={onClick}
-                className="overflow-hidden hover:border-pink-500/50 transition-all duration-300 group cursor-pointer glass h-full flex flex-col"
+                className="overflow-hidden hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-300 group cursor-pointer glass h-full flex flex-col"
             >
                 <div className="relative h-64 overflow-hidden flex-shrink-0">
                     <motion.img
@@ -281,7 +281,7 @@ function StayCard({ stay, onClick }: { stay: Accommodation; onClick: () => void 
                 <CardContent className="p-5 flex flex-col flex-grow">
                     <div className="flex justify-between items-start mb-2">
                         <div className="flex-grow min-w-0">
-                            <h3 className="text-xl font-bold text-foreground group-hover:text-pink-400 transition-colors truncate">{stay.name}</h3>
+                            <h3 className="text-xl font-bold text-foreground group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors truncate">{stay.name}</h3>
                             <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
                                 <MapPin className="w-3 h-3 flex-shrink-0" />
                                 <span className="truncate">{stay.city}, {stay.country}</span>
@@ -294,9 +294,9 @@ function StayCard({ stay, onClick }: { stay: Accommodation; onClick: () => void 
                     </div>
 
                     <div className="flex gap-4 my-4 text-muted-foreground text-xs h-5">
-                        {stay.amenities.includes('wifi') && <div className="flex items-center gap-1"><Wifi className="w-3 h-3" /> Fast Wifi</div>}
-                        {stay.amenities.includes('parking') && <div className="flex items-center gap-1"><Car className="w-3 h-3" /> Parking</div>}
-                        {stay.amenities.includes('breakfast') && <div className="flex items-center gap-1"><Coffee className="w-3 h-3" /> Breakfast</div>}
+                        {stay.amenities && stay.amenities.includes('wifi') && <div className="flex items-center gap-1"><Wifi className="w-3 h-3" /> Fast Wifi</div>}
+                        {stay.amenities && stay.amenities.includes('parking') && <div className="flex items-center gap-1"><Car className="w-3 h-3" /> Parking</div>}
+                        {stay.amenities && stay.amenities.includes('breakfast') && <div className="flex items-center gap-1"><Coffee className="w-3 h-3" /> Breakfast</div>}
                     </div>
 
                     <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
@@ -310,7 +310,7 @@ function StayCard({ stay, onClick }: { stay: Accommodation; onClick: () => void 
                             <span className="text-sm text-muted-foreground"> / night</span>
                         </div>
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                            <Button size="sm" className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white border-0">
+                            <Button size="sm" className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 border-0">
                                 Book Now
                             </Button>
                         </motion.div>

@@ -52,7 +52,7 @@ describe('Enhanced Button Component', () => {
     
     // Check focus-visible ring
     expect(button.className).toContain('focus-visible:ring-2');
-    expect(button.className).toContain('focus-visible:ring-purple-500');
+    expect(button.className).toContain('focus-visible:ring-sky-500');
     
     // Check disabled state
     rerender(<Button disabled>Disabled</Button>);

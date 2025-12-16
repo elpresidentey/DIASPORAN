@@ -21,6 +21,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
 
   useEffect(() => {
+    // Check if Supabase is configured
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const isSupabaseConfigured = supabaseUrl && 
+      supabaseKey && 
+      !supabaseUrl.includes('placeholder') && 
+      !supabaseUrl.includes('xxxxxxxxx') &&
+      !supabaseKey.includes('placeholder') &&
+      supabaseUrl !== 'https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.supabase.co'
+
+    if (!isSupabaseConfigured) {
+      // Mock authentication - check localStorage
+      console.log('[AuthContext] Using mock authentication - Supabase not configured')
+      
+      const storedUser = localStorage.getItem('mock-auth-user')
+      const storedSession = localStorage.getItem('mock-auth-session')
+      
+      if (storedUser && storedSession) {
+        const mockUser = JSON.parse(storedUser)
+        const mockSession = JSON.parse(storedSession)
+        setUser(mockUser)
+        setSession(mockSession)
+      }
+      
+      setLoading(false)
+      return
+    }
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);

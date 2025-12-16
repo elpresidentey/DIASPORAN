@@ -129,13 +129,14 @@ export const ThemeToggle = React.forwardRef<HTMLDivElement, ThemeToggleProps>(
       <div ref={ref} className={cn('relative', className)}>
         <motion.button
           ref={buttonRef}
-          className="flex items-center justify-center w-10 h-10 min-w-[44px] min-h-[44px] rounded-full bg-transparent hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-background"
+          className="flex items-center justify-center w-10 h-10 min-w-[44px] min-h-[44px] rounded-full bg-transparent hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           style={{ minWidth: 44, minHeight: 44 }}
           onClick={() => setIsOpen(!isOpen)}
           onKeyDown={handleKeyDown}
           aria-expanded={isOpen}
           aria-haspopup="menu"
-          aria-label="Toggle theme"
+          aria-controls="theme-menu"
+          aria-label={`Toggle theme (current: ${currentTheme.label})`}
           title="Change theme"
         >
           <AnimatePresence mode="wait">
@@ -150,7 +151,7 @@ export const ThemeToggle = React.forwardRef<HTMLDivElement, ThemeToggleProps>(
               {theme === 'light' ? (
                 <Sun className="w-5 h-5 text-yellow-500" />
               ) : theme === 'dark' ? (
-                <Moon className="w-5 h-5 text-purple-400" />
+                <Moon className="w-5 h-5 text-muted-foreground" />
               ) : (
                 <Monitor className="w-5 h-5 text-muted-foreground" />
               )}
@@ -167,7 +168,9 @@ export const ThemeToggle = React.forwardRef<HTMLDivElement, ThemeToggleProps>(
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
               transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
               className="absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-md bg-popover p-2 shadow-lg ring-1 ring-border/20 focus:outline-none"
+              id="theme-menu"
               role="menu"
+              aria-label="Theme selection menu"
               aria-orientation="vertical"
               aria-labelledby="theme-menu-button"
               tabIndex={-1}
@@ -193,7 +196,7 @@ export const ThemeToggle = React.forwardRef<HTMLDivElement, ThemeToggleProps>(
                         'text-left text-sm transition-colors duration-150',
                         'focus-visible:outline-none focus-visible:bg-white/10',
                         isSelected
-                          ? 'bg-purple-600/20 text-white'
+                          ? 'bg-primary/20 text-white'
                           : 'text-gray-300 hover:bg-white/5 hover:text-white'
                       )}
                       tabIndex={0}
@@ -206,7 +209,7 @@ export const ThemeToggle = React.forwardRef<HTMLDivElement, ThemeToggleProps>(
                       <span
                         className={cn(
                           'flex items-center justify-center',
-                          isSelected ? 'text-purple-400' : 'text-gray-400'
+                          isSelected ? 'text-primary' : 'text-gray-400'
                         )}
                         aria-hidden="true"
                       >
@@ -221,7 +224,7 @@ export const ThemeToggle = React.forwardRef<HTMLDivElement, ThemeToggleProps>(
                           initial={{ scale: 0, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           transition={{ duration: 0.2 }}
-                          className="text-purple-400"
+                          className="text-primary"
                         >
                           <Check className="h-4 w-4" />
                         </motion.span>

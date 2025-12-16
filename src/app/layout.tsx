@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from 'next/font/google';
+import { Cabin } from 'next/font/google';
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -12,11 +12,11 @@ import { QueryProvider } from "@/components/QueryProvider";
 import { DataPrefetcher } from "@/components/DataPrefetcher";
 
 // Optimize font loading
-const inter = Inter({
+const cabin = Cabin({
   subsets: ['latin'],
   display: 'swap', // Prevents FOIT (Flash of Invisible Text)
   preload: true,
-  variable: '--font-inter',
+  variable: '--font-cabin',
 });
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html lang="en" suppressHydrationWarning className={cabin.variable}>
       <head>
         <meta name="theme-color" content="#0f0f23" />
         {/* Preconnect to external domains */}

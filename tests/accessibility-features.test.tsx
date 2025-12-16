@@ -43,7 +43,7 @@ describe('Accessibility Features - Task 13', () => {
         </ThemeProvider>
       );
 
-      const button = screen.getByRole('button', { name: /change theme/i });
+      const button = screen.getByRole('button', { name: /toggle theme/i });
       
       // Press Enter to open menu
       fireEvent.keyDown(button, { key: 'Enter' });
@@ -60,7 +60,7 @@ describe('Accessibility Features - Task 13', () => {
         </ThemeProvider>
       );
 
-      const button = screen.getByRole('button', { name: /change theme/i });
+      const button = screen.getByRole('button', { name: /toggle theme/i });
       
       // Press Space to open menu
       fireEvent.keyDown(button, { key: ' ' });
@@ -77,7 +77,7 @@ describe('Accessibility Features - Task 13', () => {
         </ThemeProvider>
       );
 
-      const button = screen.getByRole('button', { name: /change theme/i });
+      const button = screen.getByRole('button', { name: /toggle theme/i });
       
       // Open menu
       fireEvent.click(button);
@@ -101,7 +101,7 @@ describe('Accessibility Features - Task 13', () => {
         </ThemeProvider>
       );
 
-      const button = screen.getByRole('button', { name: /change theme/i });
+      const button = screen.getByRole('button', { name: /toggle theme/i });
       fireEvent.click(button);
       
       await waitFor(() => {
@@ -123,7 +123,7 @@ describe('Accessibility Features - Task 13', () => {
 
       const button = screen.getByRole('button');
       expect(button).toHaveAttribute('aria-label');
-      expect(button.getAttribute('aria-label')).toMatch(/change theme/i);
+      expect(button.getAttribute('aria-label')).toMatch(/toggle theme/i);
     });
 
     it('should have aria-haspopup attribute', () => {

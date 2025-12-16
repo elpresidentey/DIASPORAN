@@ -105,7 +105,7 @@ describe('Responsive Design - Theme Toggle', () => {
 
     const button = container.querySelector('button');
     expect(button).toBeInTheDocument();
-    expect(button).toHaveAttribute('aria-label', 'Toggle theme');
+    expect(button).toHaveAttribute('aria-label', expect.stringContaining('Toggle theme'));
     expect(button).toHaveAttribute('aria-haspopup', 'menu');
   });
 

@@ -189,7 +189,7 @@ describe('Property-Based Tests: Button State Distinctiveness', () => {
             expect(hasFocusRing).toBe(true);
             
             // Should have ring color defined
-            const hasRingColor = classList.some(c => c.includes('ring-purple'));
+            const hasRingColor = classList.some(c => c.includes('ring-sky'));
             expect(hasRingColor).toBe(true);
             
             // Should have ring offset

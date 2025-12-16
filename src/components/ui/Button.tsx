@@ -8,14 +8,14 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] hover:scale-[1.02] min-h-[44px] min-w-[44px]",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-semibold ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] hover:scale-[1.02] min-h-[44px] min-w-[44px]",
   {
     variants: {
       variant: {
-        default: "bg-foreground text-background hover:bg-foreground/90 hover:shadow-md dark:bg-white dark:text-black dark:hover:bg-gray-100",
+        default: "bg-foreground text-background hover:bg-foreground/90 hover:shadow-md dark:bg-white dark:text-black dark:hover:bg-slate-100",
 
         primary:
-          "bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 hover:shadow-lg hover:shadow-purple-500/30",
+          "bg-slate-900 text-white hover:bg-slate-800 hover:shadow-lg dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200",
 
         secondary:
           "bg-muted text-muted-foreground hover:bg-muted/80 border border-border hover:shadow-md",
@@ -25,12 +25,12 @@ const buttonVariants = cva(
 
         ghost: "hover:bg-muted text-foreground",
 
-        destructive: "bg-red-600 text-white hover:bg-red-700 hover:shadow-lg hover:shadow-red-500/30 dark:bg-red-600 dark:hover:bg-red-700",
+        destructive: "bg-red-600 text-white hover:bg-red-700 hover:shadow-lg dark:bg-red-600 dark:hover:bg-red-700",
 
-        success: "bg-green-600 text-white hover:bg-green-700 hover:shadow-lg hover:shadow-green-500/30 dark:bg-green-600 dark:hover:bg-green-700",
+        success: "bg-green-600 text-white hover:bg-green-700 hover:shadow-lg dark:bg-green-600 dark:hover:bg-green-700",
 
         shimmer:
-          "relative overflow-hidden bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 hover:shadow-lg hover:shadow-purple-500/30",
+          "relative overflow-hidden bg-slate-900 text-white hover:bg-slate-800 hover:shadow-lg dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200",
       },
 
       size: {
@@ -110,10 +110,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             className="pointer-events-none absolute inset-0"
             initial={{ x: "-150%" }}
             animate={{ x: ["-150%", "150%"] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            <span className="absolute -inset-y-6 -left-1/2 w-1/3 rotate-12 bg-white/30 blur-xl"></span>
-            <span className="absolute -inset-y-6 -left-1/2 w-1/5 rotate-12 bg-white/60 blur"></span>
+            <span className="absolute -inset-y-6 -left-1/2 w-1/4 rotate-12 bg-white/20 blur-lg"></span>
           </motion.span>
         )}
       </Comp>

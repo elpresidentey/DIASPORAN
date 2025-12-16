@@ -46,14 +46,14 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
         >
           {indeterminate ? (
             <div
-              className="h-full w-1/3 animate-[progress_1.5s_ease-in-out_infinite] bg-gradient-to-r from-purple-500 to-pink-500"
+              className="h-full w-1/3 animate-[progress_1.5s_ease-in-out_infinite] bg-gradient-to-r from-primary to-accent"
               style={{
                 animation: "progress 1.5s ease-in-out infinite",
               }}
             />
           ) : (
             <div
-              className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300 ease-out"
+              className="h-full bg-gradient-to-r from-primary to-accent transition-all duration-300 ease-out"
               style={{ width: `${percentage}%` }}
             />
           )}

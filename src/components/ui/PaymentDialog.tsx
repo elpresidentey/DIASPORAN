@@ -95,7 +95,7 @@ export function PaymentDialog({
                                     {itemImage ? (
                                         <img src={itemImage} alt={itemName} className="w-full h-full object-cover" />
                                     ) : (
-                                        <div className="w-full h-full bg-gradient-to-br from-purple-900 to-indigo-900" />
+                                        <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900" />
                                     )}
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f23] via-[#0f0f23]/40 to-transparent" />
 
@@ -145,10 +145,10 @@ export function PaymentDialog({
                                                 <div className="space-y-3">
                                                     <div>
                                                         <label className="text-xs font-medium text-white/70 mb-1 flex items-center gap-1.5">
-                                                            <User className="w-3.5 h-3.5 text-purple-400" /> Full Name
+                                                            <User className="w-3.5 h-3.5 text-muted-foreground" /> Full Name
                                                         </label>
                                                         <Input
-                                                            className="h-9 text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                                                            className="h-9 text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-primary/50"
                                                             placeholder="e.g. Ebuka Obi-Uchendu"
                                                             value={formData.fullName}
                                                             onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
@@ -157,11 +157,11 @@ export function PaymentDialog({
 
                                                     <div>
                                                         <label className="text-xs font-medium text-white/70 mb-1 flex items-center gap-1.5">
-                                                            <Mail className="w-3.5 h-3.5 text-purple-400" /> Email Address
+                                                            <Mail className="w-3.5 h-3.5 text-muted-foreground" /> Email Address
                                                         </label>
                                                         <Input
                                                             type="email"
-                                                            className="h-9 text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                                                            className="h-9 text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-primary/50"
                                                             placeholder="name@example.com"
                                                             value={formData.email}
                                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -170,11 +170,11 @@ export function PaymentDialog({
 
                                                     <div>
                                                         <label className="text-xs font-medium text-white/70 mb-1 flex items-center gap-1.5">
-                                                            <Phone className="w-3.5 h-3.5 text-purple-400" /> Phone Number
+                                                            <Phone className="w-3.5 h-3.5 text-muted-foreground" /> Phone Number
                                                         </label>
                                                         <Input
                                                             type="tel"
-                                                            className="h-9 text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                                                            className="h-9 text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-primary/50"
                                                             placeholder="+234 800 000 0000"
                                                             value={formData.phone}
                                                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -183,7 +183,7 @@ export function PaymentDialog({
                                                 </div>
 
                                                 {/* Summary */}
-                                                <div className="mt-4 p-3 rounded-lg bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
+                                                <div className="mt-4 p-3 rounded-lg bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20">
                                                     <div className="flex justify-between items-center mb-0.5">
                                                         <span className="text-xs text-white/60">Total Amount</span>
                                                         <span className="text-2xl font-bold text-white tracking-tight">
@@ -191,12 +191,12 @@ export function PaymentDialog({
                                                         </span>
                                                     </div>
                                                     {itemDetails?.duration && (
-                                                        <p className="text-[10px] text-purple-300 font-medium">{itemDetails.duration}</p>
+                                                        <p className="text-[10px] text-muted-foreground font-medium">{itemDetails.duration}</p>
                                                     )}
                                                 </div>
 
                                                 <Button
-                                                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold h-10 text-sm shadow-md shadow-purple-900/20 border-0"
+                                                    className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold h-10 text-sm shadow-md shadow-primary/20 border-0"
                                                     size="sm"
                                                     onClick={() => setStep("payment")}
                                                     disabled={!formData.fullName || !formData.email || !formData.phone}
@@ -225,11 +225,11 @@ export function PaymentDialog({
                                                 <div className="space-y-3">
                                                     <div>
                                                         <label className="text-xs font-medium text-white/70 mb-1 flex items-center gap-1.5">
-                                                            <CreditCard className="w-3.5 h-3.5 text-purple-400" /> Card Number
+                                                            <CreditCard className="w-3.5 h-3.5 text-muted-foreground" /> Card Number
                                                         </label>
                                                         <div className="relative">
                                                             <Input
-                                                                className="h-9 text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50 pl-9 tracking-widest"
+                                                                className="h-9 text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-primary/50 pl-9 tracking-widest"
                                                                 placeholder="0000 0000 0000 0000"
                                                                 value={formData.cardNumber}
                                                                 onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value })}
@@ -245,10 +245,10 @@ export function PaymentDialog({
                                                     <div className="grid grid-cols-2 gap-3">
                                                         <div>
                                                             <label className="text-xs font-medium text-white/70 mb-1 flex items-center gap-1.5">
-                                                                <Calendar className="w-3.5 h-3.5 text-purple-400" /> Expiry
+                                                                <Calendar className="w-3.5 h-3.5 text-muted-foreground" /> Expiry
                                                             </label>
                                                             <Input
-                                                                className="h-9 text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50 text-center"
+                                                                className="h-9 text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-primary/50 text-center"
                                                                 placeholder="MM/YY"
                                                                 value={formData.expiryDate}
                                                                 onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
@@ -258,10 +258,10 @@ export function PaymentDialog({
 
                                                         <div>
                                                             <label className="text-xs font-medium text-white/70 mb-1 flex items-center gap-1.5">
-                                                                <Lock className="w-3.5 h-3.5 text-purple-400" /> CVV
+                                                                <Lock className="w-3.5 h-3.5 text-muted-foreground" /> CVV
                                                             </label>
                                                             <Input
-                                                                className="h-9 text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50 text-center tracking-widest"
+                                                                className="h-9 text-sm bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-primary/50 text-center tracking-widest"
                                                                 placeholder="123"
                                                                 type="password"
                                                                 value={formData.cvv}
@@ -281,7 +281,7 @@ export function PaymentDialog({
                                                         Back
                                                     </Button>
                                                     <Button
-                                                        className="flex-[2] bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold h-10 border-0 text-sm"
+                                                        className="flex-[2] bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold h-10 border-0 text-sm"
                                                         onClick={handlePayment}
                                                         disabled={isProcessing || !formData.cardNumber || !formData.expiryDate || !formData.cvv}
                                                     >
@@ -323,7 +323,7 @@ export function PaymentDialog({
 
                                                 <h3 className="text-3xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent mb-3">Payment Successful!</h3>
                                                 <p className="text-white/60 mb-8 px-8">
-                                                    Your booking for <span className="text-purple-400 font-medium">{itemName}</span> has been confirmed. A receipt has been sent to your email.
+                                                    Your booking for <span className="text-primary font-medium">{itemName}</span> has been confirmed. A receipt has been sent to your email.
                                                 </p>
 
                                                 <Button
@@ -352,13 +352,13 @@ function StepIndicator({ active, completed, number, label }: { active: boolean; 
                 className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 border-2 ${completed
                     ? "bg-green-500 border-green-500 text-white shadow-[0_0_15px_rgba(34,197,94,0.4)]"
                     : active
-                        ? "bg-[#0f0f23] border-purple-500 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.4)]"
+                        ? "bg-[#0f0f23] border-primary text-primary shadow-[0_0_15px_rgba(59,130,246,0.4)]"
                         : "bg-white/5 border-white/10 text-white/30"
                     }`}
             >
                 {completed ? <Check className="w-5 h-5" /> : number}
             </div>
-            <span className={`text-[10px] uppercase tracking-wider font-bold ${active ? "text-purple-400" : "text-white/30"}`}>
+            <span className={`text-[10px] uppercase tracking-wider font-bold ${active ? "text-primary" : "text-white/30"}`}>
                 {label}
             </span>
         </div>

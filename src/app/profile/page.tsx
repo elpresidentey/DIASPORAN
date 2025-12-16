@@ -123,7 +123,7 @@ export default function ProfilePage() {
             <div className="min-h-screen bg-background pb-20 pt-24 px-4">
                 <div className="container mx-auto max-w-4xl">
                     <div className="flex flex-col items-center justify-center py-20 space-y-4">
-                        <div className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
+                        <div className="w-12 h-12 border-4 border-gray-300 dark:border-gray-700 border-t-gray-900 dark:border-t-white rounded-full animate-spin"></div>
                         <p className="text-muted-foreground animate-pulse">Loading usage profile...</p>
                     </div>
                 </div>
@@ -176,13 +176,13 @@ export default function ProfilePage() {
                                     className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                                 />
                             ) : (
-                                <div className="w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full mx-auto mb-4 flex items-center justify-center text-4xl font-bold text-white">
+                                <div className="w-24 h-24 bg-gray-900 dark:bg-white rounded-full mx-auto mb-4 flex items-center justify-center text-4xl font-bold text-white dark:text-gray-900">
                                     {getInitials()}
                                 </div>
                             )}
                             <h2 className="text-xl font-bold text-foreground">{profile.full_name || 'User'}</h2>
                             <p className="text-muted-foreground text-sm mb-4">{profile.email}</p>
-                            <Badge variant="outline" className="border-purple-500 text-purple-400">
+                            <Badge variant="outline" className="border-gray-400 dark:border-gray-600 text-gray-600 dark:text-gray-400">
                                 Member since {new Date(profile.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                             </Badge>
                         </Card>
@@ -222,8 +222,8 @@ export default function ProfilePage() {
                                         title="No Upcoming Plans"
                                         message="You don't have any upcoming bookings or events. Start planning your Detty December adventure!"
                                         illustration={
-                                            <div className="mb-6 flex items-center justify-center w-20 h-20 rounded-full bg-purple-500/10">
-                                                <Calendar className="w-10 h-10 text-purple-500" />
+                                            <div className="mb-6 flex items-center justify-center w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800">
+                                                <Calendar className="w-10 h-10 text-gray-600 dark:text-gray-400" />
                                             </div>
                                         }
                                         action={{
@@ -237,7 +237,7 @@ export default function ProfilePage() {
                                         const Icon = getBookingIcon(booking.booking_type);
                                         return (
                                             <div key={booking.id} className="flex items-center gap-4 p-4 bg-muted rounded-lg border border-border hover:border-border/80 transition-colors">
-                                                <div className="bg-purple-500/20 p-3 rounded-lg text-purple-500">
+                                                <div className="bg-gray-100 dark:bg-gray-800 p-3 rounded-lg text-gray-600 dark:text-gray-400">
                                                     <Icon className="w-6 h-6" />
                                                 </div>
                                                 <div className="flex-1">

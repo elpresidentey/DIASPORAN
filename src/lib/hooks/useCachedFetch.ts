@@ -30,8 +30,18 @@ export function useCachedFetch<T = any>(options: FetchOptions) {
 
             if (data.success) {
                 // Handle both direct array and paginated response
-                const result = Array.isArray(data.data) ? data.data : (data.data?.data || []);
-                return result as T;
+                // Our APIs return: { success: true, data: { data: [...], pagination: {...} } }
+                if (data.data && data.data.data && Array.isArray(data.data.data)) {
+                    // Paginated response structure
+                    return data.data.data as T;
+                } else if (Array.isArray(data.data)) {
+                    // Direct array response
+                    return data.data as T;
+                } else {
+                    // Fallback to empty array
+                    console.warn('Unexpected API response structure:', data);
+                    return [] as T;
+                }
             } else {
                 throw new Error(data.error?.message || 'Failed to load data');
             }

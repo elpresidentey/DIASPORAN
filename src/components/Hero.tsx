@@ -101,7 +101,7 @@ const Hero = () => {
         y: Math.random() * 100,
         delay: Math.random() * 3,
         duration: 4 + Math.random() * 6,
-        color: i % 3 === 0 ? 'bg-purple-500/20' : i % 3 === 1 ? 'bg-pink-500/20' : 'bg-white/10',
+        color: i % 3 === 0 ? 'bg-gray-500/20' : i % 3 === 1 ? 'bg-slate-500/20' : 'bg-white/10',
         blur: i % 2 === 0 ? 'backdrop-blur-sm' : 'backdrop-blur-md',
       }));
     } catch (error) {
@@ -119,12 +119,12 @@ const Hero = () => {
     >
       {/* Gradient background - Theme Aware - Video removed for performance */}
       <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-200/30 via-white to-pink-200/30 dark:from-purple-900/40 dark:via-black dark:to-pink-900/40" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-100/30 via-white to-slate-100/30 dark:from-gray-800/40 dark:via-black dark:to-slate-800/40" />
       </div>
 
       {/* Overlay Gradients - Multiple layers for depth - Theme Aware */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/90 to-white/95 dark:from-black/80 dark:via-black/60 dark:to-black/90" aria-hidden="true" />
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-pink-500/10 dark:from-purple-900/20 dark:via-transparent dark:to-pink-900/20" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-r from-gray-500/10 via-transparent to-slate-500/10 dark:from-gray-700/20 dark:via-transparent dark:to-slate-700/20" aria-hidden="true" />
       <div className="absolute inset-0 bg-gradient-radial opacity-30 dark:opacity-50" aria-hidden="true" />
 
       {/* Animated Floating Particles - Optimized for performance */}
@@ -169,7 +169,7 @@ const Hero = () => {
           {/* Announcement Badge - Theme Aware */}
           <motion.div className="flex justify-center" variants={fadeInUp}>
             <motion.div 
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-strong border border-white/30 dark:border-white/30 border-border/50 shadow-glow-purple theme-transition"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-strong border border-white/30 dark:border-white/30 border-border/50 shadow-glow-neutral theme-transition"
               style={{ willChange: 'transform' }}
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -184,7 +184,7 @@ const Hero = () => {
               >
                 🎉
               </motion.span>
-              <span className="text-sm font-semibold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 dark:from-purple-300 dark:via-pink-300 dark:to-purple-300 bg-clip-text text-transparent animate-gradient-x">
+              <span className="text-sm font-semibold bg-gradient-to-r from-gray-600 via-slate-600 to-gray-600 dark:from-gray-300 dark:via-slate-300 dark:to-gray-300 bg-clip-text text-transparent animate-gradient-x">
                 Your Ultimate Detty December Guide
               </span>
               <motion.div
@@ -258,7 +258,7 @@ const Hero = () => {
               >
                 <Button
                   size="lg"
-                  className="group relative overflow-hidden px-8 py-6 text-lg font-semibold shadow-glow-purple hover:shadow-glow-pink theme-transition"
+                  className="group relative overflow-hidden px-8 py-6 text-lg font-semibold shadow-glow-neutral hover:shadow-glow-subtle theme-transition"
                   variant="primary"
                 >
                   <span className="flex items-center">
@@ -313,7 +313,7 @@ const Hero = () => {
                 {[1, 2, 3].map((i) => (
                   <motion.div
                     key={i}
-                    className="w-8 h-8 rounded-full border-2 border-white/80 dark:border-white/80 bg-gradient-to-br from-purple-500 to-pink-500"
+                    className="w-8 h-8 rounded-full border-2 border-white/80 dark:border-white/80 bg-gradient-to-br from-gray-500 to-slate-500"
                     style={{ zIndex: 4 - i, willChange: 'transform' }}
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}

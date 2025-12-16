@@ -114,7 +114,7 @@ export default function Navbar() {
       {/* Skip to content link for keyboard navigation */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-purple-600 focus:text-white focus:rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-background"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-slate-900 focus:text-white focus:rounded-md focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-background"
       >
         Skip to content
       </a>
@@ -133,7 +133,7 @@ export default function Navbar() {
             <Link
               href="/"
               onClick={handleLogoClick}
-              className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-background rounded-md p-1"
+              className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-background rounded-md p-1"
               aria-label="Diasporan Home"
             >
               <div className="flex-shrink-0">
@@ -162,7 +162,7 @@ export default function Navbar() {
                     prefetch={true}
                     role="menuitem"
                     aria-current={active ? "page" : undefined}
-                    className={`px-3 py-2 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-background ${active
+                    className={`px-3 py-2 rounded-md transition-colors text-sm font-medium focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-background ${active
                       ? "text-foreground"
                       : "text-muted-foreground hover:text-foreground"
                       }`}
@@ -213,7 +213,7 @@ export default function Navbar() {
             {/* Mobile Menu Button */}
             <button
               ref={menuButtonRef}
-              className="lg:hidden p-2 rounded-md text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-background"
+              className="lg:hidden p-2 rounded-md text-foreground hover:bg-muted transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-background"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
@@ -254,12 +254,12 @@ export default function Navbar() {
                     role="menuitem"
                     aria-current={active ? "page" : undefined}
                     onClick={closeMobileMenu}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-background ${active
-                      ? "bg-purple-600/20 border border-purple-500/30 text-foreground dark:bg-purple-600/20 dark:border-purple-500/30 light:bg-purple-100 light:border-purple-300"
+                    className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-background ${active
+                      ? "bg-slate-100 border border-slate-200 text-foreground dark:bg-slate-800 dark:border-slate-700"
                       : "hover:bg-muted text-muted-foreground"
                       }`}
                   >
-                    <link.icon className={`w-5 h-5 ${active ? "text-purple-400 dark:text-purple-400 light:text-purple-600" : "text-purple-400 dark:text-purple-400 light:text-purple-600"}`} />
+                    <link.icon className={`w-5 h-5 ${active ? "text-slate-600 dark:text-slate-400" : "text-slate-500 dark:text-slate-400"}`} />
                     <span className="font-medium">{link.label}</span>
                   </Link>
                 );

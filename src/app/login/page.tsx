@@ -76,18 +76,18 @@ export default function LoginPage() {
 
             {/* Animated Gradient Orbs */}
             <motion.div
-                className="absolute top-20 left-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
+                className="absolute top-20 left-20 w-96 h-96 bg-gray-500/10 rounded-full blur-3xl"
                 animate={{
                     scale: [1, 1.2, 1],
-                    opacity: [0.3, 0.5, 0.3],
+                    opacity: [0.2, 0.3, 0.2],
                 }}
                 transition={{ duration: 8, repeat: Infinity }}
             />
             <motion.div
-                className="absolute bottom-20 right-20 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl"
+                className="absolute bottom-20 right-20 w-96 h-96 bg-slate-500/10 rounded-full blur-3xl"
                 animate={{
                     scale: [1.2, 1, 1.2],
-                    opacity: [0.5, 0.3, 0.5],
+                    opacity: [0.3, 0.2, 0.3],
                 }}
                 transition={{ duration: 8, repeat: Infinity, delay: 1 }}
             />
@@ -110,7 +110,7 @@ export default function LoginPage() {
                     animate="visible"
                 >
                     <motion.div className="text-center mb-6 sm:mb-8" variants={fadeInUp}>
-                        <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-2 leading-tight">
+                        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2 leading-tight">
                             Welcome Back
                         </h1>
                         <p className="text-muted-foreground text-sm leading-relaxed">
@@ -161,7 +161,7 @@ export default function LoginPage() {
                         <motion.div variants={fadeInUp} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                             <Button 
                                 type="submit"
-                                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 shadow-lg shadow-purple-500/30" 
+                                className="w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 border-0" 
                                 size="lg"
                                 loading={loading}
                                 disabled={loading}
@@ -176,7 +176,7 @@ export default function LoginPage() {
                         variants={fadeInUp}
                     >
                         Don&apos;t have an account?{" "}
-                        <Link href="/signup" className="text-purple-400 hover:text-purple-300 dark:text-purple-300 dark:hover:text-purple-200 font-medium">
+                        <Link href="/signup" className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white font-medium">
                             Sign up
                         </Link>
                     </motion.div>

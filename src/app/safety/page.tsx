@@ -36,7 +36,7 @@ export default function SafetyPage() {
                         className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6"
                         variants={fadeInUp}
                     >
-                        Safety <span className="text-gradient-rainbow">First</span>
+                        Safety <span className="text-gray-700 dark:text-gray-300">First</span>
                     </motion.h1>
                     <motion.p
                         className="text-muted-foreground text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed"
@@ -114,7 +114,7 @@ export default function SafetyPage() {
                                         Generate a secure link to share your live location for the next hour.
                                     </p>
                                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white shadow-glow-purple">
+                                        <Button className="w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100">
                                             Share Location
                                         </Button>
                                     </motion.div>
@@ -158,7 +158,7 @@ export default function SafetyPage() {
                 >
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-5xl font-bold mb-4">
-                            Stay <span className="text-gradient-purple-pink">Safe</span> Out There
+                            Stay <span className="text-gray-700 dark:text-gray-300">Safe</span> Out There
                         </h2>
                         <p className="text-muted-foreground text-lg">Quick tips to ensure your safety during Detty December</p>
                     </div>
@@ -245,7 +245,7 @@ function EmergencyButton({ title, subtitle, number }: { title: string, subtitle:
 function TipCard({ title, description, icon }: { title: string, description: string, icon: string }) {
     return (
         <motion.div
-            className="p-6 rounded-2xl glass-strong border border-white/10 hover:border-purple-500/30 transition-all duration-300"
+            className="p-6 rounded-2xl glass-strong border border-white/10 hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-300"
             variants={fadeInUp}
             whileHover={{ scale: 1.03, y: -5 }}
         >

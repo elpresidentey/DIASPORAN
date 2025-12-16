@@ -80,7 +80,7 @@ export default function EventsPage() {
   }
 
   // Calculate price for selected event
-  const selectedEventPrice = selectedEvent && selectedEvent.ticket_types.length > 0
+  const selectedEventPrice = selectedEvent && selectedEvent.ticket_types && selectedEvent.ticket_types.length > 0
     ? Math.min(...selectedEvent.ticket_types.map((t: any) => t.price))
     : 0;
 
@@ -99,7 +99,7 @@ export default function EventsPage() {
             transition={{ duration: 0.3 }}
           >
             Detty December{" "}
-            <span className="bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent">
+            <span className="text-gray-700 dark:text-gray-300">
               Vibes
             </span>
           </motion.h1>
@@ -132,7 +132,7 @@ export default function EventsPage() {
             </div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
-                className="h-10 bg-orange-700 hover:bg-orange-800 text-white font-semibold shadow-lg shadow-orange-500/30"
+                className="h-10 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 font-semibold"
                 onClick={handleSearch}
               >
                 Find Events
@@ -212,7 +212,7 @@ export default function EventsPage() {
         itemName={selectedEvent?.title || ""}
         itemPrice={selectedEventPrice}
         itemCurrency="NGN" // Assuming NGN for local events
-        itemImage={selectedEvent?.images[0]}
+        itemImage={selectedEvent?.images && selectedEvent.images[0]}
         itemDetails={{
           location: selectedEvent?.location,
           date: selectedEvent?.start_date ? new Date(selectedEvent.start_date).toLocaleDateString() : "",
@@ -225,11 +225,11 @@ export default function EventsPage() {
 
 function EventCard({ event, onBook }: { event: Event; onBook: () => void }) {
   const router = useRouter();
-  const image = event.images[0] || "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=2070&auto=format&fit=crop";
+  const image = (event.images && event.images[0]) || "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=2070&auto=format&fit=crop";
   const startDate = new Date(event.start_date);
   const formattedDate = startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   const formattedTime = startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-  const minPrice = event.ticket_types.length > 0
+  const minPrice = event.ticket_types && event.ticket_types.length > 0
     ? Math.min(...event.ticket_types.map((t: any) => t.price))
     : 0;
 
@@ -258,18 +258,18 @@ function EventCard({ event, onBook }: { event: Event; onBook: () => void }) {
             transition={{ duration: 0.5 }}
           />
           <div className="absolute top-4 left-4">
-            <Badge className="bg-orange-500 text-white border-0 hover:bg-orange-600">
+            <Badge className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-0">
               {event.category}
             </Badge>
           </div>
           <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
             <div className="flex items-center gap-2 text-white font-bold">
-              <Calendar className="w-4 h-4 text-orange-500" /> {formattedDate}
+              <Calendar className="w-4 h-4 text-gray-300" /> {formattedDate}
             </div>
           </div>
         </div>
         <CardContent className="p-5">
-          <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-orange-400 transition-colors line-clamp-1">
+          <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors line-clamp-1">
             {event.title}
           </h3>
           <div className="space-y-2 text-sm text-muted-foreground">
@@ -289,7 +289,7 @@ function EventCard({ event, onBook }: { event: Event; onBook: () => void }) {
               <Button
                 size="sm"
                 variant="ghost"
-                className="text-orange-400 hover:text-orange-300 hover:bg-orange-500/10 p-0"
+                className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 p-0"
                 onClick={(e) => {
                   e.stopPropagation();
                   onBook();

@@ -33,21 +33,21 @@ const features = [
     title: "Flights",
     description: "Find the best flight deals to African destinations with our exclusive partner airlines.",
     href: "/flights",
-    gradient: "from-blue-500 to-cyan-500",
+    gradient: "from-sky-500 to-cyan-500",
   },
   {
     icon: Hotel,
     title: "Stays",
     description: "Discover handpicked accommodations from luxury resorts to cozy apartments.",
     href: "/stays",
-    gradient: "from-purple-500 to-pink-500",
+    gradient: "from-gray-500 to-slate-500",
   },
   {
     icon: Music,
     title: "Events",
     description: "Never miss out on the hottest parties, concerts, and cultural events.",
     href: "/events",
-    gradient: "from-amber-500 to-red-500",
+    gradient: "from-amber-500 to-orange-500",
   },
   {
     icon: Shield,
@@ -70,14 +70,152 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Gradient Background - Optimized for LCP */}
+        {/* Clean Background - Optimized for LCP */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-200/30 via-white to-pink-200/30 dark:from-purple-900/40 dark:via-black dark:to-pink-900/40" />
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-50/60 via-white to-slate-50/60 dark:from-slate-900/40 dark:via-slate-900 dark:to-slate-800/40" />
         </div>
 
-        {/* Gradient Overlays - Theme Aware */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/90 to-white/95 dark:from-black/80 dark:via-black/60 dark:to-black/90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-pink-500/10 dark:from-purple-900/20 dark:via-transparent dark:to-pink-900/20" />
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Floating Orbs */}
+          <motion.div
+            className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-gray-400/20 to-slate-400/20 rounded-full blur-xl"
+            animate={{
+              x: [0, 30, 0],
+              y: [0, -20, 0],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+          <motion.div
+            className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-r from-slate-400/15 to-gray-400/15 rounded-full blur-lg"
+            animate={{
+              x: [0, -25, 0],
+              y: [0, 15, 0],
+              scale: [1, 0.9, 1],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1,
+            }}
+          />
+          <motion.div
+            className="absolute bottom-32 left-1/4 w-20 h-20 bg-gradient-to-r from-gray-300/10 to-slate-300/10 rounded-full blur-md"
+            animate={{
+              x: [0, 20, 0],
+              y: [0, -10, 0],
+              rotate: [0, 180, 360],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "linear",
+              delay: 2,
+            }}
+          />
+          
+          {/* Animated Grid Pattern */}
+          <motion.div
+            className="absolute inset-0 opacity-[0.02] dark:opacity-[0.05]"
+            style={{
+              backgroundImage: `radial-gradient(circle at 1px 1px, rgb(0 0 0) 1px, transparent 0)`,
+              backgroundSize: '50px 50px',
+            }}
+            animate={{
+              backgroundPosition: ['0px 0px', '50px 50px'],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        </div>
+
+        {/* Subtle Overlays - Theme Aware */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/90 to-white/95 dark:from-slate-900/80 dark:via-slate-900/60 dark:to-slate-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-500/5 via-transparent to-slate-500/5 dark:from-gray-700/10 dark:via-transparent dark:to-slate-700/10" />
+
+        {/* Floating Interactive Elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Floating Icons */}
+          <motion.div
+            className="absolute top-1/4 left-10 hidden lg:block"
+            animate={{
+              y: [0, -20, 0],
+              rotate: [0, 5, 0],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <div className="w-16 h-16 bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm rounded-2xl flex items-center justify-center border border-gray-200/20 dark:border-gray-700/20">
+              <Plane className="w-8 h-8 text-gray-600 dark:text-gray-400" />
+            </div>
+          </motion.div>
+          
+          <motion.div
+            className="absolute top-1/3 right-16 hidden lg:block"
+            animate={{
+              y: [0, 15, 0],
+              rotate: [0, -5, 0],
+            }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1,
+            }}
+          >
+            <div className="w-14 h-14 bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm rounded-xl flex items-center justify-center border border-gray-200/20 dark:border-gray-700/20">
+              <Music className="w-7 h-7 text-gray-600 dark:text-gray-400" />
+            </div>
+          </motion.div>
+          
+          <motion.div
+            className="absolute bottom-1/3 left-20 hidden lg:block"
+            animate={{
+              y: [0, -10, 0],
+              x: [0, 10, 0],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 2,
+            }}
+          >
+            <div className="w-12 h-12 bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm rounded-lg flex items-center justify-center border border-gray-200/20 dark:border-gray-700/20">
+              <Hotel className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="absolute bottom-1/4 right-12 hidden lg:block"
+            animate={{
+              y: [0, 12, 0],
+              rotate: [0, 10, 0],
+            }}
+            transition={{
+              duration: 4.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.5,
+            }}
+          >
+            <div className="w-10 h-10 bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-gray-200/20 dark:border-gray-700/20">
+              <MapPin className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            </div>
+          </motion.div>
+        </div>
 
         {/* Content - Priority for LCP */}
         <div className="relative z-10 container mx-auto px-6 max-w-7xl">
@@ -88,24 +226,124 @@ export default function HomePage() {
             animate="visible"
           >
             {/* Badge */}
-            <motion.div className="flex justify-center" variants={fadeInUp} transition={{ duration: 0.5, delay: 0 }}>
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/20">
-                <Sparkles className="w-4 h-4" />
-                <span className="text-sm font-semibold">
+            <motion.div 
+              className="flex justify-center" 
+              variants={fadeInUp} 
+              transition={{ duration: 0.5, delay: 0 }}
+            >
+              <motion.div 
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-slate-700 relative overflow-hidden group cursor-default"
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 8px 25px rgba(0,0,0,0.1)",
+                }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+              >
+                <motion.div
+                  animate={{ 
+                    rotate: [0, 360],
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <Sparkles className="w-4 h-4" />
+                </motion.div>
+                <span className="text-sm font-semibold relative z-10">
                   Your Ultimate Detty December Guide
                 </span>
-              </div>
+                {/* Animated background shimmer */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent dark:via-gray-600/20"
+                  animate={{ x: ["-100%", "100%"] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatDelay: 2,
+                    ease: "easeInOut",
+                  }}
+                />
+              </motion.div>
             </motion.div>
 
             {/* Main Heading */}
             <motion.div variants={fadeInUp} className="space-y-4">
               <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight tracking-tight text-center">
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-amber-400">
-                  Your Ultimate Detty December Guide
-                </span>
-                <span className="block text-gray-700 dark:text-white/90 text-2xl md:text-3xl lg:text-4xl mt-4">
-                  Book flights, stays, events & more 🌍
-                </span>
+                <motion.span 
+                  className="block text-gray-900 dark:text-white"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                  {/* Animated word reveal */}
+                  {["Your", "Ultimate", "Detty", "December", "Guide"].map((word, index) => (
+                    <motion.span
+                      key={word}
+                      className="inline-block mr-4"
+                      initial={{ opacity: 0, y: 50, rotateX: -90 }}
+                      animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                      transition={{
+                        duration: 0.6,
+                        delay: 0.3 + index * 0.1,
+                        ease: "easeOut",
+                      }}
+                      whileHover={{
+                        scale: 1.05,
+                        color: "#6b7280",
+                        transition: { duration: 0.2 }
+                      }}
+                    >
+                      {word}
+                    </motion.span>
+                  ))}
+                </motion.span>
+                <motion.span 
+                  className="block text-slate-700 dark:text-slate-100 text-2xl md:text-3xl lg:text-4xl mt-4"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 1.0 }}
+                >
+                  <motion.span
+                    className="inline-block"
+                    animate={{
+                      backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    style={{
+                      background: "linear-gradient(90deg, #374151, #6b7280, #374151)",
+                      backgroundSize: "200% 100%",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    Book flights, stays, events & more
+                  </motion.span>
+                  <motion.span
+                    className="inline-block ml-2"
+                    animate={{
+                      rotate: [0, 10, -10, 0],
+                      scale: [1, 1.2, 1],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: 1.5,
+                    }}
+                  >
+                    🌍
+                  </motion.span>
+                </motion.span>
               </h1>
             </motion.div>
 
@@ -116,35 +354,88 @@ export default function HomePage() {
             >
               <Link href="/events" prefetch={true}>
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+                  }}
                   whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1.2 }}
                 >
                   <Button
                     size="lg"
-                    variant="shimmer"
-                    className="w-full sm:w-auto min-w-[200px]"
+                    className="w-full sm:w-auto min-w-[200px] bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 relative overflow-hidden group"
                   >
-                    <span className="inline-flex items-center">
-                      <Sparkles className="mr-2 w-4 h-4 text-white/80" /> Start
-                      Planning
-                    </span>
-                    <ArrowRight className="ml-2 w-5 h-5" />
+                    <motion.span 
+                      className="inline-flex items-center relative z-10"
+                      whileHover={{ x: 2 }}
+                    >
+                      <motion.div
+                        animate={{ rotate: [0, 360] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      >
+                        <Sparkles className="mr-2 w-4 h-4" />
+                      </motion.div>
+                      Start Planning
+                    </motion.span>
+                    <motion.div
+                      className="ml-2 w-5 h-5"
+                      whileHover={{ x: 5 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                      <ArrowRight className="w-5 h-5" />
+                    </motion.div>
+                    {/* Animated background effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-100 dark:to-gray-200"
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: "0%" }}
+                      transition={{ duration: 0.3 }}
+                    />
                   </Button>
                 </motion.div>
               </Link>
               <Link href="/events" prefetch={true}>
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    borderColor: "#6b7280",
+                  }}
                   whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1.4 }}
                 >
                   <Button
                     size="lg"
                     variant="outline"
-                    className="w-full sm:w-auto min-w-[200px] group relative overflow-hidden"
+                    className="w-full sm:w-auto min-w-[200px] group relative overflow-hidden border-2 hover:border-gray-400 dark:hover:border-gray-500"
                   >
-                    <Calendar className="mr-2 w-4 h-4" />
+                    <motion.div
+                      whileHover={{ rotate: 360 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Calendar className="mr-2 w-4 h-4" />
+                    </motion.div>
                     <span className="relative z-10">Browse Events</span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
+                    {/* Multiple animated shine effects */}
+                    <motion.span 
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full"
+                      animate={{ x: ["-100%", "100%"] }}
+                      transition={{ 
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatDelay: 3,
+                        ease: "easeInOut"
+                      }}
+                    />
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-gray-50/0 via-gray-50/10 to-gray-50/0 dark:from-white/0 dark:via-white/5 dark:to-white/0"
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
                   </Button>
                 </motion.div>
               </Link>
@@ -161,12 +452,12 @@ export default function HomePage() {
                 </div>
                 <div className="h-4 w-px bg-gray-300 dark:bg-gray-700"></div>
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <Users className="w-4 h-4 text-purple-500 dark:text-purple-400" />
+                  <Users className="w-4 h-4 text-gray-700 dark:text-gray-300" />
                   <span>50K+ Travelers</span>
                 </div>
                 <div className="h-4 w-px bg-gray-300 dark:bg-gray-700"></div>
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <CheckCircle className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+                  <CheckCircle className="w-4 h-4 text-gray-700 dark:text-gray-300" />
                   <span>24/7 Support</span>
                 </div>
               </div>
@@ -184,9 +475,9 @@ export default function HomePage() {
           }}
         >
           <span className="text-sm text-gray-600 dark:text-gray-400 mb-2 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Scroll to explore</span>
-          <div className="w-8 h-12 border-2 border-gray-400 dark:border-gray-600 rounded-full flex justify-center p-1 group-hover:border-purple-500 transition-colors">
+          <div className="w-8 h-12 border-2 border-gray-400 dark:border-gray-600 rounded-full flex justify-center p-1 group-hover:border-gray-600 dark:group-hover:border-gray-400 transition-colors">
             <motion.div
-              className="w-1 h-3 bg-gradient-to-b from-purple-400 to-pink-400 rounded-full"
+              className="w-1 h-3 bg-gray-500 dark:bg-gray-400 rounded-full"
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             />
@@ -195,42 +486,16 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section id="stats" className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-black dark:to-gray-900 relative overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden opacity-20">
-          {[...Array(20)].map((_, i) => {
-            const size = Math.random() * 300 + 50;
-            const left = Math.random() * 100;
-            const top = Math.random() * 100;
-            const color1 = Math.random() * 100 + 155;
-            const color2 = Math.random() * 100 + 100;
-
-            return (
-              <div
-                key={i}
-                className="absolute rounded-full"
-                style={{
-                  width: size + 'px',
-                  height: size + 'px',
-                  left: `${left}%`,
-                  top: `${top}%`,
-                  background: `radial-gradient(circle, rgba(${color1}, ${color2}, 255, 0.1) 0%, rgba(0,0,0,0) 70%)`,
-                  transform: `translate(-50%, -50%)`,
-                }}
-              />
-            );
-          })}
-        </div>
-
+      <section id="stats" className="py-20 bg-gray-50 dark:bg-slate-900 relative">
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
-                className="bg-white/80 dark:bg-gradient-to-br dark:from-gray-900/50 dark:to-black/50 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-xl p-4 text-center hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
-                whileHover={{ y: -5 }}
+                className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300"
+                whileHover={{ y: -2 }}
               >
-                <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-1">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1">
                   {stat.number}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 text-sm">{stat.label}</p>
@@ -241,18 +506,12 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20">
-          <div className="absolute top-1/4 -left-20 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-          <div className="absolute top-1/3 -right-20 w-96 h-96 bg-pink-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-20 left-1/2 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
-        </div>
+      <section id="features" className="py-20 bg-white dark:bg-slate-900 relative">
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto mb-16">
             <motion.h2
-              className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent"
+              className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -275,14 +534,13 @@ export default function HomePage() {
             {features.map((feature, index) => (
               <motion.div
                 key={index}
-                className="group relative bg-white/90 dark:bg-gradient-to-br dark:from-gray-800/50 dark:to-gray-900/70 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-2xl p-6 overflow-hidden hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
+                className="group relative bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-6 overflow-hidden hover:shadow-lg transition-all duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -5 }}
+                whileHover={{ y: -2 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10">
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-6`}>
                     <feature.icon className="w-6 h-6 text-white" />
@@ -292,7 +550,7 @@ export default function HomePage() {
                   <Link
                     href={feature.href}
                     prefetch={true}
-                    className="inline-flex items-center text-sm font-medium text-purple-400 hover:text-purple-300 group-hover:translate-x-1 transition-transform"
+                    className="inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white group-hover:translate-x-1 transition-transform"
                   >
                     Learn more
                     <ArrowRight className="ml-1 w-4 h-4" />
@@ -305,11 +563,11 @@ export default function HomePage() {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-black relative overflow-hidden">
+      <section id="how-it-works" className="py-20 bg-gray-50 dark:bg-slate-900 relative">
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto mb-16">
             <motion.h2
-              className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent"
+              className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -330,7 +588,7 @@ export default function HomePage() {
 
           <div className="relative">
             {/* Timeline line */}
-            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500/20 via-pink-500/20 to-transparent"></div>
+            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-gray-300 dark:bg-gray-600"></div>
 
             {/* Steps */}
             <div className="space-y-12 md:space-y-24">
@@ -375,9 +633,9 @@ export default function HomePage() {
                 >
                   {/* Content Card */}
                   <div className="w-full md:w-5/12">
-                    <div className="bg-white/90 dark:bg-gradient-to-br dark:from-gray-800/50 dark:to-gray-900/70 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-2xl p-8 h-full">
+                    <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-8 h-full">
                       <div className="flex items-center mb-4">
-                        <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        <span className="text-2xl font-bold text-gray-900 dark:text-white">
                           {item.step}
                         </span>
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white ml-3">{item.title}</h3>
@@ -388,7 +646,7 @@ export default function HomePage() {
 
                   {/* Center Circle */}
                   <div className="flex md:w-2/12 justify-center flex-shrink-0">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold text-xl z-10 shadow-lg shadow-purple-500/30">
+                    <div className="w-16 h-16 rounded-full bg-gray-900 dark:bg-white flex items-center justify-center text-white dark:text-gray-900 font-bold text-xl z-10 shadow-lg">
                       {item.step}
                     </div>
                   </div>
@@ -403,15 +661,12 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-950 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[url('/images/pattern.svg')] bg-repeat opacity-30"></div>
-        </div>
+      <section id="testimonials" className="py-20 bg-white dark:bg-slate-900 relative">
 
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto mb-16">
             <motion.h2
-              className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent"
+              className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -453,12 +708,12 @@ export default function HomePage() {
             ].map((testimonial, index) => (
               <motion.div
                 key={index}
-                className="bg-white/90 dark:bg-gradient-to-br dark:from-gray-900/50 dark:to-black/50 backdrop-blur-sm border border-gray-200 dark:border-gray-800 rounded-2xl p-8 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300"
+                className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl p-8 hover:shadow-lg transition-all duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -5 }}
+                whileHover={{ y: -2 }}
               >
                 <div className="flex mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
@@ -467,7 +722,7 @@ export default function HomePage() {
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 italic mb-6">&quot;{testimonial.quote}&quot;</p>
                 <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold">
+                  <div className="w-10 h-10 rounded-full bg-gray-900 dark:bg-white flex items-center justify-center text-white dark:text-gray-900 font-bold">
                     {testimonial.author.charAt(0)}
                   </div>
                   <div className="ml-3">
@@ -482,16 +737,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section id="cta" className="relative overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-pink-900/20 to-purple-900/30"></div>
-
-        {/* Animated background elements */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0 bg-[url('/images/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
-          <div className="absolute top-1/4 -left-20 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-          <div className="absolute top-1/3 -right-20 w-96 h-96 bg-pink-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-        </div>
+      <section id="cta" className="relative bg-gray-50 dark:bg-slate-900">
 
         <div className="container mx-auto px-6 py-24 relative z-10">
           <motion.div
@@ -501,18 +747,17 @@ export default function HomePage() {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
               Ready for the Ultimate Detty December?
             </h2>
             <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
               Join thousands of travelers experiencing the best of Africa this holiday season. Your adventure starts here.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/signup" prefetch={true} className="group relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-200 group-hover:duration-200"></div>
+              <Link href="/signup" prefetch={true} className="group">
                 <Button
                   size="lg"
-                  className="relative bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg"
+                  className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg"
                 >
                   Get Started for Free
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -522,11 +767,10 @@ export default function HomePage() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="relative overflow-hidden border-white/20 bg-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-white/30 transition-all duration-200 transform hover:-translate-y-0.5"
+                  className="border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 transform hover:-translate-y-0.5"
                 >
                   <Calendar className="mr-2 w-4 h-4" />
-                  <span className="relative z-10">Browse Events</span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
+                  Browse Events
                 </Button>
               </Link>
             </div>
@@ -541,7 +785,7 @@ export default function HomePage() {
 function StatCard({ number, label }: { number: string; label: string }) {
   return (
     <div className="text-center p-4">
-      <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 mb-2">
+      <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-600 to-slate-600 mb-2">
         {number}
       </div>
       <div className="text-gray-400">{label}</div>
@@ -565,17 +809,17 @@ function FeatureCard({
   return (
     <Link href={href}>
       <motion.div
-        className="group relative bg-gradient-to-br from-gray-800/50 to-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 overflow-hidden hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300 h-full"
+        className="group relative bg-gradient-to-br from-gray-800/50 to-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 overflow-hidden hover:border-gray-500/30 hover:shadow-lg hover:shadow-gray-500/10 transition-all duration-300 h-full"
         whileHover={{ y: -5 }}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-500/5 to-slate-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         <div className="relative z-10">
           <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-6`}>
             <Icon className="w-6 h-6 text-white" />
           </div>
 
           {/* Title */}
-          <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-gradient-purple-pink transition-all">
+          <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-gradient-neutral transition-all">
             {title}
           </h3>
 
@@ -586,7 +830,7 @@ function FeatureCard({
 
           {/* Arrow Icon */}
           <motion.div
-            className="mt-6 text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="mt-6 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity"
             initial={{ x: -10 }}
             whileHover={{ x: 0 }}
           >

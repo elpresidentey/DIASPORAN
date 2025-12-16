@@ -3,20 +3,20 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const cardVariants = cva(
-  "rounded-3xl border transition-all duration-300 ease-out",
+  "rounded-lg border transition-all duration-200 ease-out",
   {
     variants: {
       variant: {
         default:
-          "border-border bg-card backdrop-blur-md text-card-foreground dark:border-white/10 dark:bg-white/5",
+          "border-border bg-card text-card-foreground shadow-sm",
         interactive:
-          "border-border bg-card backdrop-blur-md text-card-foreground cursor-pointer hover:border-border/80 hover:bg-card/80 hover:scale-[1.02] hover:shadow-xl hover:shadow-purple-500/20 dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20 dark:hover:bg-white/10",
+          "border-border bg-card text-card-foreground cursor-pointer hover:border-border/60 hover:shadow-md hover:scale-[1.01]",
         elevated:
-          "border-border bg-card backdrop-blur-md text-card-foreground shadow-lg hover:shadow-xl hover:shadow-purple-500/20 dark:border-white/10 dark:bg-white/5",
-        flat: "border-border bg-card text-card-foreground dark:border-white/10 dark:bg-white/5",
+          "border-border bg-card text-card-foreground shadow-md hover:shadow-lg",
+        flat: "border-border bg-card text-card-foreground",
       },
       hoverable: {
-        true: "hover:border-border/80 hover:shadow-lg hover:shadow-purple-500/10 hover:-translate-y-1 dark:hover:border-white/20",
+        true: "hover:border-border/60 hover:shadow-md hover:-translate-y-0.5",
         false: "",
       },
     },
@@ -61,7 +61,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
             hoverable: shouldHover,
           }),
           loading && "opacity-50 pointer-events-none",
-          isInteractive && "focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-black",
+          isInteractive && "focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2",
           className
         )}
         onClick={onClick}

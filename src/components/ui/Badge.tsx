@@ -19,8 +19,8 @@ const badgeVariants = cva(
                 outline: "text-foreground hover:bg-muted hover:scale-105 dark:hover:bg-white/5",
                 success: "border-transparent bg-green-500/15 text-green-500 hover:bg-green-500/25 hover:scale-105 hover:shadow-glow-green dark:bg-green-500/15 dark:text-green-400 light:bg-green-100 light:text-green-700",
                 warning: "border-transparent bg-yellow-500/15 text-yellow-500 hover:bg-yellow-500/25 hover:scale-105 dark:bg-yellow-500/15 dark:text-yellow-400 light:bg-yellow-100 light:text-yellow-700",
-                premium: "border-transparent bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:scale-105 hover:shadow-glow-purple",
-                shimmer: "border-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 text-white animate-gradient-x hover:scale-105",
+                premium: "border-transparent bg-gradient-to-r from-primary to-accent text-white hover:scale-105 hover:shadow-glow-neutral",
+                shimmer: "border-transparent bg-gradient-to-r from-primary via-accent to-primary text-white animate-gradient-x hover:scale-105",
             },
         },
         defaultVariants: {

@@ -18,7 +18,7 @@ export default function NavigationProgress() {
     <AnimatePresence>
       {isNavigating && (
         <motion.div
-          className="fixed top-0 left-0 right-0 z-[100] h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500"
+          className="fixed top-0 left-0 right-0 z-[100] h-1 bg-gradient-to-r from-primary via-accent to-primary"
           initial={{ scaleX: 0, transformOrigin: "left" }}
           animate={{ scaleX: 1 }}
           exit={{ scaleX: 1, transformOrigin: "right", opacity: 0 }}

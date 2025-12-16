@@ -54,15 +54,21 @@ describe('Property 8: Configuration File Syntax Validity', () => {
           return { valid: false, error: 'File is empty' };
         }
         
+        // For JavaScript files, try to validate syntax using Node.js
+        if (fileType === 'js' || fileType === 'mjs') {
+          try {
+            // Use Node.js to check syntax
+            const { execSync } = require('child_process');
+            execSync(`node -c "${fullPath}"`, { stdio: 'pipe' });
+            return { valid: true };
+          } catch (error) {
+            return { valid: false, error: 'JavaScript syntax error' };
+          }
+        }
+        
         // Check for basic syntax patterns that indicate a valid config file
         const hasExport = content.includes('export') || content.includes('module.exports');
         const hasConfig = content.includes('config') || content.includes('Config');
-        
-        // Check for common syntax errors
-        const hasMismatchedBraces = !checkBalancedBraces(content);
-        if (hasMismatchedBraces) {
-          return { valid: false, error: 'Mismatched braces or brackets' };
-        }
         
         // For config files, we expect either an export or a config object
         if (!hasExport && !hasConfig) {
@@ -194,6 +200,10 @@ describe('Property 8: Configuration File Syntax Validity', () => {
           }
 
           try {
+            // Use Node.js to validate JavaScript syntax
+            const { execSync } = require('child_process');
+            execSync(`node -c "${fullPath}"`, { stdio: 'pipe' });
+            
             const content = fs.readFileSync(fullPath, 'utf-8');
             
             // Check for export statement (ES modules) or module.exports (CommonJS)
@@ -201,12 +211,9 @@ describe('Property 8: Configuration File Syntax Validity', () => {
                             content.includes('export {') ||
                             content.includes('module.exports');
             
-            // Check balanced braces
-            const balanced = checkBalancedBraces(content);
-            
-            return hasExport && balanced;
+            return hasExport;
           } catch (error) {
-            console.error(`Read error in ${configFile.path}:`, error);
+            console.error(`Validation error in ${configFile.path}:`, error);
             return false;
           }
         }

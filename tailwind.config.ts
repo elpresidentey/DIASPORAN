@@ -18,8 +18,9 @@ const config: Config = {
         extend: {
             // Design System: Typography
             fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                display: ['Space Grotesk', 'Inter', 'sans-serif'],
+                sans: ['var(--font-cabin)', 'Cabin', 'sans-serif'],
+                display: ['var(--font-cabin)', 'Cabin', 'sans-serif'],
+                cabin: ['var(--font-cabin)', 'Cabin', 'sans-serif'],
             },
             fontSize: {
                 'xs': '0.75rem',    // 12px

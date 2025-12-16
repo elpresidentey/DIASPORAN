@@ -12,8 +12,8 @@ const spinnerVariants = cva(
         lg: "h-12 w-12 border-3",
       },
       color: {
-        primary: "text-purple-500",
-        secondary: "text-pink-500",
+        primary: "text-primary",
+        secondary: "text-muted-foreground",
         white: "text-white",
       },
     },

@@ -151,7 +151,7 @@ describe('Property-Based Tests: Input Focus Highlighting', () => {
             
             // Should have focus-visible:border-{color} class
             const hasFocusBorderColorClass = classList.some(c => 
-              c.includes('focus-visible:border-purple') || 
+              c.includes('focus-visible:border-primary') || 
               c.includes('focus-visible:border-red')
             );
             expect(hasFocusBorderColorClass).toBe(true);
@@ -193,7 +193,7 @@ describe('Property-Based Tests: Input Focus Highlighting', () => {
     );
   });
 
-  it('Property 31: Normal inputs should have purple focus styling', () => {
+  it('Property 31: Normal inputs should have primary focus styling', () => {
     fc.assert(
       fc.property(
         inputPropsArbitrary.filter(props => !props.error),
@@ -209,19 +209,19 @@ describe('Property-Based Tests: Input Focus Highlighting', () => {
           if (input) {
             const classList = Array.from(input.classList);
             
-            // Should have purple ring color
-            const hasPurpleRing = classList.some(c => c.includes('ring-purple'));
-            expect(hasPurpleRing).toBe(true);
+            // Should have primary ring color (neutral)
+            const hasPrimaryRing = classList.some(c => c.includes('ring-primary'));
+            expect(hasPrimaryRing).toBe(true);
             
-            // Should have purple border color on focus
-            const hasPurpleBorder = classList.some(c => c.includes('focus-visible:border-purple'));
-            expect(hasPurpleBorder).toBe(true);
+            // Should have primary border color on focus
+            const hasPrimaryBorder = classList.some(c => c.includes('focus-visible:border-primary'));
+            expect(hasPrimaryBorder).toBe(true);
             
-            // Should have purple glow shadow
-            const hasPurpleGlow = classList.some(c => 
-              c.includes('shadow-[0_0_20px_rgba(168,85,247')
+            // Should have primary glow shadow (blue)
+            const hasPrimaryGlow = classList.some(c => 
+              c.includes('shadow-[0_0_20px_rgba(59,130,246')
             );
-            expect(hasPurpleGlow).toBe(true);
+            expect(hasPrimaryGlow).toBe(true);
           }
         }
       ),
@@ -287,7 +287,7 @@ describe('Property-Based Tests: Input Focus Highlighting', () => {
             );
             
             const hasFocusBorder = classList.some(c => 
-              c.includes('focus-visible:border-purple') || 
+              c.includes('focus-visible:border-primary') || 
               c.includes('focus-visible:border-red')
             );
             
@@ -447,7 +447,7 @@ describe('Property-Based Tests: Input Focus Highlighting', () => {
             
             // Ring should have a color defined
             const hasRingColor = classList.some(c => 
-              c.includes('ring-purple') || c.includes('ring-red')
+              c.includes('ring-primary') || c.includes('ring-red')
             );
             expect(hasRingColor).toBe(true);
           }

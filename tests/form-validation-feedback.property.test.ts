@@ -11,8 +11,8 @@ import { Input } from '@/components/ui/Input';
  * For any invalid form submission, errors should be highlighted inline with descriptive messages
  */
 
-// Generator for error messages (non-empty strings)
-const errorMessageArbitrary = fc.string({ minLength: 1, maxLength: 200 });
+// Generator for error messages (non-empty strings with actual content)
+const errorMessageArbitrary = fc.string({ minLength: 1, maxLength: 200 }).filter(s => s.trim().length > 0);
 
 // Generator for input types
 const inputTypeArbitrary = fc.constantFrom(

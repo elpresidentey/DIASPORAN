@@ -98,7 +98,7 @@ export default function FlightsPage() {
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
               Find Your Way{" "}
-              <span className="bg-gradient-to-r from-purple-500 to-pink-600 bg-clip-text text-transparent">
+              <span className="text-gray-700 dark:text-gray-300">
                 Home
               </span>
             </h1>
@@ -163,7 +163,7 @@ export default function FlightsPage() {
                   <div className="md:col-span-2">
                     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                       <Button
-                        className="w-full h-10 bg-purple-600 hover:bg-purple-700 text-white font-semibold shadow-lg shadow-purple-500/30"
+                        className="w-full h-10 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 font-semibold"
                         onClick={handleSearch}
                         aria-label="Search for flights"
                       >
@@ -186,7 +186,7 @@ export default function FlightsPage() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
         >
-          <Plane className="w-6 h-6 text-purple-500" />
+          <Plane className="w-6 h-6 text-gray-600 dark:text-gray-400" />
           Popular Flight Deals
         </motion.h2>
 
@@ -197,8 +197,8 @@ export default function FlightsPage() {
             title="No Flights Available"
             message="We couldn't find any flights for your search criteria. Try adjusting your dates or destinations."
             illustration={
-              <div className="mb-6 flex items-center justify-center w-24 h-24 rounded-full bg-purple-500/10">
-                <Plane className="w-12 h-12 text-purple-500" />
+              <div className="mb-6 flex items-center justify-center w-24 h-24 rounded-full bg-gray-100 dark:bg-gray-800">
+                <Plane className="w-12 h-12 text-gray-600 dark:text-gray-400" />
               </div>
             }
             action={{
@@ -264,12 +264,12 @@ function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }
       transition={{ duration: 0.2 }}
     >
       <Card
-        className="hover:border-purple-500/50 transition-colors group cursor-pointer glass"
+        className="hover:border-gray-400 dark:hover:border-gray-600 transition-colors group cursor-pointer glass"
         onClick={onClick}
       >
         <CardContent className="p-5">
           <div className="flex justify-between items-start mb-4">
-            <div className="bg-muted px-3 py-1 rounded text-xs font-medium text-purple-400 dark:text-purple-300">
+            <div className="bg-muted px-3 py-1 rounded text-xs font-medium text-gray-600 dark:text-gray-400">
               {flight.airline}
             </div>
             <motion.span
@@ -292,7 +292,7 @@ function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }
               <div className="w-full h-[1px] bg-border relative flex items-center justify-center">
                 <Plane className="w-4 h-4 text-muted-foreground absolute rotate-90" />
               </div>
-              <div className="text-xs text-purple-400 mt-1">{flight.class_type}</div>
+              <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">{flight.class_type}</div>
             </div>
             <div className="text-right">
               <div className="text-2xl font-bold">
@@ -308,7 +308,7 @@ function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }
           </div>
 
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white border-0 shadow-lg shadow-purple-500/20">
+            <Button className="w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 border-0">
               Book Ticket
             </Button>
           </motion.div>

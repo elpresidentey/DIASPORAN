@@ -91,7 +91,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               // Hover state
               !error && !disabled && "hover:border-border/80 dark:hover:border-white/20",
               // Focus state with glow effect
-              !error && "focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:border-purple-500 focus-visible:shadow-[0_0_20px_rgba(168,85,247,0.3)]",
+              !error && "focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-primary focus-visible:shadow-[0_0_20px_rgba(59,130,246,0.3)]",
               // Error state with proper contrast
               error && "border-red-500 bg-red-500/10 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:border-red-500 focus-visible:shadow-[0_0_20px_rgba(239,68,68,0.3)]",
               // Disabled state
@@ -143,7 +143,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          "flex h-14 w-full rounded-2xl border-2 border-border bg-input px-5 py-3 text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:border-purple-500 focus-visible:shadow-[0_0_20px_rgba(168,85,247,0.3)] disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300 hover:border-border/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20",
+          "flex h-14 w-full rounded-2xl border-2 border-border bg-input px-5 py-3 text-base text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-primary focus-visible:shadow-[0_0_20px_rgba(59,130,246,0.3)] disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300 hover:border-border/80 backdrop-blur-sm dark:border-white/10 dark:bg-white/5 dark:hover:border-white/20",
           className
         )}
         ref={ref}
