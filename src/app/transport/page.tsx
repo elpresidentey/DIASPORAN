@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/Button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card"
+import { PaymentDialog } from "@/components/ui/PaymentDialog"
 import { Car, MapPin, Shield, Users, Clock, ArrowRight } from "lucide-react"
 import { useState, useEffect } from "react"
 import { ErrorDisplay } from "@/components/ui/ErrorDisplay"
@@ -22,10 +23,17 @@ interface TransportOption {
 export default function TransportPage() {
     const [transportOptions, setTransportOptions] = useState<TransportOption[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [selectedTransport, setSelectedTransport] = useState<TransportOption | null>(null);
+    const [isPaymentOpen, setIsPaymentOpen] = useState(false);
 
     useEffect(() => {
         fetchTransportOptions();
     }, []);
+
+    const handleBookTransport = (transport: TransportOption) => {
+        setSelectedTransport(transport);
+        setIsPaymentOpen(true);
+    };
 
     const fetchTransportOptions = async () => {
         try {
@@ -187,7 +195,12 @@ export default function TransportPage() {
                                     </div>
                                     <div className="text-right">
                                         <div className="text-lg font-bold text-foreground">{option.currency === 'NGN' ? '₦' : option.currency}{option.price.toLocaleString()}</div>
-                                        <Button size="sm" variant="outline" className="mt-2">
+                                        <Button 
+                                            size="sm" 
+                                            variant="outline" 
+                                            className="mt-2"
+                                            onClick={() => handleBookTransport(option)}
+                                        >
                                             Book Now
                                         </Button>
                                     </div>
@@ -207,6 +220,20 @@ export default function TransportPage() {
                     />
                 )}
             </section>
+
+            {/* Payment Dialog */}
+            <PaymentDialog
+                isOpen={isPaymentOpen}
+                onClose={() => setIsPaymentOpen(false)}
+                itemType="event"
+                itemName={selectedTransport?.route_name || ""}
+                itemPrice={selectedTransport?.price || 0}
+                itemCurrency={selectedTransport?.currency}
+                itemDetails={{
+                    location: selectedTransport ? `${selectedTransport.origin} → ${selectedTransport.destination}` : "",
+                    duration: selectedTransport?.transport_type,
+                }}
+            />
         </div>
     )
 }
