@@ -294,7 +294,7 @@ export default function HomePage() {
                       }}
                       whileHover={{
                         scale: 1.05,
-                        color: "#6b7280",
+                        color: "#374151",
                         transition: { duration: 0.2 }
                       }}
                     >
@@ -303,7 +303,7 @@ export default function HomePage() {
                   ))}
                 </motion.span>
                 <motion.span 
-                  className="block text-gray-800 dark:text-gray-100 text-2xl md:text-3xl lg:text-4xl mt-4"
+                  className="block text-gray-900 dark:text-gray-50 text-2xl md:text-3xl lg:text-4xl mt-4"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, delay: 1.0 }}
@@ -319,11 +319,12 @@ export default function HomePage() {
                       ease: "easeInOut",
                     }}
                     style={{
-                      background: "linear-gradient(90deg, #1f2937, #374151, #1f2937)",
+                      background: "linear-gradient(90deg, #111827, #1f2937, #111827)",
                       backgroundSize: "200% 100%",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
+                      color: "#1f2937", // Fallback color for better contrast
                     }}
                   >
                     Book flights, stays, events & more
@@ -339,11 +340,12 @@ export default function HomePage() {
                       ease: "easeInOut",
                     }}
                     style={{
-                      background: "linear-gradient(90deg, #f9fafb, #e5e7eb, #f9fafb)",
+                      background: "linear-gradient(90deg, #ffffff, #f3f4f6, #ffffff)",
                       backgroundSize: "200% 100%",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                       backgroundClip: "text",
+                      color: "#f9fafb", // Fallback color for better contrast
                     }}
                   >
                     Book flights, stays, events & more
