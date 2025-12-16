@@ -275,7 +275,7 @@ export default function HomePage() {
             <motion.div variants={fadeInUp} className="space-y-4">
               <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight tracking-tight text-center">
                 <motion.span 
-                  className="block text-gray-900 dark:text-white"
+                  className="block text-gray-950 dark:text-white"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
@@ -284,7 +284,7 @@ export default function HomePage() {
                   {["Your", "Ultimate", "Detty", "December", "Guide"].map((word, index) => (
                     <motion.span
                       key={word}
-                      className="inline-block mr-4"
+                      className={`inline-block mr-4 ${word === "December" ? "text-primary font-extrabold" : ""} hover:text-primary transition-colors duration-200`}
                       initial={{ opacity: 0, y: 50, rotateX: -90 }}
                       animate={{ opacity: 1, y: 0, rotateX: 0 }}
                       transition={{
@@ -294,7 +294,6 @@ export default function HomePage() {
                       }}
                       whileHover={{
                         scale: 1.05,
-                        color: "#374151",
                         transition: { duration: 0.2 }
                       }}
                     >
