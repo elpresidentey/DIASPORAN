@@ -2,9 +2,8 @@
 
 import { Button } from "@/components/ui/Button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card"
-import { Calendar, User, Clock, ArrowRight, BookOpen, Camera, MapPin, Heart } from "lucide-react"
+import { Calendar, User, Clock, ArrowRight, BookOpen, Heart } from "lucide-react"
 import { useState } from "react"
-import Link from "next/link"
 
 interface BlogPost {
   id: string;
@@ -29,7 +28,7 @@ const blogPosts: BlogPost[] = [
     publishDate: "2024-12-10",
     readTime: 8,
     category: "Food & Culture",
-    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=2070&auto=format&fit=crop",
     tags: ["Lagos", "Food", "Culture", "Nigeria"]
   },
   {
@@ -41,7 +40,7 @@ const blogPosts: BlogPost[] = [
     publishDate: "2024-12-08",
     readTime: 12,
     category: "Photography",
-    image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=2070&auto=format&fit=crop",
     tags: ["Safari", "Photography", "Wildlife", "Kenya"]
   },
   {
@@ -65,7 +64,7 @@ const blogPosts: BlogPost[] = [
     publishDate: "2024-12-03",
     readTime: 6,
     category: "Culture",
-    image: "https://images.unsplash.com/photo-1580654712603-eb43273aff33?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop",
     tags: ["Ghana", "Festivals", "Culture", "Traditions"]
   },
   {
@@ -89,7 +88,7 @@ const blogPosts: BlogPost[] = [
     publishDate: "2024-11-28",
     readTime: 7,
     category: "Culture",
-    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop",
     tags: ["Ethiopia", "Coffee", "Culture", "Traditions"]
   }
 ];
@@ -106,10 +105,22 @@ const categories = [
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+  const [email, setEmail] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   const filteredPosts = selectedCategory === "all" 
     ? blogPosts 
     : blogPosts.filter(post => post.category.toLowerCase().includes(selectedCategory));
+
+  const handleNewsletterSignup = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim() && email.includes('@')) {
+      setIsSubscribed(true);
+      setEmail("");
+      // In a real app, you would send this to your newsletter service
+      setTimeout(() => setIsSubscribed(false), 3000);
+    }
+  };
 
   if (selectedPost) {
     return (
@@ -320,16 +331,19 @@ export default function BlogPage() {
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
             Get the latest travel stories, tips, and destination guides delivered to your inbox.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+          <form onSubmit={handleNewsletterSignup} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-2 rounded-md border border-border bg-background"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 px-4 py-2 rounded-md border border-border bg-background text-foreground"
+              required
             />
-            <Button className="gap-2">
-              Subscribe <Heart className="w-4 h-4" />
+            <Button type="submit" className="gap-2" disabled={isSubscribed}>
+              {isSubscribed ? "Subscribed!" : "Subscribe"} <Heart className="w-4 h-4" />
             </Button>
-          </div>
+          </form>
         </div>
       </section>
     </div>
