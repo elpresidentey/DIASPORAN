@@ -320,6 +320,7 @@ export async function signIn(data: SignInData): Promise<AuthResponse> {
   })
 
   if (error) {
+    console.error('Sign in error:', error);
     return { user: null, session: null, error }
   }
 
