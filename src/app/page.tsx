@@ -33,7 +33,7 @@ const features = [
     title: "Flights",
     description: "Find the best flight deals to African destinations with our exclusive partner airlines.",
     href: "/flights",
-    gradient: "from-sky-500 to-cyan-500",
+    gradient: "from-indigo-500 to-purple-500",
   },
   {
     icon: Hotel,

@@ -47,7 +47,8 @@ export function useCachedFetch<T = any>(options: FetchOptions) {
             }
         },
         enabled,
-        staleTime: 10 * 60 * 1000, // 10 minutes - data stays fresh longer
+        staleTime: 5 * 60 * 1000, // 5 minutes - data stays fresh
+        cacheTime: 15 * 60 * 1000, // 15 minutes - cache persists longer
         gcTime: 30 * 60 * 1000, // 30 minutes - cache persists longer
         refetchOnWindowFocus: false, // Don't refetch when window regains focus
         refetchOnMount: false, // Use cached data instantly, don't refetch

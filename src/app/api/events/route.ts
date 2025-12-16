@@ -14,12 +14,6 @@ export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
 
-    console.log('[Events API] Request received:', {
-      url: request.url,
-      params: Object.fromEntries(searchParams.entries()),
-      timestamp: new Date().toISOString()
-    })
-
     // Parse filters from query parameters
     const filters: EventFilters = {
       page: searchParams.get('page') ? parseInt(searchParams.get('page')!) : 1,
@@ -35,8 +29,6 @@ export async function GET(request: NextRequest) {
       sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'asc',
     }
 
-    console.log('[Events API] Filters:', filters)
-
     // Check if Supabase is configured
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -48,7 +40,6 @@ export async function GET(request: NextRequest) {
       supabaseUrl !== 'https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.supabase.co'
 
     if (!isSupabaseConfigured) {
-      console.log('[Events API] Using mock data - Supabase not configured')
       
       // Return mock event data
       const mockEvents = [
@@ -224,8 +215,6 @@ export async function GET(request: NextRequest) {
         },
       }
 
-      console.log('[Events API] Returning mock data with', filteredEvents.length, 'events')
-      
       return NextResponse.json(
         {
           success: true,

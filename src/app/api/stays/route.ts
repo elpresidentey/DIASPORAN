@@ -14,12 +14,6 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
 
-    console.log('[Stays API] Request received:', {
-      url: request.url,
-      params: Object.fromEntries(searchParams.entries()),
-      timestamp: new Date().toISOString()
-    })
-
     // Parse query parameters
     const filters: AccommodationFilters = {
       page: searchParams.get('page') ? parseInt(searchParams.get('page')!) : 1,
@@ -40,8 +34,6 @@ export async function GET(request: NextRequest) {
       amenities: searchParams.get('amenities') ? searchParams.get('amenities')!.split(',') : undefined,
     }
 
-    console.log('[Stays API] Filters:', filters)
-
     // Check if Supabase is configured
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -53,7 +45,7 @@ export async function GET(request: NextRequest) {
       supabaseUrl !== 'https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.supabase.co'
 
     if (!isSupabaseConfigured) {
-      console.log('[Stays API] Using mock data - Supabase not configured')
+
       
       // Return mock accommodation data
       const mockStays = [
@@ -218,8 +210,6 @@ export async function GET(request: NextRequest) {
         },
       }
 
-      console.log('[Stays API] Returning mock data with', filteredStays.length, 'stays')
-      
       return NextResponse.json(
         {
           success: true,
