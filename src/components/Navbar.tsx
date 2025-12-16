@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
-import { Menu, X, Plane, Calendar, Bed, Shield, Car, User, LogOut } from "lucide-react";
+import { Menu, X, Plane, Calendar, Bed, Shield, Car, User, LogOut, MapPin, BookOpen, DollarSign, Cloud } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { smoothScrollTo } from "@/lib/smoothScroll";
 
@@ -86,6 +86,10 @@ export default function Navbar() {
     { href: "/stays", label: "Stays", icon: Bed },
     { href: "/events", label: "Events", icon: Calendar },
     { href: "/transport", label: "Transport", icon: Car },
+    { href: "/destinations", label: "Destinations", icon: MapPin },
+    { href: "/blog", label: "Blog", icon: BookOpen },
+    { href: "/currency", label: "Currency", icon: DollarSign },
+    { href: "/weather", label: "Weather", icon: Cloud },
     { href: "/safety", label: "Safety", icon: Shield },
   ];
 
