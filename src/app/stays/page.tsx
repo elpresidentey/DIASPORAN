@@ -99,7 +99,7 @@ export default function StaysPage() {
                         transition={{ duration: 0.6 }}
                     >
                         <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                            Find Your <span className="text-gray-700 dark:text-gray-300">Sanctuary</span>
+                            <span className="text-emerald-600 dark:text-emerald-400">Find Your</span> <span className="text-gray-700 dark:text-gray-300">Sanctuary</span>
                         </h1>
                         <p className="text-muted-foreground text-lg">
                             Discover verified apartments, hotels, and shortlets for your stay.
