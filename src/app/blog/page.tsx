@@ -132,20 +132,21 @@ export default function BlogPage() {
             alt={selectedPost.title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
           <div className="absolute inset-0 flex items-end">
             <div className="container mx-auto px-4 pb-8">
               <Button
                 variant="outline"
                 onClick={() => setSelectedPost(null)}
-                className="mb-4 bg-white/10 border-white/20 text-white hover:bg-white/20"
+                className="mb-4 bg-white/20 border-white/30 text-white hover:bg-white/30 font-medium"
               >
                 ← Back to Blog
               </Button>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 max-w-4xl">
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 max-w-4xl drop-shadow-lg">
                 {selectedPost.title}
               </h1>
-              <div className="flex items-center gap-6 text-white/80">
+              <div className="flex items-center gap-6 text-white/90">
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4" />
                   {selectedPost.author}
@@ -199,14 +200,15 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Hero Section */}
-      <section className="relative py-20 px-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-10" />
+      <section className="relative py-20 px-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20 dark:opacity-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-slate-900/80 dark:from-black/80 dark:via-black/60 dark:to-black/80" />
         
         <div className="relative z-10 container mx-auto max-w-6xl text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">
             Travel <span className="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">Stories</span>
           </h1>
-          <p className="text-gray-300 text-lg md:text-xl mb-8 max-w-3xl mx-auto">
+          <p className="text-gray-200 dark:text-gray-300 text-lg md:text-xl mb-8 max-w-3xl mx-auto">
             Discover Africa through the eyes of fellow travelers. Get insider tips, cultural insights, 
             and inspiration for your next African adventure.
           </p>
@@ -241,7 +243,7 @@ export default function BlogPage() {
               </div>
               <div className="md:w-1/2 p-8">
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-medium border border-primary/30">
                     {filteredPosts[0].category}
                   </span>
                   <span className="text-muted-foreground text-sm">Featured</span>
@@ -284,7 +286,7 @@ export default function BlogPage() {
                   alt={post.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="absolute top-4 left-4 bg-primary/90 text-primary-foreground px-2 py-1 rounded-full text-xs font-medium">
+                <div className="absolute top-4 left-4 bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-medium shadow-lg">
                   {post.category}
                 </div>
               </div>
@@ -324,10 +326,10 @@ export default function BlogPage() {
       </section>
 
       {/* Newsletter Signup */}
-      <section className="bg-muted/30 py-16">
+      <section className="bg-muted/50 py-16">
         <div className="container mx-auto px-4 text-center">
           <BookOpen className="w-16 h-16 mx-auto mb-6 text-primary" />
-          <h2 className="text-3xl font-bold mb-4">Stay Updated</h2>
+          <h2 className="text-3xl font-bold mb-4 text-foreground">Stay Updated</h2>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
             Get the latest travel stories, tips, and destination guides delivered to your inbox.
           </p>
