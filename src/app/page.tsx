@@ -38,7 +38,7 @@ const features = [
   {
     icon: Hotel,
     title: "Stays",
-    description: "Discover handpicked accommodations from luxury resorts to cozy apartments.",
+    description: "Discover handpicked accommodations from luxury resorts to cozy local apartments.",
     href: "/stays",
     gradient: "from-gray-500 to-slate-500",
   },
@@ -567,7 +567,7 @@ export default function HomePage() {
                     <feature.icon className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">{feature.description}</p>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4 min-h-[3rem] leading-relaxed">{feature.description}</p>
                   <Link
                     href={feature.href}
                     prefetch={true}
