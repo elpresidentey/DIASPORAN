@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card"
 import { Calendar, User, Clock, ArrowRight, BookOpen, Heart } from "lucide-react"
 import { useState } from "react"
+import { mockActions } from "@/lib/mockActions"
 
 interface BlogPost {
   id: string;
@@ -114,10 +115,10 @@ export default function BlogPage() {
 
   const handleNewsletterSignup = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim() && email.includes('@')) {
+    const success = mockActions.subscribeNewsletter(email);
+    if (success) {
       setIsSubscribed(true);
       setEmail("");
-      // In a real app, you would send this to your newsletter service
       setTimeout(() => setIsSubscribed(false), 3000);
     }
   };

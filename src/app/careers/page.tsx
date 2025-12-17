@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { MapPin, Clock, Users, Briefcase, Heart, Globe } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { mockActions } from "@/lib/mockActions";
 
 export default function CareersPage() {
   const benefits = [
@@ -199,7 +200,11 @@ export default function CareersPage() {
                       </div>
                     </div>
                     <div className="flex-shrink-0">
-                      <Button variant="outline" className="w-full md:w-auto">
+                      <Button 
+                        variant="outline" 
+                        className="w-full md:w-auto"
+                        onClick={() => mockActions.applyForJob(job.title)}
+                      >
                         Apply Now
                       </Button>
                     </div>
@@ -229,7 +234,11 @@ export default function CareersPage() {
               Our team spans across continents, bringing diverse perspectives and experiences that make 
               our platform truly global while staying rooted in African values of ubuntu and community.
             </p>
-            <Button variant="outline" size="lg">
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={mockActions.learnAboutValues}
+            >
               Learn About Our Values
             </Button>
           </motion.div>
@@ -263,7 +272,11 @@ export default function CareersPage() {
             We&apos;re always looking for talented individuals who share our passion. 
             Send us your resume and tell us how you&apos;d like to contribute.
           </p>
-          <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button 
+            size="lg" 
+            className="bg-emerald-600 hover:bg-emerald-700 text-white"
+            onClick={mockActions.sendResume}
+          >
             Send Us Your Resume
           </Button>
         </motion.div>

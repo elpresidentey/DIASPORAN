@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Calendar, Download, ExternalLink, Award, Users, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { mockActions } from "@/lib/mockActions";
 
 export default function PressPage() {
   const pressReleases = [
@@ -141,10 +142,18 @@ export default function PressPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button 
+              size="lg" 
+              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              onClick={mockActions.downloadMediaKit}
+            >
               Download Media Kit
             </Button>
-            <Button size="lg" variant="outline">
+            <Button 
+              size="lg" 
+              variant="outline"
+              onClick={mockActions.contactPressTeam}
+            >
               Contact Press Team
             </Button>
           </motion.div>
@@ -223,7 +232,11 @@ export default function PressPage() {
                       <p className="text-muted-foreground leading-relaxed">{release.excerpt}</p>
                     </div>
                     <div className="flex gap-2 flex-shrink-0">
-                      <Button variant="outline" size="sm">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => mockActions.comingSoon("Full press release")}
+                      >
                         <ExternalLink className="w-4 h-4 mr-2" />
                         Read More
                       </Button>
@@ -313,7 +326,11 @@ export default function PressPage() {
                       <p className="text-muted-foreground text-sm mb-2">{item.description}</p>
                       <span className="text-xs text-muted-foreground">{item.size}</span>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => mockActions.downloadMediaAsset(item.title)}
+                    >
                       <Download className="w-4 h-4 mr-2" />
                       Download
                     </Button>
@@ -339,7 +356,11 @@ export default function PressPage() {
             For press inquiries, interview requests, or additional information, please contact our media team.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button 
+              size="lg" 
+              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              onClick={() => mockActions.copyToClipboard('press@diasporan.com', 'Email address')}
+            >
               press@diasporan.com
             </Button>
             <Button size="lg" variant="outline">

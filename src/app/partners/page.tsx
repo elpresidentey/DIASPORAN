@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Handshake, Globe, Users, Award, CheckCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { mockActions } from "@/lib/mockActions";
 
 export default function PartnersPage() {
   const partnerTypes = [
@@ -257,11 +258,19 @@ export default function PartnersPage() {
             Let&apos;s discuss how we can work together to create amazing experiences for the African diaspora.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button 
+              size="lg" 
+              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              onClick={mockActions.applyToPartner}
+            >
               <Handshake className="w-5 h-5 mr-2" />
               Apply to Partner
             </Button>
-            <Button size="lg" variant="outline">
+            <Button 
+              size="lg" 
+              variant="outline"
+              onClick={mockActions.downloadPartnershipGuide}
+            >
               Download Partnership Guide
             </Button>
           </div>
