@@ -10,6 +10,7 @@ import { ListSkeleton } from "@/components/ui/ListingSkeleton";
 import { PaymentDialog } from "@/components/ui/PaymentDialog";
 import { Calendar, MapPin, Search, Ticket, Clock, Music } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
@@ -250,12 +251,12 @@ function EventCard({ event, onBook }: { event: Event; onBook: () => void }) {
         onClick={handleCardClick}
       >
         <div className="relative h-48 overflow-hidden">
-          <motion.img
+          <Image
             src={image}
             alt={event.title}
-            className="w-full h-full object-cover"
-            whileHover={{ scale: 1.1 }}
-            transition={{ duration: 0.5 }}
+            fill
+            className="object-cover transition-transform duration-500 hover:scale-110"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="absolute top-4 left-4">
             <Badge className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 border-0">

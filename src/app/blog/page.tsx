@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card"
 import { Calendar, User, Clock, ArrowRight, BookOpen, Heart } from "lucide-react"
 import { useState } from "react"
+import Image from "next/image"
 import { mockActions } from "@/lib/mockActions"
 
 interface BlogPost {
@@ -128,10 +129,13 @@ export default function BlogPage() {
       <div className="min-h-screen bg-background">
         {/* Article Header */}
         <div className="relative h-96 overflow-hidden">
-          <img
+          <Image
             src={selectedPost.image}
             alt={selectedPost.title}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
           />
           <div className="absolute inset-0 bg-black/60" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
@@ -235,11 +239,13 @@ export default function BlogPage() {
           <h2 className="text-2xl font-bold mb-8">Featured Story</h2>
           <Card className="overflow-hidden hover:shadow-xl transition-shadow duration-300">
             <div className="md:flex">
-              <div className="md:w-1/2">
-                <img
+              <div className="md:w-1/2 relative h-64 md:h-auto">
+                <Image
                   src={filteredPosts[0].image}
                   alt={filteredPosts[0].title}
-                  className="w-full h-64 md:h-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
               <div className="md:w-1/2 p-8">
@@ -282,10 +288,12 @@ export default function BlogPage() {
             <Card key={post.id} className="group hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer"
                   onClick={() => setSelectedPost(post)}>
               <div className="relative h-48 overflow-hidden">
-                <img
+                <Image
                   src={post.image}
                   alt={post.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute top-4 left-4 bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-medium shadow-lg">
                   {post.category}

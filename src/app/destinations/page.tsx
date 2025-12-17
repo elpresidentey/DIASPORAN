@@ -6,6 +6,7 @@ import { PaymentDialog } from "@/components/ui/PaymentDialog"
 import { MapPin, Star, Camera, Users, Clock, ArrowRight, Plane, Calendar } from "lucide-react"
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 
 interface Destination {
   id: string;
@@ -171,10 +172,12 @@ export default function DestinationsPage() {
           {destinations.map((destination) => (
             <Card key={destination.id} className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
               <div className="relative h-48 overflow-hidden">
-                <img
+                <Image
                   src={destination.image}
                   alt={destination.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute top-4 right-4 bg-black/70 text-white px-2 py-1 rounded-full text-sm flex items-center gap-1">
                   <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />

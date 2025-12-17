@@ -9,6 +9,7 @@ import { ErrorDisplay } from "@/components/ui/ErrorDisplay"
 import { ListSkeleton } from "@/components/ui/ListingSkeleton"
 import { PaymentDialog } from "@/components/ui/PaymentDialog"
 import { Search, MapPin, Calendar, Star, Wifi, Car, Coffee, ShieldCheck, Home } from "lucide-react"
+import Image from "next/image"
 import { motion } from "framer-motion"
 import { fadeInUp, staggerContainer } from "@/lib/animations"
 import { useState } from "react"
@@ -265,12 +266,12 @@ function StayCard({ stay, onClick }: { stay: Accommodation; onClick: () => void 
                 className="overflow-hidden hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-300 group cursor-pointer glass h-full flex flex-col"
             >
                 <div className="relative h-64 overflow-hidden flex-shrink-0">
-                    <motion.img
+                    <Image
                         src={image}
                         alt={stay.name}
-                        className="w-full h-full object-cover"
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ duration: 0.5 }}
+                        fill
+                        className="object-cover transition-transform duration-500 hover:scale-110"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                     <div className="absolute top-4 right-4 flex gap-2">
                         <Badge variant="success" className="backdrop-blur-md bg-green-500/20 text-green-400 border-0">

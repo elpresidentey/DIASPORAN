@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Users, Globe, Heart, Award, Target, Zap } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/Card";
+import Image from "next/image";
 
 export default function AboutPage() {
   const values = [
@@ -104,11 +105,15 @@ export default function AboutPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <img
-              src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=800&auto=format&fit=crop"
-              alt="African landscape"
-              className="rounded-2xl shadow-2xl"
-            />
+            <div className="relative w-full h-96 rounded-2xl overflow-hidden shadow-2xl">
+              <Image
+                src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=800&auto=format&fit=crop"
+                alt="African landscape"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -177,11 +182,15 @@ export default function AboutPage() {
             >
               <Card className="text-center hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-                  />
+                  <div className="relative w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      className="object-cover"
+                      sizes="96px"
+                    />
+                  </div>
                   <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
                   <p className="text-emerald-600 dark:text-emerald-400 font-medium mb-3">{member.role}</p>
                   <p className="text-muted-foreground text-sm leading-relaxed">{member.bio}</p>

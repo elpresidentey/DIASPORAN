@@ -151,7 +151,7 @@ export default function Navbar() {
             >
               <div className="flex-shrink-0">
                 <Image
-                  src="/diasporan.png"
+                  src="/diasporan.webp"
                   alt="Diasporan Logo"
                   width={40}
                   height={40}
