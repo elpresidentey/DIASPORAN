@@ -6,6 +6,7 @@ import { X, CreditCard, Calendar, Lock, Check, AlertCircle, User, Mail, Phone } 
 import { Button } from "./Button"
 import { Input } from "./Input"
 import { Card } from "./Card"
+import * as Dialog from "@radix-ui/react-dialog"
 
 interface PaymentDialogProps {
     isOpen: boolean
@@ -90,6 +91,18 @@ export function PaymentDialog({
                             transition={{ type: "spring", stiffness: 300, damping: 25 }}
                         >
                             <Card className="bg-[#0f0f23]/95 backdrop-blur-xl border-white/10 overflow-hidden shadow-2xl shadow-black/50 text-white ring-1 ring-white/10 max-h-[85vh] flex flex-col">
+                                {/* Hidden accessibility elements */}
+                                <Dialog.Title className="sr-only">
+                                    {step === "details" ? "Enter Booking Details" : step === "payment" ? "Payment Information" : "Booking Confirmed"}
+                                </Dialog.Title>
+                                <Dialog.Description className="sr-only">
+                                    {step === "details" 
+                                        ? `Complete your booking for ${itemName}. Total: ${currencySymbol}${itemPrice.toLocaleString()}`
+                                        : step === "payment" 
+                                        ? "Enter your payment card details to complete the booking"
+                                        : "Your booking has been successfully confirmed"}
+                                </Dialog.Description>
+                                
                                 {/* Header */}
                                 <div className="relative h-24 shrink-0 overflow-hidden">
                                     {itemImage ? (

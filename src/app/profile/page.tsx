@@ -55,66 +55,19 @@ export default function ProfilePage() {
         if (!authLoading && !user) {
             router.push('/login');
         } else if (user) {
-            loadData();
+            // Use auth context data directly - no API calls needed
+            setProfile({
+                id: user.id || '',
+                email: user.email || '',
+                full_name: user.user_metadata?.full_name || user.user_metadata?.name || 'User',
+                avatar_url: user.user_metadata?.avatar_url || null,
+                phone: user.phone || null,
+                bio: null,
+                created_at: user.created_at || new Date().toISOString(),
+            });
+            setIsLoadingData(false);
         }
     }, [user, authLoading, router]);
-
-    const loadData = async () => {
-        setIsLoadingData(true);
-        // Load profile first (faster), then bookings
-        // This provides faster initial render
-        await fetchProfile();
-        fetchBookings(); // Don't await - load in background
-        setIsLoadingData(false);
-    };
-
-    const fetchProfile = async () => {
-        try {
-            const response = await fetch('/api/profile');
-
-            if (!response.ok) {
-                // If API fails, fall back to auth data silently
-                console.warn('Profile API failed, using auth data fallback');
-                throw new Error('Using fallback');
-            }
-
-            const data = await response.json();
-
-            if (data.success && data.data) {
-                setProfile(data.data);
-            } else {
-                throw new Error('No data');
-            }
-        } catch (err) {
-            // Fallback to user data from auth context
-            if (user) {
-                setProfile({
-                    id: user.id || '',
-                    email: user.email || '',
-                    full_name: user.user_metadata?.full_name || user.user_metadata?.name || 'User',
-                    avatar_url: user.user_metadata?.avatar_url || null,
-                    phone: user.phone || null,
-                    bio: null,
-                    created_at: user.created_at || new Date().toISOString(),
-                });
-            }
-        }
-    };
-
-    const fetchBookings = async () => {
-        try {
-            const response = await fetch('/api/bookings?status=confirmed,pending&limit=5');
-
-            if (response.ok) {
-                const data = await response.json();
-                if (data.success && data.data) {
-                    setBookings(data.data);
-                }
-            }
-        } catch (err) {
-            console.error('Error fetching bookings:', err);
-        }
-    };
 
     const handleLogout = async () => {
         await signOut();
