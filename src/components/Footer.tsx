@@ -5,15 +5,37 @@ import { usePathname } from "next/navigation"
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Heart } from "lucide-react"
 import { motion } from "framer-motion"
 import { smoothScrollTo } from "@/lib/smoothScroll"
+import { mockActions } from "@/lib/mockActions"
+import { useState } from "react"
 
 export default function Footer() {
     const currentYear = new Date().getFullYear()
     const pathname = usePathname()
+    const [email, setEmail] = useState("")
+    const [isSubscribed, setIsSubscribed] = useState(false)
 
     const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (pathname === '/') {
             e.preventDefault()
             smoothScrollTo(0, { duration: 600, offset: 0 })
+        }
+    }
+
+    const handleNewsletterSignup = (e: React.FormEvent) => {
+        e.preventDefault()
+        const success = mockActions.subscribeNewsletter(email)
+        if (success) {
+            setIsSubscribed(true)
+            setEmail("")
+            setTimeout(() => setIsSubscribed(false), 3000)
+        }
+    }
+
+    const handleSupportLink = (href: string, label: string) => {
+        // Check if it's a page that doesn't exist yet
+        const mockPages = ['/help', '/contact', '/faqs', '/terms', '/privacy']
+        if (mockPages.includes(href)) {
+            mockActions.comingSoon(`${label} page`)
         }
     }
 
@@ -85,14 +107,20 @@ export default function Footer() {
 
                             {/* Contact Info */}
                             <div className="space-y-3">
-                                <a href="mailto:hello@diasporan.com" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
+                                <button 
+                                    onClick={() => mockActions.sendEmail("hello@diasporan.com")}
+                                    className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+                                >
                                     <Mail className="w-5 h-5" />
                                     <span>hello@diasporan.com</span>
-                                </a>
-                                <a href="tel:+2341234567890" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
+                                </button>
+                                <button 
+                                    onClick={() => mockActions.callPhone("+2341234567890")}
+                                    className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+                                >
                                     <Phone className="w-5 h-5" />
                                     <span>+234 123 456 7890</span>
-                                </a>
+                                </button>
                                 <div className="flex items-center gap-3 text-muted-foreground">
                                     <MapPin className="w-5 h-5" />
                                     <span>Lagos, Nigeria</span>
@@ -156,12 +184,12 @@ export default function Footer() {
                         <ul className="space-y-3">
                             {footerLinks.support.map((link) => (
                                 <li key={link.href}>
-                                    <Link
-                                        href={link.href}
-                                        className="text-muted-foreground hover:text-primary transition-colors inline-block hover:translate-x-1 transform duration-200"
+                                    <button
+                                        onClick={() => handleSupportLink(link.href, link.label)}
+                                        className="text-muted-foreground hover:text-primary transition-colors inline-block hover:translate-x-1 transform duration-200 text-left"
                                     >
                                         {link.label}
-                                    </Link>
+                                    </button>
                                 </li>
                             ))}
                         </ul>
@@ -194,18 +222,16 @@ export default function Footer() {
                         transition={{ duration: 0.5, delay: 0.5 }}
                     >
                         {socialLinks.map((social) => (
-                            <motion.a
+                            <motion.button
                                 key={social.label}
-                                href={social.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                onClick={() => mockActions.openSocialMedia(social.label, social.href)}
                                 className="w-10 h-10 rounded-lg glass-strong flex items-center justify-center text-muted-foreground hover:text-foreground hover:glass-stronger transition-all"
                                 whileHover={{ scale: 1.1, y: -2 }}
                                 whileTap={{ scale: 0.95 }}
                                 aria-label={social.label}
                             >
                                 <social.icon className="w-5 h-5" />
-                            </motion.a>
+                            </motion.button>
                         ))}
                     </motion.div>
                 </div>
@@ -225,20 +251,25 @@ export default function Footer() {
                         <p className="text-muted-foreground mb-6">
                             Get exclusive deals, event updates, and travel tips delivered to your inbox.
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                        <form onSubmit={handleNewsletterSignup} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                             <input
                                 type="email"
                                 placeholder="Enter your email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
                                 className="flex-1 px-4 py-3 rounded-lg bg-background/50 border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                             />
                             <motion.button
-                                className="px-6 py-3 rounded-lg bg-gradient-to-r from-primary to-accent text-white font-semibold shadow-glow-neutral hover:shadow-glow-subtle transition-all"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                                type="submit"
+                                disabled={isSubscribed}
+                                className="px-6 py-3 rounded-lg bg-gradient-to-r from-primary to-accent text-white font-semibold shadow-glow-neutral hover:shadow-glow-subtle transition-all disabled:opacity-50"
+                                whileHover={{ scale: isSubscribed ? 1 : 1.05 }}
+                                whileTap={{ scale: isSubscribed ? 1 : 0.95 }}
                             >
-                                Subscribe
+                                {isSubscribed ? "Subscribed!" : "Subscribe"}
                             </motion.button>
-                        </div>
+                        </form>
                     </div>
                 </motion.div>
             </div>

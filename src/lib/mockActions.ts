@@ -148,4 +148,26 @@ export const mockActions = {
       showNotification("error", "Copy failed", "Unable to copy to clipboard. Please try again.");
     });
   },
+
+  // Footer specific actions
+  openSocialMedia: (platform: string, url: string) => {
+    showNotification("info", `Opening ${platform}`, "Redirecting to our social media page.");
+    setTimeout(() => {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }, 500);
+  },
+
+  callPhone: (number: string) => {
+    showNotification("info", "Opening phone app", `Calling ${number}`);
+    setTimeout(() => {
+      window.open(`tel:${number}`, '_self');
+    }, 500);
+  },
+
+  sendEmail: (email: string) => {
+    showNotification("info", "Opening email client", `Composing email to ${email}`);
+    setTimeout(() => {
+      window.open(`mailto:${email}?subject=Hello Diasporan Team`, '_blank');
+    }, 500);
+  },
 };
