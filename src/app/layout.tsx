@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
 import { QueryProvider } from "@/components/QueryProvider";
 import { DataPrefetcher } from "@/components/DataPrefetcher";
+import { PrefetchLinks } from "@/components/PrefetchLinks";
 
 // Optimize font loading
 const cabin = Cabin({
@@ -40,6 +41,7 @@ export default function RootLayout({
       <body className="bg-background text-foreground min-h-screen flex flex-col transition-colors duration-300">
         <QueryProvider>
           <DataPrefetcher />
+          <PrefetchLinks />
           <ThemeProvider>
             <AuthProvider>
               <ToastProvider>

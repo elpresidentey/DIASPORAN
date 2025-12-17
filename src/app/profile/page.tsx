@@ -61,7 +61,10 @@ export default function ProfilePage() {
 
     const loadData = async () => {
         setIsLoadingData(true);
-        await Promise.all([fetchProfile(), fetchBookings()]);
+        // Load profile first (faster), then bookings
+        // This provides faster initial render
+        await fetchProfile();
+        fetchBookings(); // Don't await - load in background
         setIsLoadingData(false);
     };
 
