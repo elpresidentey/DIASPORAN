@@ -289,7 +289,7 @@ export default function SafetyPage() {
           <AlertTriangle className="w-16 h-16 mx-auto mb-6 text-red-600 dark:text-red-400" />
           <h2 className="text-3xl font-bold mb-4 text-red-800 dark:text-red-200">In Case of Emergency</h2>
           <p className="text-red-700 dark:text-red-300 text-lg mb-6 max-w-2xl mx-auto">
-            If you're in immediate danger or need urgent assistance while traveling, contact local emergency services first, 
+            If you&apos;re in immediate danger or need urgent assistance while traveling, contact local emergency services first, 
             then reach out to your embassy or consulate.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

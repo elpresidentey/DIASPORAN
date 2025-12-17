@@ -10,7 +10,7 @@ export default function TermsPage() {
   const sections = [
     {
       title: "1. Acceptance of Terms",
-      content: `By accessing and using Diasporan's services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.`
+      content: `By accessing and using Diasporan&apos;s services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.`
     },
     {
       title: "2. Service Description",
@@ -88,7 +88,7 @@ export default function TermsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Please read these terms carefully before using Diasporan's services.
+            Please read these terms carefully before using Diasporan&apos;s services.
           </motion.p>
           <motion.div
             className="flex items-center justify-center gap-2 text-muted-foreground"

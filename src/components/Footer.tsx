@@ -54,7 +54,7 @@ export default function Footer() {
         support: [
             { label: "Help Center", href: "/help" },
             { label: "Contact Us", href: "/contact" },
-            { label: "FAQs", href: "/faqs" },
+            { label: "FAQs", href: "/faq" },
             { label: "Terms of Service", href: "/terms" },
             { label: "Privacy Policy", href: "/privacy" },
         ],

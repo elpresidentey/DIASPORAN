@@ -270,7 +270,7 @@ export default function PrivacyPage() {
           <Mail className="w-16 h-16 mx-auto mb-6 text-emerald-600 dark:text-emerald-400" />
           <h2 className="text-3xl font-bold mb-4">Questions About Your Privacy?</h2>
           <p className="text-muted-foreground text-lg mb-6 max-w-2xl mx-auto">
-            If you have any questions about this Privacy Policy or how we handle your personal information, please don't hesitate to contact us.
+            If you have any questions about this Privacy Policy or how we handle your personal information, please don&apos;t hesitate to contact us.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button

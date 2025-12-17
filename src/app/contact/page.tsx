@@ -104,7 +104,7 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            We're here to help make your African travel experience unforgettable. Get in touch with our team.
+            We&apos;re here to help make your African travel experience unforgettable. Get in touch with our team.
           </motion.p>
         </div>
       </section>
@@ -120,7 +120,7 @@ export default function ContactPage() {
         >
           <h2 className="text-3xl font-bold mb-4">Get In Touch</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Choose your preferred way to reach us. We're committed to providing excellent support.
+            Choose your preferred way to reach us. We&apos;re committed to providing excellent support.
           </p>
         </motion.div>
 
