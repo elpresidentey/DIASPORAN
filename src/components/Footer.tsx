@@ -31,12 +31,9 @@ export default function Footer() {
         }
     }
 
-    const handleSupportLink = (href: string, label: string) => {
-        // Check if it's a page that doesn't exist yet
-        const mockPages = ['/help', '/contact', '/faqs', '/terms', '/privacy']
-        if (mockPages.includes(href)) {
-            mockActions.comingSoon(`${label} page`)
-        }
+    const handleSupportLink = (href: string) => {
+        // Navigate to the actual page
+        window.location.href = href;
     }
 
     const footerLinks = {
@@ -184,12 +181,12 @@ export default function Footer() {
                         <ul className="space-y-3">
                             {footerLinks.support.map((link) => (
                                 <li key={link.href}>
-                                    <button
-                                        onClick={() => handleSupportLink(link.href, link.label)}
-                                        className="text-muted-foreground hover:text-primary transition-colors inline-block hover:translate-x-1 transform duration-200 text-left"
+                                    <Link
+                                        href={link.href}
+                                        className="text-muted-foreground hover:text-primary transition-colors inline-block hover:translate-x-1 transform duration-200"
                                     >
                                         {link.label}
-                                    </button>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
