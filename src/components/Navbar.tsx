@@ -159,7 +159,7 @@ export default function Navbar() {
                   priority
                 />
               </div>
-              <span className="text-xl font-semibold text-foreground leading-none">
+              <span className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-blue-600 dark:from-emerald-400 dark:to-blue-400 bg-clip-text text-transparent leading-none tracking-tight">
                 Diasporan
               </span>
             </Link>
