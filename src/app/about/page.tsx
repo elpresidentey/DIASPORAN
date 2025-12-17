@@ -9,22 +9,22 @@ export default function AboutPage() {
     {
       icon: Heart,
       title: "Community First",
-      description: "We believe in connecting the African diaspora and creating meaningful experiences that bring people together."
+      description: "We believe in connecting the African diaspora and creating meaningful experiences that bring people together worldwide."
     },
     {
       icon: Globe,
       title: "Cultural Bridge",
-      description: "Bridging the gap between diaspora communities and their homeland through authentic travel experiences."
+      description: "Bridging the gap between diaspora communities and their homeland through authentic travel experiences and cultural connections."
     },
     {
       icon: Award,
       title: "Excellence",
-      description: "We strive for excellence in every service we provide, ensuring memorable and safe travel experiences."
+      description: "We strive for excellence in every service we provide, ensuring memorable and safe travel experiences for all."
     },
     {
       icon: Target,
       title: "Purpose-Driven",
-      description: "Our mission is to make African travel accessible, safe, and enjoyable for everyone in the diaspora."
+      description: "Our mission is to make African travel accessible, safe, and enjoyable for everyone in the diaspora community."
     }
   ];
 
@@ -139,15 +139,11 @@ export default function AboutPage() {
             >
               <Card className="h-full hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
-                      <value.icon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold mb-2">{value.title}</h3>
-                      <p className="text-muted-foreground leading-relaxed">{value.description}</p>
-                    </div>
+                  <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-6">
+                    <value.icon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
+                  <h3 className="text-xl font-semibold mb-3">{value.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed min-h-[4rem] text-sm">{value.description}</p>
                 </CardContent>
               </Card>
             </motion.div>

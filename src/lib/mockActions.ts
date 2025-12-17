@@ -3,20 +3,58 @@
  * These provide realistic feedback without actual backend integration
  */
 
-// We'll create a simple notification system that works with the existing toast provider
+// Better UX notification system with less intrusive feedback
 const showNotification = (type: 'success' | 'error' | 'info', title: string, description?: string) => {
-  // For now, we'll use console.log and alert as fallback
-  // In a real implementation, this would integrate with the ToastProvider
   console.log(`${type.toUpperCase()}: ${title}${description ? ` - ${description}` : ''}`);
   
-  // Simple user feedback
+  // Create a more subtle notification element
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 16px 20px;
+    border-radius: 8px;
+    color: white;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    max-width: 350px;
+    word-wrap: break-word;
+  `;
+  
+  // Set colors based on type
   if (type === 'success') {
-    alert(`✅ ${title}${description ? `\n${description}` : ''}`);
+    notification.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+    notification.innerHTML = `<div style="display: flex; align-items: center; gap: 8px;"><span>✅</span><div><strong>${title}</strong>${description ? `<br><span style="opacity: 0.9; font-size: 12px;">${description}</span>` : ''}</div></div>`;
   } else if (type === 'error') {
-    alert(`❌ ${title}${description ? `\n${description}` : ''}`);
+    notification.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+    notification.innerHTML = `<div style="display: flex; align-items: center; gap: 8px;"><span>❌</span><div><strong>${title}</strong>${description ? `<br><span style="opacity: 0.9; font-size: 12px;">${description}</span>` : ''}</div></div>`;
   } else {
-    alert(`ℹ️ ${title}${description ? `\n${description}` : ''}`);
+    notification.style.background = 'linear-gradient(135deg, #3b82f6, #2563eb)';
+    notification.innerHTML = `<div style="display: flex; align-items: center; gap: 8px;"><span>ℹ️</span><div><strong>${title}</strong>${description ? `<br><span style="opacity: 0.9; font-size: 12px;">${description}</span>` : ''}</div></div>`;
   }
+  
+  document.body.appendChild(notification);
+  
+  // Animate in
+  setTimeout(() => {
+    notification.style.transform = 'translateX(0)';
+  }, 100);
+  
+  // Auto remove after 4 seconds
+  setTimeout(() => {
+    notification.style.transform = 'translateX(100%)';
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 300);
+  }, 4000);
 };
 
 export const mockActions = {

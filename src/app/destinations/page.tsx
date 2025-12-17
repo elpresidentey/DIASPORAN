@@ -258,31 +258,37 @@ export default function DestinationsPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="text-center">
-              <CardHeader>
-                <Camera className="w-12 h-12 mx-auto mb-4 text-blue-500" />
-                <CardTitle>Photography Guide</CardTitle>
-                <CardDescription>
+            <Card className="text-center h-full hover:shadow-lg transition-shadow">
+              <CardHeader className="p-6">
+                <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mx-auto mb-6">
+                  <Camera className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                </div>
+                <CardTitle className="mb-3">Photography Guide</CardTitle>
+                <CardDescription className="min-h-[4rem] text-sm leading-relaxed">
                   Best spots and times for capturing stunning African landscapes and culture.
                 </CardDescription>
               </CardHeader>
             </Card>
             
-            <Card className="text-center">
-              <CardHeader>
-                <Users className="w-12 h-12 mx-auto mb-4 text-green-500" />
-                <CardTitle>Cultural Etiquette</CardTitle>
-                <CardDescription>
+            <Card className="text-center h-full hover:shadow-lg transition-shadow">
+              <CardHeader className="p-6">
+                <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center mx-auto mb-6">
+                  <Users className="w-6 h-6 text-green-600 dark:text-green-400" />
+                </div>
+                <CardTitle className="mb-3">Cultural Etiquette</CardTitle>
+                <CardDescription className="min-h-[4rem] text-sm leading-relaxed">
                   Learn about local customs, traditions, and respectful travel practices.
                 </CardDescription>
               </CardHeader>
             </Card>
             
-            <Card className="text-center">
-              <CardHeader>
-                <MapPin className="w-12 h-12 mx-auto mb-4 text-purple-500" />
-                <CardTitle>Hidden Gems</CardTitle>
-                <CardDescription>
+            <Card className="text-center h-full hover:shadow-lg transition-shadow">
+              <CardHeader className="p-6">
+                <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mx-auto mb-6">
+                  <MapPin className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                </div>
+                <CardTitle className="mb-3">Hidden Gems</CardTitle>
+                <CardDescription className="min-h-[4rem] text-sm leading-relaxed">
                   Discover off-the-beaten-path destinations known only to locals.
                 </CardDescription>
               </CardHeader>

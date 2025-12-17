@@ -11,22 +11,22 @@ export default function CareersPage() {
     {
       icon: Globe,
       title: "Remote-First Culture",
-      description: "Work from anywhere in the world while building the future of African travel."
+      description: "Work from anywhere in the world while building the future of African travel and connecting communities."
     },
     {
       icon: Heart,
       title: "Health & Wellness",
-      description: "Comprehensive health insurance and wellness programs for you and your family."
+      description: "Comprehensive health insurance and wellness programs for you and your family's complete wellbeing."
     },
     {
       icon: Users,
       title: "Learning & Growth",
-      description: "Continuous learning opportunities, mentorship programs, and conference attendance."
+      description: "Continuous learning opportunities, mentorship programs, and conference attendance for professional development."
     },
     {
       icon: Briefcase,
       title: "Equity & Ownership",
-      description: "Be part of our success with competitive equity packages for all team members."
+      description: "Be part of our success with competitive equity packages for all team members and stakeholders."
     }
   ];
 
@@ -138,15 +138,11 @@ export default function CareersPage() {
             >
               <Card className="h-full hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
-                      <benefit.icon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
-                      <p className="text-muted-foreground leading-relaxed">{benefit.description}</p>
-                    </div>
+                  <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-6">
+                    <benefit.icon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
+                  <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed min-h-[4rem] text-sm">{benefit.description}</p>
                 </CardContent>
               </Card>
             </motion.div>

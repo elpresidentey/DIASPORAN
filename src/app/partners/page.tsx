@@ -132,15 +132,11 @@ export default function PartnersPage() {
             >
               <Card className="h-full hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
-                      <type.icon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold mb-2">{type.title}</h3>
-                      <p className="text-muted-foreground leading-relaxed mb-4">{type.description}</p>
-                    </div>
+                  <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-6">
+                    <type.icon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
+                  <h3 className="text-xl font-semibold mb-3">{type.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-4 min-h-[4rem] text-sm">{type.description}</p>
                   <div className="space-y-2">
                     {type.benefits.map((benefit, i) => (
                       <div key={i} className="flex items-center gap-2 text-sm">

@@ -31,28 +31,28 @@ const features = [
   {
     icon: Plane,
     title: "Flights",
-    description: "Find the best flight deals to African destinations with our exclusive partner airlines.",
+    description: "Find the best flight deals to African destinations with our exclusive partner airlines worldwide.",
     href: "/flights",
     gradient: "from-indigo-500 to-purple-500",
   },
   {
     icon: Hotel,
     title: "Stays",
-    description: "Discover handpicked accommodations from luxury resorts to cozy local apartments.",
+    description: "Discover handpicked accommodations from luxury resorts to cozy local apartments and hotels.",
     href: "/stays",
     gradient: "from-gray-500 to-slate-500",
   },
   {
     icon: Music,
     title: "Events",
-    description: "Never miss out on the hottest parties, concerts, and cultural events.",
+    description: "Never miss out on the hottest parties, concerts, and cultural events happening now.",
     href: "/events",
     gradient: "from-amber-500 to-orange-500",
   },
   {
     icon: Shield,
     title: "Safety",
-    description: "Travel with confidence using our verified safety guides and local tips.",
+    description: "Travel with confidence using our verified safety guides and local tips from experts.",
     href: "/safety",
     gradient: "from-emerald-500 to-teal-500",
   },
@@ -567,7 +567,7 @@ export default function HomePage() {
                     <feature.icon className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 min-h-[3rem] leading-relaxed">{feature.description}</p>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4 min-h-[4rem] leading-relaxed text-sm">{feature.description}</p>
                   <Link
                     href={feature.href}
                     prefetch={true}
