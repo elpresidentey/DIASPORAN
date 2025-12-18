@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card"
 import { Input } from "@/components/ui/Input"
 import { ArrowUpDown, TrendingUp, TrendingDown, DollarSign, RefreshCw } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 
 interface ExchangeRate {
   currency: string;
@@ -32,11 +32,7 @@ export default function CurrencyPage() {
   const [convertedAmount, setConvertedAmount] = useState<number>(0);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
-  useEffect(() => {
-    convertCurrency();
-  }, [amount, fromCurrency, toCurrency]);
-
-  const convertCurrency = () => {
+  const convertCurrency = useCallback(() => {
     const numAmount = parseFloat(amount) || 0;
     
     if (fromCurrency === "NGN") {
@@ -52,7 +48,11 @@ export default function CurrencyPage() {
       const ngnAmount = numAmount / fromRate;
       setConvertedAmount(ngnAmount * toRate);
     }
-  };
+  }, [amount, fromCurrency, toCurrency]);
+
+  useEffect(() => {
+    convertCurrency();
+  }, [convertCurrency]);
 
   const swapCurrencies = () => {
     setFromCurrency(toCurrency);

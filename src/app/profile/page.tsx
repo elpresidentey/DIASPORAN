@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 import { Button } from "@/components/ui/Button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card"
 import { Badge } from "@/components/ui/Badge"
@@ -9,7 +10,6 @@ import { EmptyState } from "@/components/ui/EmptyState"
 import { ErrorDisplay } from "@/components/ui/ErrorDisplay"
 import { User, Settings, Calendar, Heart, LogOut, Ticket, Clock } from "lucide-react"
 import { useAuth } from "@/contexts/AuthContext"
-import { useRealtimeBookings } from "@/lib/hooks"
 
 interface UserProfile {
     id: string;
@@ -37,19 +37,7 @@ export default function ProfilePage() {
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [isLoadingData, setIsLoadingData] = useState(true);
 
-    // Set up real-time subscription for bookings
-    useRealtimeBookings({
-        userId: user?.id,
-        onInsert: (booking) => {
-            setBookings(prev => [booking as any, ...prev]);
-        },
-        onUpdate: (booking) => {
-            setBookings(prev => prev.map(b => b.id === booking.id ? booking as any : b));
-        },
-        onDelete: (booking) => {
-            setBookings(prev => prev.filter(b => b.id !== booking.id));
-        },
-    });
+    // Note: Real-time bookings disabled to prevent connection delays when Supabase not configured
 
     useEffect(() => {
         if (!authLoading && !user) {
@@ -126,9 +114,11 @@ export default function ProfilePage() {
                     <div className="md:col-span-1 space-y-6">
                         <Card className="bg-card border-border text-center p-6">
                             {profile.avatar_url ? (
-                                <img
+                                <Image
                                     src={profile.avatar_url}
                                     alt={profile.full_name || 'Profile'}
+                                    width={96}
+                                    height={96}
                                     className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                                 />
                             ) : (

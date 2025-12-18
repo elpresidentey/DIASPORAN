@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, CreditCard, Calendar, Lock, Check, AlertCircle, User, Mail, Phone } from "lucide-react"
+import Image from "next/image"
 import { Button } from "./Button"
 import { Input } from "./Input"
 import { Card } from "./Card"
@@ -106,7 +107,7 @@ export function PaymentDialog({
                                 {/* Header */}
                                 <div className="relative h-24 shrink-0 overflow-hidden">
                                     {itemImage ? (
-                                        <img src={itemImage} alt={itemName} className="w-full h-full object-cover" />
+                                        <Image src={itemImage} alt={itemName} fill className="object-cover" />
                                     ) : (
                                         <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900" />
                                     )}

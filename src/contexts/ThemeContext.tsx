@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 
 type Theme = 'light' | 'dark' | 'system';
 type ResolvedTheme = 'light' | 'dark';
@@ -44,12 +44,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   // Resolve theme based on current setting
-  const resolveTheme = (currentTheme: Theme): ResolvedTheme => {
+  const resolveTheme = useCallback((currentTheme: Theme): ResolvedTheme => {
     if (currentTheme === 'system') {
       return getSystemTheme();
     }
     return currentTheme;
-  };
+  }, []);
 
   // Apply theme to document - Optimized for performance
   const applyTheme = (resolved: ResolvedTheme) => {
@@ -138,7 +138,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
     
     console.debug('[ThemeContext] Theme system initialized');
-  }, []);
+  }, [resolveTheme]);
 
   // Listen for system theme changes with error handling
   useEffect(() => {

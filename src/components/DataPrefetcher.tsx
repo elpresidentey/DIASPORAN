@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
 /**
@@ -10,16 +10,7 @@ import { useQueryClient } from '@tanstack/react-query';
 export function DataPrefetcher() {
     const queryClient = useQueryClient();
 
-    useEffect(() => {
-        // Wait 2 seconds after page load, then prefetch
-        const timer = setTimeout(() => {
-            prefetchData();
-        }, 2000);
-
-        return () => clearTimeout(timer);
-    }, []);
-
-    const prefetchData = async () => {
+    const prefetchData = useCallback(async () => {
         // Prefetch Events
         queryClient.prefetchQuery({
             queryKey: ['events', ''],
@@ -57,7 +48,16 @@ export function DataPrefetcher() {
         });
 
         console.log('✅ Prefetched data for Events, Flights, and Stays');
-    };
+    }, [queryClient]);
+
+    useEffect(() => {
+        // Wait 2 seconds after page load, then prefetch
+        const timer = setTimeout(() => {
+            prefetchData();
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }, [prefetchData]);
 
     return null; // This component doesn't render anything
 }
