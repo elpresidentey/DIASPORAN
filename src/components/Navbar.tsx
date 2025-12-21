@@ -102,6 +102,7 @@ export default function Navbar() {
   const allNavLinks = [...primaryNavLinks, ...secondaryNavLinks];
 
   const isActive = (href: string) => {
+    if (!pathname) return false;
     if (href === "/") {
       return pathname === "/";
     }

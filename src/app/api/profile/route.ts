@@ -10,6 +10,16 @@ import { createServerClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic';
 
+// Define profile type to avoid TypeScript issues
+interface ProfileData {
+  id: string;
+  full_name?: string | null;
+  phone?: string | null;
+  bio?: string | null;
+  avatar_url?: string | null;
+  updated_at?: string;
+}
+
 /**
  * GET /api/profile - Get user profile
  */
@@ -40,6 +50,9 @@ export async function GET(request: NextRequest) {
       .eq('id', user.id)
       .single()
 
+    // Handle profile not found (PGRST116 is "not found" error)
+    const profileData: ProfileData | null = (profileError && profileError.code === 'PGRST116') ? null : (profile as ProfileData | null);
+
     if (profileError && profileError.code !== 'PGRST116') {
       return NextResponse.json(
         {
@@ -58,12 +71,12 @@ export async function GET(request: NextRequest) {
     const userProfile = {
       id: user.id,
       email: user.email,
-      full_name: profile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name,
-      avatar_url: profile?.avatar_url || user.user_metadata?.avatar_url,
-      phone: profile?.phone || user.phone,
-      bio: profile?.bio,
+      full_name: profileData?.full_name || user.user_metadata?.full_name || user.user_metadata?.name,
+      avatar_url: profileData?.avatar_url || user.user_metadata?.avatar_url,
+      phone: profileData?.phone || user.phone,
+      bio: profileData?.bio,
       created_at: user.created_at,
-      updated_at: profile?.updated_at || user.updated_at,
+      updated_at: profileData?.updated_at || user.updated_at,
     }
 
     return NextResponse.json(
@@ -130,7 +143,7 @@ export async function PUT(request: NextRequest) {
     }
 
     // Update or insert profile
-    const profileData = {
+    const profileData: ProfileData = {
       id: user.id,
       full_name: full_name || null,
       phone: phone || null,
@@ -141,7 +154,7 @@ export async function PUT(request: NextRequest) {
 
     const { data: profile, error: upsertError } = await supabase
       .from('profiles')
-      .upsert(profileData)
+      .upsert(profileData as any)
       .select()
       .single()
 
