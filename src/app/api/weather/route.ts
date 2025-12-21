@@ -121,65 +121,26 @@ interface WeatherAPIResponse {
   }
 }
 
-// Mock data fallback
-const mockWeatherData = {
-  "lagos": {
-    city: "Lagos",
-    country: "Nigeria",
-    temperature: 28,
-    condition: "Partly Cloudy",
-    description: "Warm with occasional clouds",
-    humidity: 75,
-    windSpeed: 12,
-    visibility: 10,
-    pressure: 1013,
-    forecast: [
-      { day: "Today", date: "Dec 18", high: 30, low: 24, condition: "Partly Cloudy", precipitation: 20 },
-      { day: "Tomorrow", date: "Dec 19", high: 29, low: 23, condition: "Sunny", precipitation: 10 },
-      { day: "Friday", date: "Dec 20", high: 31, low: 25, condition: "Thunderstorms", precipitation: 80 },
-      { day: "Saturday", date: "Dec 21", high: 27, low: 22, condition: "Rainy", precipitation: 90 },
-      { day: "Sunday", date: "Dec 22", high: 29, low: 24, condition: "Partly Cloudy", precipitation: 30 }
-    ]
-  },
-  "accra": {
-    city: "Accra",
-    country: "Ghana",
-    temperature: 26,
-    condition: "Sunny",
-    description: "Clear skies with gentle breeze",
-    humidity: 68,
-    windSpeed: 15,
-    visibility: 12,
-    pressure: 1015,
-    forecast: [
-      { day: "Today", date: "Dec 18", high: 28, low: 22, condition: "Sunny", precipitation: 5 },
-      { day: "Tomorrow", date: "Dec 19", high: 27, low: 21, condition: "Partly Cloudy", precipitation: 15 },
-      { day: "Friday", date: "Dec 20", high: 29, low: 23, condition: "Sunny", precipitation: 0 },
-      { day: "Saturday", date: "Dec 21", high: 30, low: 24, condition: "Partly Cloudy", precipitation: 20 },
-      { day: "Sunday", date: "Dec 22", high: 28, low: 22, condition: "Cloudy", precipitation: 40 }
-    ]
-  }
-}
-
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const city = searchParams.get('city') || 'lagos'
     
-    // WeatherAPI.com free tier API key (you can get one at https://www.weatherapi.com/)
+    // WeatherAPI.com API key - get your free key at https://www.weatherapi.com/
     const API_KEY = process.env.WEATHER_API_KEY
     
     if (!API_KEY) {
-      console.log('[Weather API] No API key found, using mock data')
-      const mockData = mockWeatherData[city.toLowerCase() as keyof typeof mockWeatherData]
-      if (mockData) {
-        return NextResponse.json({ success: true, data: mockData })
-      } else {
-        return NextResponse.json({ success: false, error: 'City not found in mock data' }, { status: 404 })
-      }
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Weather API key not configured. Please add WEATHER_API_KEY to your environment variables.',
+          instructions: 'Get a free API key from https://www.weatherapi.com/ and add it to your .env.local file'
+        },
+        { status: 500 }
+      )
     }
 
-    console.log(`[Weather API] Fetching weather for: ${city}`)
+    console.log(`[Weather API] Fetching live weather data for: ${city}`)
     
     const response = await fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${encodeURIComponent(city)}&days=5&aqi=no&alerts=no`,
@@ -192,6 +153,26 @@ export async function GET(request: NextRequest) {
     )
 
     if (!response.ok) {
+      if (response.status === 400) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'City not found. Please check the city name and try again.',
+          },
+          { status: 404 }
+        )
+      }
+      
+      if (response.status === 401) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'Invalid API key. Please check your WEATHER_API_KEY configuration.',
+          },
+          { status: 401 }
+        )
+      }
+      
       throw new Error(`Weather API error: ${response.status} ${response.statusText}`)
     }
 
@@ -210,10 +191,19 @@ export async function GET(request: NextRequest) {
       pressure: Math.round(weatherData.current.pressure_mb),
       forecast: weatherData.forecast.forecastday.map((day, index) => {
         const date = new Date(day.date)
-        const dayNames = ['Today', 'Tomorrow', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday']
+        
+        // Get the correct day name based on the actual date
+        let dayName: string
+        if (index === 0) {
+          dayName = 'Today'
+        } else if (index === 1) {
+          dayName = 'Tomorrow'
+        } else {
+          dayName = date.toLocaleDateString('en-US', { weekday: 'long' })
+        }
         
         return {
-          day: index === 0 ? 'Today' : index === 1 ? 'Tomorrow' : date.toLocaleDateString('en-US', { weekday: 'long' }),
+          day: dayName,
           date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
           high: Math.round(day.day.maxtemp_c),
           low: Math.round(day.day.mintemp_c),
@@ -233,25 +223,12 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('[Weather API] Error:', error)
     
-    // Fallback to mock data on error
-    const { searchParams } = new URL(request.url)
-    const city = searchParams.get('city') || 'lagos'
-    const mockData = mockWeatherData[city.toLowerCase() as keyof typeof mockWeatherData]
-    
-    if (mockData) {
-      return NextResponse.json({
-        success: true,
-        data: mockData,
-        source: 'mock',
-        error: 'Using fallback data due to API error'
-      })
-    }
-
     return NextResponse.json(
       {
         success: false,
-        error: 'Failed to fetch weather data',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        error: 'Failed to fetch live weather data',
+        details: error instanceof Error ? error.message : 'Unknown error',
+        instructions: 'Please ensure you have a valid WEATHER_API_KEY in your environment variables'
       },
       { status: 500 }
     )
