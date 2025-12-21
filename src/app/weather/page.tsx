@@ -28,80 +28,7 @@ interface DayForecast {
   precipitation: number;
 }
 
-const mockWeatherData: { [key: string]: WeatherData } = {
-  "lagos": {
-    city: "Lagos",
-    country: "Nigeria",
-    temperature: 28,
-    condition: "Partly Cloudy",
-    description: "Warm with occasional clouds",
-    humidity: 75,
-    windSpeed: 12,
-    visibility: 10,
-    pressure: 1013,
-    forecast: [
-      { day: "Today", date: "Dec 16", high: 30, low: 24, condition: "Partly Cloudy", precipitation: 20 },
-      { day: "Tomorrow", date: "Dec 17", high: 29, low: 23, condition: "Sunny", precipitation: 10 },
-      { day: "Wednesday", date: "Dec 18", high: 31, low: 25, condition: "Thunderstorms", precipitation: 80 },
-      { day: "Thursday", date: "Dec 19", high: 27, low: 22, condition: "Rainy", precipitation: 90 },
-      { day: "Friday", date: "Dec 20", high: 29, low: 24, condition: "Partly Cloudy", precipitation: 30 }
-    ]
-  },
-  "accra": {
-    city: "Accra",
-    country: "Ghana",
-    temperature: 26,
-    condition: "Sunny",
-    description: "Clear skies with gentle breeze",
-    humidity: 68,
-    windSpeed: 15,
-    visibility: 12,
-    pressure: 1015,
-    forecast: [
-      { day: "Today", date: "Dec 16", high: 28, low: 22, condition: "Sunny", precipitation: 5 },
-      { day: "Tomorrow", date: "Dec 17", high: 27, low: 21, condition: "Partly Cloudy", precipitation: 15 },
-      { day: "Wednesday", date: "Dec 18", high: 29, low: 23, condition: "Sunny", precipitation: 0 },
-      { day: "Thursday", date: "Dec 19", high: 30, low: 24, condition: "Partly Cloudy", precipitation: 20 },
-      { day: "Friday", date: "Dec 20", high: 28, low: 22, condition: "Cloudy", precipitation: 40 }
-    ]
-  },
-  "cape town": {
-    city: "Cape Town",
-    country: "South Africa",
-    temperature: 22,
-    condition: "Windy",
-    description: "Cool with strong winds",
-    humidity: 60,
-    windSpeed: 25,
-    visibility: 15,
-    pressure: 1018,
-    forecast: [
-      { day: "Today", date: "Dec 16", high: 24, low: 18, condition: "Windy", precipitation: 10 },
-      { day: "Tomorrow", date: "Dec 17", high: 26, low: 19, condition: "Sunny", precipitation: 0 },
-      { day: "Wednesday", date: "Dec 18", high: 25, low: 17, condition: "Partly Cloudy", precipitation: 15 },
-      { day: "Thursday", date: "Dec 19", high: 23, low: 16, condition: "Rainy", precipitation: 70 },
-      { day: "Friday", date: "Dec 20", high: 21, low: 15, condition: "Cloudy", precipitation: 50 }
-    ]
-  },
-  "nairobi": {
-    city: "Nairobi",
-    country: "Kenya",
-    temperature: 20,
-    condition: "Cloudy",
-    description: "Overcast with mild temperatures",
-    humidity: 70,
-    windSpeed: 8,
-    visibility: 8,
-    pressure: 1020,
-    forecast: [
-      { day: "Today", date: "Dec 16", high: 22, low: 16, condition: "Cloudy", precipitation: 60 },
-      { day: "Tomorrow", date: "Dec 17", high: 24, low: 17, condition: "Partly Cloudy", precipitation: 30 },
-      { day: "Wednesday", date: "Dec 18", high: 23, low: 15, condition: "Rainy", precipitation: 85 },
-      { day: "Thursday", date: "Dec 19", high: 21, low: 14, condition: "Thunderstorms", precipitation: 95 },
-      { day: "Friday", date: "Dec 20", high: 25, low: 18, condition: "Sunny", precipitation: 10 }
-    ]
-  }
-};
+// Mock data removed - using live WeatherAPI.com data only
 
 const popularDestinations = [
   { name: "Lagos", country: "Nigeria", flag: "🇳🇬" },
@@ -114,39 +41,43 @@ export default function WeatherPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCity, setSelectedCity] = useState("lagos");
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadWeatherData(selectedCity);
   }, [selectedCity]);
 
   const loadWeatherData = async (city: string) => {
+    setLoading(true);
+    setError(null);
+    
     try {
+      console.log(`Loading weather data for: ${city}`);
       const response = await fetch(`/api/weather?city=${encodeURIComponent(city)}`);
       const result = await response.json();
       
       if (result.success) {
         setWeatherData(result.data);
+        console.log('Weather data loaded successfully:', result.data);
       } else {
         console.error('Weather API error:', result.error);
-        // Fallback to mock data
-        const data = mockWeatherData[city.toLowerCase()];
-        setWeatherData(data || null);
+        setError(result.error || 'Failed to load weather data');
+        setWeatherData(null);
       }
     } catch (error) {
       console.error('Failed to fetch weather data:', error);
-      // Fallback to mock data
-      const data = mockWeatherData[city.toLowerCase()];
-      setWeatherData(data || null);
+      setError('Failed to connect to weather service');
+      setWeatherData(null);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (searchQuery.trim()) {
-      const city = searchQuery.toLowerCase();
-      if (mockWeatherData[city]) {
-        setSelectedCity(city);
-        setSearchQuery("");
-      }
+      setSelectedCity(searchQuery.trim());
+      setSearchQuery("");
     }
   };
 
@@ -246,7 +177,33 @@ export default function WeatherPage() {
       </section>
 
       {/* Current Weather */}
-      {weatherData && (
+      {loading && (
+        <section className="container mx-auto px-4 pb-8">
+          <Card className="mb-8">
+            <CardContent className="p-8 text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Loading weather data...</p>
+            </CardContent>
+          </Card>
+        </section>
+      )}
+
+      {error && (
+        <section className="container mx-auto px-4 pb-8">
+          <Card className="mb-8 border-gray-200">
+            <CardContent className="p-8 text-center">
+              <div className="text-gray-500 mb-4">⚠️</div>
+              <h3 className="text-lg font-semibold mb-2 text-gray-700">Weather Data Unavailable</h3>
+              <p className="text-gray-600 mb-4">{error}</p>
+              <Button onClick={() => loadWeatherData(selectedCity)} variant="outline">
+                Try Again
+              </Button>
+            </CardContent>
+          </Card>
+        </section>
+      )}
+
+      {weatherData && !loading && !error && (
         <section className="container mx-auto px-4 pb-8">
           <Card className="mb-8">
             <CardContent className="p-8">
