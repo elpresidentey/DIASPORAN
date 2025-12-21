@@ -468,7 +468,7 @@ export default function ProfilePage() {
                                             <p className="text-muted-foreground text-sm mb-2">{profile.phone}</p>
                                         )}
                                         {profile.bio && (
-                                            <p className="text-muted-foreground text-sm mb-4 italic">"{profile.bio}"</p>
+                                            <p className="text-muted-foreground text-sm mb-4 italic">&ldquo;{profile.bio}&rdquo;</p>
                                         )}
                                         <Badge variant="outline" className="border-gray-400 dark:border-gray-600 text-gray-600 dark:text-gray-400">
                                             Member since {new Date(profile.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
@@ -720,7 +720,7 @@ export default function ProfilePage() {
                                                     </div>
                                                     {booking.special_requests && (
                                                         <p className="text-xs text-muted-foreground mt-1 italic">
-                                                            "{booking.special_requests}"
+                                                            &ldquo;{booking.special_requests}&rdquo;
                                                         </p>
                                                     )}
                                                 </div>
