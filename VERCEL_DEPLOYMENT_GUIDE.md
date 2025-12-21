@@ -87,6 +87,12 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkYmR0cHN
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkYmR0cHNmdWZ0bWNwdmN6eXJhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NDIzNTEzNSwiZXhwIjoyMDc5ODExMTM1fQ.2nEhSqYZh_BcaLpgbLs9t94bkEqlfwtTm52DO0e2dhw
 ```
 
+**Variable Name:** `WEATHER_API_KEY`
+**Value:** Your WeatherAPI.com key (from `.env.local`)
+```
+2a3d17feb93d41b7a66140016252112
+```
+
 ### 3.2 Set Environment for Production
 - Make sure `NEXT_PUBLIC_SUPABASE_ANON_KEY` is available in the browser (it's public)
 - Make sure `SUPABASE_SERVICE_ROLE_KEY` is only available server-side (marked as sensitive)
@@ -240,6 +246,7 @@ Your three environment variables should be configured as:
 | `NEXT_PUBLIC_SUPABASE_URL` | Public | Production, Preview, Development | Your Supabase project |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Public | Production, Preview, Development | Your Supabase project |
 | `SUPABASE_SERVICE_ROLE_KEY` | Secret | Production, Preview, Development | Your Supabase project (keep private) |
+| `WEATHER_API_KEY` | Secret | Production, Preview, Development | WeatherAPI.com (keep private) |
 
 ---
 
