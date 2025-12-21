@@ -9,7 +9,7 @@ const toastVariants = cva(
     variants: {
       variant: {
         success: "border-green-500/50 bg-green-950/90 text-green-50 dark:border-green-500/50 dark:bg-green-950/90 dark:text-green-50 light:border-green-500/30 light:bg-green-100/90 light:text-green-900",
-        error: "border-red-500/50 bg-red-950/90 text-red-50 dark:border-red-500/50 dark:bg-red-950/90 dark:text-red-50 light:border-red-500/30 light:bg-red-100/90 light:text-red-900",
+        error: "border-gray-500/50 bg-gray-950/90 text-gray-50 dark:border-gray-500/50 dark:bg-gray-950/90 dark:text-gray-50 light:border-gray-500/30 light:bg-gray-100/90 light:text-gray-900",
         warning: "border-yellow-500/50 bg-yellow-950/90 text-yellow-50 dark:border-yellow-500/50 dark:bg-yellow-950/90 dark:text-yellow-50 light:border-yellow-500/30 light:bg-yellow-100/90 light:text-yellow-900",
         info: "border-blue-500/50 bg-blue-950/90 text-blue-50 dark:border-blue-500/50 dark:bg-blue-950/90 dark:text-blue-50 light:border-blue-500/30 light:bg-blue-100/90 light:text-blue-900",
       },

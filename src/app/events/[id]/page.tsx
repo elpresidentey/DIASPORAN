@@ -37,7 +37,7 @@ export default function EventDetailsPage({ params }: { params: { id: string } })
                         <div>
                             <h1 className="text-4xl md:text-5xl font-bold mb-4">{event.title}</h1>
                             <div className="flex flex-wrap gap-4 text-gray-300">
-                                <Badge variant="outline" className="border-orange-500/50 text-orange-400">Festival</Badge>
+                                <Badge variant="outline" className="border-gray-500/50 text-gray-400">Festival</Badge>
                                 <div className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {event.date}</div>
                                 <div className="flex items-center gap-1"><Clock className="w-4 h-4" /> {event.time}</div>
                                 <div className="flex items-center gap-1"><MapPin className="w-4 h-4" /> {event.location}</div>

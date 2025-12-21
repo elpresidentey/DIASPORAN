@@ -313,6 +313,7 @@ export default function DestinationsPage() {
         isOpen={isPaymentOpen}
         onClose={() => setIsPaymentOpen(false)}
         itemType={bookingType}
+        itemId={selectedDestination?.id || "demo-destination"}
         itemName={selectedDestination?.name || ""}
         itemPrice={bookingType === "flight" ? selectedDestination?.flightPrice || 0 : (selectedDestination?.flightPrice || 0) * 0.6} // Stay price is roughly 60% of flight price
         itemCurrency="NGN"

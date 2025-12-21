@@ -51,6 +51,8 @@ export default function EventsPage() {
     queryKey: ['events', activeSearch],
   });
 
+
+
   const handleSearch = () => {
     setActiveSearch(searchQuery);
   };
@@ -181,8 +183,8 @@ export default function EventsPage() {
             title="No Events Found"
             message="We couldn't find any events matching your criteria. Try adjusting your search or check back later for new events."
             illustration={
-              <div className="mb-6 flex items-center justify-center w-24 h-24 rounded-full bg-orange-500/10">
-                <Music className="w-12 h-12 text-orange-500" />
+              <div className="mb-6 flex items-center justify-center w-24 h-24 rounded-full bg-gray-500/10">
+                <Music className="w-12 h-12 text-gray-500" />
               </div>
             }
             action={{
@@ -210,6 +212,7 @@ export default function EventsPage() {
         isOpen={isPaymentOpen}
         onClose={() => setIsPaymentOpen(false)}
         itemType="event"
+        itemId={selectedEvent?.id || ""}
         itemName={selectedEvent?.title || ""}
         itemPrice={selectedEventPrice}
         itemCurrency="NGN" // Assuming NGN for local events
@@ -247,7 +250,7 @@ function EventCard({ event, onBook }: { event: Event; onBook: () => void }) {
       transition={{ duration: 0.2 }}
     >
       <Card
-        className="overflow-hidden hover:border-orange-500/50 transition-all duration-300 group h-full glass cursor-pointer"
+        className="overflow-hidden hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-300 group h-full glass cursor-pointer"
         onClick={handleCardClick}
       >
         <div className="relative h-48 overflow-hidden">
@@ -269,7 +272,7 @@ function EventCard({ event, onBook }: { event: Event; onBook: () => void }) {
             </div>
           </div>
         </div>
-        <CardContent className="p-5">
+        <CardContent className="card-padding-md">
           <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors line-clamp-1">
             {event.title}
           </h3>

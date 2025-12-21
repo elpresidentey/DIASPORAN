@@ -32,8 +32,8 @@ const ErrorDisplay = React.forwardRef<HTMLDivElement, ErrorDisplayProps>(
         {illustration ? (
           <div className="mb-6">{illustration}</div>
         ) : (
-          <div className="mb-6 flex items-center justify-center w-16 h-16 rounded-full bg-red-500/10">
-            <Icon className="w-8 h-8 text-red-500" />
+          <div className="mb-6 flex items-center justify-center w-16 h-16 rounded-full bg-gray-500/10">
+            <Icon className="w-8 h-8 text-gray-500" />
           </div>
         )}
 

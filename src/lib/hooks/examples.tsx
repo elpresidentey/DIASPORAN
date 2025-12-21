@@ -44,9 +44,9 @@ export function LiveVenueList() {
         {isConnected ? (
           <span className="text-green-600">🟢 Live Updates Active</span>
         ) : (
-          <span className="text-red-600">🔴 Offline</span>
+          <span className="text-gray-600">🔴 Offline</span>
         )}
-        {error && <span className="text-red-600">Error: {error.message}</span>}
+        {error && <span className="text-gray-600">Error: {error.message}</span>}
       </div>
 
       {latestUpdate && latestUpdate.listing && (

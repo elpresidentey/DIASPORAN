@@ -28,7 +28,7 @@ export default function Error({
         <div className="mb-6 flex items-center justify-center w-32 h-32">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="w-full h-full text-red-500"
+            className="w-full h-full text-gray-500"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"

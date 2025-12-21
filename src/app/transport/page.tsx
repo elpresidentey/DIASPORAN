@@ -225,7 +225,8 @@ export default function TransportPage() {
             <PaymentDialog
                 isOpen={isPaymentOpen}
                 onClose={() => setIsPaymentOpen(false)}
-                itemType="event"
+                itemType="transport"
+                itemId={selectedTransport?.id || ""}
                 itemName={selectedTransport?.route_name || ""}
                 itemPrice={selectedTransport?.price || 0}
                 itemCurrency={selectedTransport?.currency}

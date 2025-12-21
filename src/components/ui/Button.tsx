@@ -25,7 +25,7 @@ const buttonVariants = cva(
 
         ghost: "hover:bg-muted text-foreground",
 
-        destructive: "bg-red-600 text-white hover:bg-red-700 hover:shadow-lg dark:bg-red-600 dark:hover:bg-red-700",
+        destructive: "bg-gray-600 text-white hover:bg-gray-700 hover:shadow-lg dark:bg-gray-600 dark:hover:bg-gray-700",
 
         success: "bg-green-600 text-white hover:bg-green-700 hover:shadow-lg dark:bg-green-600 dark:hover:bg-green-700",
 

@@ -1,189 +1,284 @@
 /**
-export const dynamic = 'force-dynamic';
- * Profile API Routes
- * GET /api/profile - Get current user's profile
- * PATCH /api/profile - Update current user's profile
- * DELETE /api/profile - Delete current user's account
+ * Profile API Route
+ * GET /api/profile - Get user profile
+ * PUT /api/profile - Update user profile
+ * DELETE /api/profile - Delete user account
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
-import {
-  getProfileServer,
-  updateProfileServer,
-  deleteAccount,
-  getProfileWithStats,
-} from '@/lib/services/profile.service'
-import type { UpdateProfileData } from '@/lib/services/profile.service'
 
 export const dynamic = 'force-dynamic';
-import {
-  validateBody,
-  schemas,
-  createSuccessResponse,
-  ErrorResponses,
-  logError,
-} from '@/lib/validation'
 
 /**
- * GET /api/profile
- * Get the current user's profile with statistics
+ * GET /api/profile - Get user profile
  */
 export async function GET(request: NextRequest) {
   try {
     const supabase = createServerClient()
-
-    // Get current user
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser()
-
+    
+    // Get the current user
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    
     if (authError || !user) {
-      return ErrorResponses.unauthorized()
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: 'UNAUTHORIZED',
+            message: 'You must be logged in to view profile',
+          },
+        },
+        { status: 401 }
+      )
     }
 
-    // Get profile with stats
-    const { profile, error } = await getProfileServer(user.id)
+    // Get profile from profiles table if it exists
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single()
 
-    if (error) {
-      logError(new Error(error.message), {
-        endpoint: '/api/profile',
-        method: 'GET',
-        userId: user.id,
-        errorCode: error.code,
-      })
-      return ErrorResponses.notFound('Profile')
+    if (profileError && profileError.code !== 'PGRST116') {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: 'PROFILE_FETCH_ERROR',
+            message: 'Failed to fetch profile',
+            details: profileError,
+          },
+        },
+        { status: 500 }
+      )
     }
 
-    // Get statistics
-    const [bookingsResult, reviewsResult, savedItemsResult] = await Promise.all([
-      supabase.from('bookings').select('id', { count: 'exact', head: true }).eq('user_id', user.id),
-      supabase.from('reviews').select('id', { count: 'exact', head: true }).eq('user_id', user.id),
-      supabase.from('saved_items').select('id', { count: 'exact', head: true }).eq('user_id', user.id),
-    ])
-
-    const profileWithStats = {
-      ...profile,
-      total_bookings: bookingsResult.count || 0,
-      total_reviews: reviewsResult.count || 0,
-      total_saved_items: savedItemsResult.count || 0,
+    // Combine auth user data with profile data
+    const userProfile = {
+      id: user.id,
+      email: user.email,
+      full_name: profile?.full_name || user.user_metadata?.full_name || user.user_metadata?.name,
+      avatar_url: profile?.avatar_url || user.user_metadata?.avatar_url,
+      phone: profile?.phone || user.phone,
+      bio: profile?.bio,
+      created_at: user.created_at,
+      updated_at: profile?.updated_at || user.updated_at,
     }
 
-    return createSuccessResponse(profileWithStats)
+    return NextResponse.json(
+      {
+        success: true,
+        data: userProfile,
+      },
+      { status: 200 }
+    )
   } catch (error) {
-    logError(error instanceof Error ? error : new Error('Unknown error'), {
-      endpoint: '/api/profile',
-      method: 'GET',
-    })
-    return ErrorResponses.internal()
+    console.error('Error in GET /api/profile:', error)
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: 'INTERNAL_ERROR',
+          message: 'An unexpected error occurred',
+          details: error instanceof Error ? error.message : 'Unknown error',
+        },
+      },
+      { status: 500 }
+    )
   }
 }
 
 /**
- * PATCH /api/profile
- * Update the current user's profile
+ * PUT /api/profile - Update user profile
  */
-export async function PATCH(request: NextRequest) {
+export async function PUT(request: NextRequest) {
   try {
     const supabase = createServerClient()
-
-    // Get current user
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser()
-
+    
+    // Get the current user
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    
     if (authError || !user) {
-      return ErrorResponses.unauthorized()
-    }
-
-    // Validate request body
-    const { data: updateData, error: validationError } = await validateBody(
-      request,
-      schemas.updateProfile
-    )
-
-    if (validationError || !updateData) {
-      return validationError || ErrorResponses.validation('Validation failed', [])
-    }
-
-    // Update profile
-    const { profile, error } = await updateProfileServer(user.id, updateData)
-
-    if (error) {
-      logError(new Error(error.message), {
-        endpoint: '/api/profile',
-        method: 'PATCH',
-        userId: user.id,
-        errorCode: error.code,
-      })
       return NextResponse.json(
         {
           success: false,
-          error,
+          error: {
+            code: 'UNAUTHORIZED',
+            message: 'You must be logged in to update profile',
+          },
+        },
+        { status: 401 }
+      )
+    }
+
+    const body = await request.json()
+    const { full_name, phone, bio, avatar_url } = body
+
+    // Validate input
+    if (full_name && typeof full_name !== 'string') {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: 'INVALID_INPUT',
+            message: 'Full name must be a string',
+          },
         },
         { status: 400 }
       )
     }
 
-    return createSuccessResponse(profile)
+    // Update or insert profile
+    const profileData = {
+      id: user.id,
+      full_name: full_name || null,
+      phone: phone || null,
+      bio: bio || null,
+      avatar_url: avatar_url || null,
+      updated_at: new Date().toISOString(),
+    }
+
+    const { data: profile, error: upsertError } = await supabase
+      .from('profiles')
+      .upsert(profileData)
+      .select()
+      .single()
+
+    if (upsertError) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: 'UPDATE_FAILED',
+            message: 'Failed to update profile',
+            details: upsertError,
+          },
+        },
+        { status: 500 }
+      )
+    }
+
+    // Also update auth metadata if needed
+    if (full_name || avatar_url) {
+      const { error: authUpdateError } = await supabase.auth.updateUser({
+        data: {
+          full_name: full_name,
+          avatar_url: avatar_url,
+        }
+      })
+
+      if (authUpdateError) {
+        console.error('Failed to update auth metadata:', authUpdateError)
+        // Don't fail the request if auth update fails
+      }
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        data: profile,
+        message: 'Profile updated successfully',
+      },
+      { status: 200 }
+    )
   } catch (error) {
-    logError(error instanceof Error ? error : new Error('Unknown error'), {
-      endpoint: '/api/profile',
-      method: 'PATCH',
-    })
-    return ErrorResponses.internal()
+    console.error('Error in PUT /api/profile:', error)
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: 'INTERNAL_ERROR',
+          message: 'An unexpected error occurred',
+          details: error instanceof Error ? error.message : 'Unknown error',
+        },
+      },
+      { status: 500 }
+    )
   }
 }
 
 /**
- * DELETE /api/profile
- * Delete the current user's account and all associated data
+ * DELETE /api/profile - Delete user account
  */
 export async function DELETE(request: NextRequest) {
   try {
     const supabase = createServerClient()
-
-    // Get current user
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser()
-
+    
+    // Get the current user
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    
     if (authError || !user) {
-      return ErrorResponses.unauthorized()
-    }
-
-    // Delete account
-    const { success, error } = await deleteAccount(user.id)
-
-    if (error) {
-      logError(new Error(error.message), {
-        endpoint: '/api/profile',
-        method: 'DELETE',
-        userId: user.id,
-        errorCode: error.code,
-      })
       return NextResponse.json(
         {
           success: false,
-          error,
+          error: {
+            code: 'UNAUTHORIZED',
+            message: 'You must be logged in to delete account',
+          },
         },
-        { status: 400 }
+        { status: 401 }
       )
     }
 
-    return createSuccessResponse({
-      message: 'Account deleted successfully',
-    })
+    // Delete user profile data
+    const { error: profileDeleteError } = await supabase
+      .from('profiles')
+      .delete()
+      .eq('id', user.id)
+
+    if (profileDeleteError) {
+      console.error('Failed to delete profile:', profileDeleteError)
+      // Continue with account deletion even if profile deletion fails
+    }
+
+    // Delete user bookings
+    const { error: bookingsDeleteError } = await supabase
+      .from('bookings')
+      .delete()
+      .eq('user_id', user.id)
+
+    if (bookingsDeleteError) {
+      console.error('Failed to delete bookings:', bookingsDeleteError)
+      // Continue with account deletion even if bookings deletion fails
+    }
+
+    // Delete the auth user (this will cascade delete related data)
+    const { error: deleteError } = await supabase.auth.admin.deleteUser(user.id)
+
+    if (deleteError) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: {
+            code: 'DELETE_FAILED',
+            message: 'Failed to delete account',
+            details: deleteError,
+          },
+        },
+        { status: 500 }
+      )
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Account deleted successfully',
+      },
+      { status: 200 }
+    )
   } catch (error) {
-    logError(error instanceof Error ? error : new Error('Unknown error'), {
-      endpoint: '/api/profile',
-      method: 'DELETE',
-    })
-    return ErrorResponses.internal()
+    console.error('Error in DELETE /api/profile:', error)
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: 'INTERNAL_ERROR',
+          message: 'An unexpected error occurred',
+          details: error instanceof Error ? error.message : 'Unknown error',
+        },
+      },
+      { status: 500 }
+    )
   }
 }
-
-

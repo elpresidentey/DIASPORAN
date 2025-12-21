@@ -66,7 +66,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className="block text-sm font-medium text-foreground mb-2"
           >
             {label}
-            {required && <span className="text-pink-500 ml-1" aria-label="required">*</span>}
+            {required && <span className="text-gray-500 ml-1" aria-label="required">*</span>}
           </label>
 
           {/* Input Field */}
@@ -93,7 +93,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
               // Focus state with glow effect
               !error && "focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-primary focus-visible:shadow-[0_0_20px_rgba(59,130,246,0.3)]",
               // Error state with proper contrast
-              error && "border-red-500 bg-red-500/10 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:border-red-500 focus-visible:shadow-[0_0_20px_rgba(239,68,68,0.3)]",
+              error && "border-gray-500 bg-gray-500/10 focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:border-gray-500 focus-visible:shadow-[0_0_20px_rgba(107,114,128,0.3)]",
               // Disabled state
               disabled && "cursor-not-allowed opacity-50",
             )}
@@ -115,7 +115,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {error && (
             <p 
               id={errorId}
-              className="mt-2 text-sm text-red-400 flex items-center gap-1"
+              className="mt-2 text-sm text-gray-500 flex items-center gap-1"
               role="alert"
             >
               <svg 

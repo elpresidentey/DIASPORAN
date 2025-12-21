@@ -69,13 +69,13 @@ export default function AnimationDemo() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="bg-gray-800/50 rounded-lg p-4">
                             <div className="text-sm text-gray-400 mb-1">Current FPS</div>
-                            <div className={`text-3xl font-bold ${isOptimal ? 'text-green-400' : 'text-red-400'}`}>
+                            <div className={`text-3xl font-bold ${isOptimal ? 'text-green-400' : 'text-gray-400'}`}>
                                 {fps}
                             </div>
                         </div>
                         <div className="bg-gray-800/50 rounded-lg p-4">
                             <div className="text-sm text-gray-400 mb-1">Performance Status</div>
-                            <div className={`text-xl font-bold ${isOptimal ? 'text-green-400' : 'text-red-400'}`}>
+                            <div className={`text-xl font-bold ${isOptimal ? 'text-green-400' : 'text-gray-400'}`}>
                                 {isOptimal ? '✓ Optimal' : '⚠ Suboptimal'}
                             </div>
                         </div>

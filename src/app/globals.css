@@ -1,5 +1,71 @@
 @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Cabin+Condensed:wght@400;500;600;700&display=swap');
 
+/* ===== CRITICAL: SCROLL BAR OVERRIDE - MUST BE FIRST ===== */
+/* Force all scroll bars to be neutral gray, not purple */
+*,
+*::before,
+*::after,
+html,
+body {
+  scrollbar-width: thin !important;
+  scrollbar-color: #9ca3af #f3f4f6 !important; /* gray-400 thumb, gray-100 track */
+}
+
+*::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+*::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: #f3f4f6 !important; /* gray-100 */
+}
+
+*::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: #9ca3af !important; /* gray-400 */
+  border-radius: 6px !important;
+  border: 2px solid #f3f4f6 !important; /* gray-100 border */
+}
+
+*::-webkit-scrollbar-thumb:hover,
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background: #6b7280 !important; /* gray-500 on hover */
+}
+
+/* Dark mode scroll bars */
+.dark *,
+.dark *::before,
+.dark *::after,
+.dark html,
+.dark body {
+  scrollbar-color: #6b7280 #1f2937 !important; /* gray-500 thumb, gray-800 track */
+}
+
+.dark *::-webkit-scrollbar-track,
+.dark html::-webkit-scrollbar-track,
+.dark body::-webkit-scrollbar-track {
+  background: #1f2937 !important; /* gray-800 */
+}
+
+.dark *::-webkit-scrollbar-thumb,
+.dark html::-webkit-scrollbar-thumb,
+.dark body::-webkit-scrollbar-thumb {
+  background: #6b7280 !important; /* gray-500 */
+  border: 2px solid #1f2937 !important; /* gray-800 border */
+}
+
+.dark *::-webkit-scrollbar-thumb:hover,
+.dark html::-webkit-scrollbar-thumb:hover,
+.dark body::-webkit-scrollbar-thumb:hover {
+  background: #4b5563 !important; /* gray-600 on hover */
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -31,7 +97,7 @@
     --muted-foreground: 220 15% 45%;
     --accent: 220 15% 35%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 75% 55%;
+    --destructive: 220 15% 45%;
     --destructive-foreground: 0 0% 100%;
     --border: 220 15% 90%;
     --input: 220 15% 94%;
@@ -54,7 +120,7 @@
     --muted-foreground: 0 0% 65%;
     --accent: 0 0% 75%;
     --accent-foreground: 220 25% 8%;
-    --destructive: 0 75% 60%;
+    --destructive: 220 25% 55%;
     --destructive-foreground: 0 0% 95%;
     --border: 220 25% 18%;
     --input: 220 25% 15%;
@@ -74,7 +140,7 @@
   @apply outline-none ring-2 ring-offset-2 ring-primary ring-offset-background;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Force neutral colors */
 ::-webkit-scrollbar {
   @apply w-2 h-2;
 }
@@ -84,11 +150,21 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-muted-foreground/20 rounded-full hover:bg-muted-foreground/30;
+  background: rgb(156 163 175 / 0.3) !important; /* Force neutral gray */
+  border-radius: 9999px;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(156 163 175 / 0.5) !important; /* Force neutral gray on hover */
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  @apply bg-muted-foreground/30 hover:bg-muted-foreground/40;
+  background: rgb(107 114 128 / 0.4) !important; /* Force neutral gray for dark mode */
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(107 114 128 / 0.6) !important; /* Force neutral gray on hover for dark mode */
 }
 
 /* Remove focus styles for mouse users but keep for keyboard navigation */
@@ -440,7 +516,7 @@ video {
   display: block;
 }
 
-/* Scrollbar Styles - Theme Aware */
+/* Scrollbar Styles - Theme Aware - Neutral Colors Only */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -452,19 +528,31 @@ video {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(var(--primary));
+  background: rgb(156 163 175 / 0.4) !important; /* Force neutral gray */
   border-radius: 5px;
   transition: background-color 300ms ease-in-out;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(var(--secondary));
+  background: rgb(156 163 175 / 0.6) !important; /* Force neutral gray on hover */
 }
 
-/* Firefox scrollbar theming */
+.dark ::-webkit-scrollbar-thumb {
+  background: rgb(107 114 128 / 0.4) !important; /* Force neutral gray for dark mode */
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(107 114 128 / 0.6) !important; /* Force neutral gray on hover for dark mode */
+}
+
+/* Firefox scrollbar theming - Force neutral colors */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgb(var(--primary)) rgb(var(--muted));
+  scrollbar-color: rgb(156 163 175 / 0.4) rgb(var(--muted)) !important;
+}
+
+.dark * {
+  scrollbar-color: rgb(107 114 128 / 0.4) rgb(var(--muted)) !important;
 }
 
 /* Removed duplicate body styles - using theme-aware styles above */
@@ -681,7 +769,7 @@ video {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - Force Neutral Colors */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -693,13 +781,21 @@ video {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(107, 114, 128, 0.5);
+  background: rgba(156, 163, 175, 0.5) !important; /* Force neutral gray */
   border-radius: 10px;
   transition: all 0.3s ease;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(107, 114, 128, 0.8);
+  background: rgba(156, 163, 175, 0.8) !important; /* Force neutral gray on hover */
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(107, 114, 128, 0.5) !important; /* Force neutral gray for dark mode */
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 114, 128, 0.8) !important; /* Force neutral gray on hover for dark mode */
 }
 
 /* Custom Underline */
@@ -1116,7 +1212,7 @@ section {
   /* Smooth Scroll - Disabled, using faster JS scroll in smoothScroll.ts */
 
 
-  /* Custom Scrollbar - Theme Aware */
+  /* Custom Scrollbar - Force Neutral Colors */
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -1127,12 +1223,20 @@ section {
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgb(var(--primary));
+    background: rgb(156 163 175 / 0.4) !important; /* Force neutral gray */
     border-radius: 5px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgb(var(--primary) / 0.8);
+    background: rgb(156 163 175 / 0.6) !important; /* Force neutral gray on hover */
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: rgb(107 114 128 / 0.4) !important; /* Force neutral gray for dark mode */
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: rgb(107 114 128 / 0.6) !important; /* Force neutral gray on hover for dark mode */
   }
 
   /* Selection - Theme Aware */
@@ -1556,13 +1660,101 @@ section {
   text-wrap: balance;
 }
 
-/* Spacing consistency */
+/* Spacing consistency - Enhanced */
 .section-spacing {
   @apply py-12 sm:py-16 lg:py-20;
 }
 
 .container-spacing {
   @apply px-4 sm:px-6 lg:px-8;
+}
+
+/* Form and Search Spacing - Enhanced */
+.form-spacing {
+  @apply p-6 sm:p-8 lg:p-10;
+}
+
+.search-form-spacing {
+  padding: 2rem !important;
+}
+
+.equal-padding {
+  padding: 2rem !important;
+}
+
+.input-group-spacing {
+  @apply space-y-3 sm:space-y-4;
+}
+
+.form-grid-spacing {
+  @apply gap-4 sm:gap-6 lg:gap-8;
+}
+
+/* Section and Container Spacing */
+.page-container {
+  @apply px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto;
+}
+
+.section-padding {
+  @apply py-20 sm:py-24 lg:py-32;
+}
+
+.hero-section-padding {
+  @apply py-24 sm:py-32 lg:py-40;
+}
+
+/* Enhanced Grid and Layout Spacing */
+.content-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10;
+}
+
+.search-grid {
+  @apply grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 lg:gap-8;
+}
+
+/* Responsive Margins */
+.responsive-margin {
+  @apply mx-4 sm:mx-6 lg:mx-8;
+}
+
+.responsive-padding {
+  @apply px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10;
+}
+
+/* Content Spacing */
+.content-wrapper {
+  @apply min-h-screen bg-background py-8 sm:py-12 lg:py-16;
+}
+
+.hero-content-spacing {
+  @apply mb-16 sm:mb-20 lg:mb-24;
+}
+
+/* Card Spacing Improvements */
+.card-padding-sm {
+  @apply p-4 sm:p-6;
+}
+
+.card-padding-md {
+  @apply p-6 sm:p-8;
+}
+
+.card-padding-lg {
+  @apply p-8 sm:p-10 lg:p-12;
+}
+
+/* Button Spacing */
+.button-spacing {
+  @apply px-6 py-3 sm:px-8 sm:py-4;
+}
+
+/* Content Spacing */
+.content-spacing {
+  @apply space-y-6 sm:space-y-8 lg:space-y-10;
+}
+
+.text-spacing {
+  @apply space-y-3 sm:space-y-4;
 }
 
 
@@ -1610,3 +1802,5 @@ section {
   color: #f3f4f6 !important;
   /* gray-100 */
 }
+
+/* Scroll bar styles moved to top of file for higher priority */

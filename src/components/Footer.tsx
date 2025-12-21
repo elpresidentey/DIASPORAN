@@ -207,7 +207,7 @@ export default function Footer() {
                         transition={{ duration: 0.5, delay: 0.4 }}
                     >
                         © {currentYear} Diasporan. Made with{" "}
-                        <Heart className="w-4 h-4 inline text-pink-500 animate-pulse" /> in Africa.
+                        <Heart className="w-4 h-4 inline text-gray-500 animate-pulse" /> in Africa.
                     </motion.p>
 
                     {/* Social Links */}

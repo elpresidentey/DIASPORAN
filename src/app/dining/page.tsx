@@ -165,7 +165,7 @@ function RestaurantCard({ restaurant }: { restaurant: DiningVenue }) {
                     </Badge>
                 </div>
             </div>
-            <CardContent className="p-5">
+            <CardContent className="card-padding-md">
                 <div className="flex justify-between items-start mb-2">
                     <div>
                         <h3 className="text-xl font-bold text-foreground group-hover:text-yellow-400 transition-colors">{restaurant.name}</h3>

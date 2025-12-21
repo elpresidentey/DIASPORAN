@@ -217,7 +217,7 @@ export default function SafetyPage() {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="text-sm">
-                    <div className="font-semibold text-red-600 dark:text-red-400">Police</div>
+                    <div className="font-semibold text-gray-600 dark:text-gray-400">Police</div>
                     <div className="text-muted-foreground">{country.police}</div>
                   </div>
                   <div className="text-sm">
@@ -225,7 +225,7 @@ export default function SafetyPage() {
                     <div className="text-muted-foreground">{country.medical}</div>
                   </div>
                   <div className="text-sm">
-                    <div className="font-semibold text-orange-600 dark:text-orange-400">Fire</div>
+                    <div className="font-semibold text-gray-600 dark:text-gray-400">Fire</div>
                     <div className="text-muted-foreground">{country.fire}</div>
                   </div>
                   <div className="text-sm">
@@ -280,22 +280,22 @@ export default function SafetyPage() {
       {/* Emergency Alert */}
       <section className="container mx-auto px-4 py-16">
         <motion.div
-          className="bg-gradient-to-r from-red-500/10 to-orange-500/10 rounded-2xl p-8 text-center max-w-4xl mx-auto border border-red-200 dark:border-red-800"
+          className="bg-gradient-to-r from-gray-500/10 to-gray-600/10 rounded-2xl p-8 text-center max-w-4xl mx-auto border border-gray-200 dark:border-gray-800"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <AlertTriangle className="w-16 h-16 mx-auto mb-6 text-red-600 dark:text-red-400" />
-          <h2 className="text-3xl font-bold mb-4 text-red-800 dark:text-red-200">In Case of Emergency</h2>
-          <p className="text-red-700 dark:text-red-300 text-lg mb-6 max-w-2xl mx-auto">
+          <AlertTriangle className="w-16 h-16 mx-auto mb-6 text-gray-600 dark:text-gray-400" />
+          <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-200">In Case of Emergency</h2>
+          <p className="text-gray-700 dark:text-gray-300 text-lg mb-6 max-w-2xl mx-auto">
             If you&apos;re in immediate danger or need urgent assistance while traveling, contact local emergency services first, 
             then reach out to your embassy or consulate.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className="bg-gray-600 hover:bg-gray-700 text-white"
               onClick={() => mockActions.callPhone("911")}
             >
               <Phone className="w-4 h-4 mr-2" />
@@ -304,7 +304,7 @@ export default function SafetyPage() {
             <Button 
               size="lg" 
               variant="outline"
-              className="border-red-300 text-red-700 hover:bg-red-50 dark:border-red-700 dark:text-red-300 dark:hover:bg-red-950"
+              className="border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-950"
               onClick={() => mockActions.contactSupport()}
             >
               Contact Support

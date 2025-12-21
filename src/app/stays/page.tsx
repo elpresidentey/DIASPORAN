@@ -69,7 +69,7 @@ export default function StaysPage() {
         return (
             <div className="min-h-screen bg-background pb-20">
                 <section className="relative py-20 px-4">
-                    <div className="container mx-auto max-w-5xl">
+                    <div className="page-container max-w-6xl">
                         <ErrorDisplay
                             type="network"
                             title="Failed to Load Accommodations"
@@ -86,24 +86,25 @@ export default function StaysPage() {
     }
 
     return (
-        <div className="min-h-screen bg-background pb-20">
+        <div className="min-h-screen bg-background">
             {/* Hero Search Section */}
-            <section className="relative py-20 px-4">
+            <section className="relative py-20 px-4 flex items-center justify-center min-h-screen">
                 <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20 dark:opacity-10 pointer-events-none" />
                 <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background pointer-events-none" />
 
-                <div className="relative z-10 container mx-auto max-w-5xl">
+                <div className="relative z-10 w-full max-w-6xl mx-auto px-4">
                     <motion.div
-                        className="text-center mb-10"
+                        className="text-center mb-12 max-w-4xl mx-auto"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
-                        <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                            <span className="text-emerald-600 dark:text-emerald-400">Find Your</span> <span className="text-gray-700 dark:text-gray-300">Sanctuary</span>
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                            <span className="text-emerald-600 dark:text-emerald-400">Find Your</span>{" "}
+                            <span className="text-gray-700 dark:text-gray-300">Sanctuary</span>
                         </h1>
-                        <p className="text-muted-foreground text-lg">
-                            Discover verified apartments, hotels, and shortlets for your stay.
+                        <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                            Discover verified apartments, hotels, and shortlets for your perfect stay.
                         </p>
                     </motion.div>
 
@@ -113,59 +114,62 @@ export default function StaysPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                     >
-                        <Card className="glass-strong border-white/10 max-w-4xl mx-auto">
-                            <CardContent className="p-5">
-                                <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
-                                    <div className="md:col-span-4 space-y-1.5">
-                                        <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                                            <MapPin className="w-3 h-3" /> Location
+                        <Card className="glass-strong border-white/10 max-w-5xl mx-auto">
+                            <CardContent className="equal-padding">
+                                <div className="search-grid items-end">
+                                    <div className="md:col-span-4 space-y-3">
+                                        <label className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+                                            <MapPin className="w-4 h-4" /> Location
                                         </label>
                                         <Input
                                             placeholder="Lekki Phase 1, Lagos"
                                             value={searchParams.city}
                                             onChange={(e) => setSearchParams(prev => ({ ...prev, city: e.target.value }))}
-                                            className="h-10 text-center md:text-left"
+                                            className="h-14 text-center px-4 py-3"
                                         />
                                     </div>
-                                    <div className="md:col-span-3 space-y-1.5">
-                                        <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                                            <Calendar className="w-3 h-3" /> Check-in
+                                    <div className="md:col-span-3 space-y-3">
+                                        <label className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+                                            <Calendar className="w-4 h-4" /> Check-in
                                         </label>
                                         <Input
                                             type="date"
-                                            className="h-10 text-center md:text-left [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                                            className="h-14 text-center px-4 py-3 [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                                             value={searchParams.checkIn}
                                             onChange={(e) => setSearchParams(prev => ({ ...prev, checkIn: e.target.value }))}
                                             placeholder="Select date"
                                         />
                                     </div>
-                                    <div className="md:col-span-3 space-y-1.5">
-                                        <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                                            <Calendar className="w-3 h-3" /> Check-out
+                                    <div className="md:col-span-3 space-y-3">
+                                        <label className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+                                            <Calendar className="w-4 h-4" /> Check-out
                                         </label>
                                         <Input
                                             type="date"
-                                            className="h-10 text-center md:text-left [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                                            className="h-14 text-center px-4 py-3 [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                                             value={searchParams.checkOut}
                                             onChange={(e) => setSearchParams(prev => ({ ...prev, checkOut: e.target.value }))}
                                             placeholder="Select date"
                                         />
                                     </div>
-                                    <div className="md:col-span-2">
+                                    <div className="md:col-span-2 space-y-3">
+                                        <label className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2 opacity-0 pointer-events-none">
+                                            <Search className="w-4 h-4" /> Search
+                                        </label>
                                         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                                             <Button
-                                                className="w-full h-10 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 font-semibold"
+                                                className="w-full h-14 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 font-semibold px-6 py-3"
                                                 onClick={handleSearch}
                                                 aria-label="Search for accommodations"
                                             >
-                                                <Search className="w-4 h-4 mr-2" /> Search
+                                                <Search className="w-5 h-5 mr-2" /> Search
                                             </Button>
                                         </motion.div>
                                     </div>
                                 </div>
 
                                 <motion.div
-                                    className="mt-3 flex flex-wrap justify-center gap-2"
+                                    className="mt-6 flex flex-wrap justify-center gap-3"
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 0.4 }}
@@ -188,16 +192,21 @@ export default function StaysPage() {
             </section>
 
             {/* Featured Stays */}
-            <section className="container mx-auto px-4 py-10">
-                <motion.h2
-                    className="text-2xl font-bold mb-6 flex items-center gap-2"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+            <section className="container mx-auto px-4 section-padding">
+                <motion.div
+                    className="text-center mb-12"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                 >
-                    <Star className="w-6 h-6 text-yellow-500" />
-                    Top Rated Stays
-                </motion.h2>
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+                        <Star className="w-7 h-7 text-yellow-500" />
+                        Top Rated Stays
+                    </h2>
+                    <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                        Discover our most loved accommodations, handpicked by travelers like you.
+                    </p>
+                </motion.div>
 
                 {isLoading ? (
                     <ListSkeleton count={6} type="accommodation" />
@@ -217,7 +226,7 @@ export default function StaysPage() {
                     />
                 ) : (
                     <motion.div
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        className="content-grid"
                         variants={staggerContainer}
                         initial="hidden"
                         whileInView="visible"
@@ -235,6 +244,7 @@ export default function StaysPage() {
                 isOpen={isPaymentOpen}
                 onClose={() => setIsPaymentOpen(false)}
                 itemType="stay"
+                itemId={selectedStay?.id || ""}
                 itemName={selectedStay?.name || ""}
                 itemPrice={selectedStay?.price_per_night || 0}
                 itemCurrency={selectedStay?.currency}
@@ -279,7 +289,7 @@ function StayCard({ stay, onClick }: { stay: Accommodation; onClick: () => void 
                         </Badge>
                     </div>
                 </div>
-                <CardContent className="p-5 flex flex-col flex-grow">
+                <CardContent className="card-padding-md flex flex-col flex-grow">
                     <div className="flex justify-between items-start mb-2">
                         <div className="flex-grow min-w-0">
                             <h3 className="text-xl font-bold text-foreground group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors truncate">{stay.name}</h3>

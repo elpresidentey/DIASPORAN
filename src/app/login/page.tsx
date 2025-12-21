@@ -121,7 +121,7 @@ export default function LoginPage() {
                     <motion.form className="space-y-4" variants={staggerContainer} onSubmit={handleSubmit}>
                         {errors.general && (
                             <motion.div 
-                                className="bg-red-500/10 border border-red-500/50 rounded-lg p-3 text-sm text-red-400"
+                                className="bg-gray-500/10 border border-gray-500/50 rounded-lg p-3 text-sm text-gray-500"
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
                             >

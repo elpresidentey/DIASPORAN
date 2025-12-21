@@ -2,8 +2,9 @@
 
 import { Button } from "@/components/ui/Button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card"
-import { Input } from "@/components/ui/Input"
-import { ArrowUpDown, TrendingUp, TrendingDown, DollarSign, RefreshCw } from "lucide-react"
+import { TrendingUp, TrendingDown, RefreshCw } from "lucide-react"
+import { CurrencyConverter } from "@/components/CurrencyConverter"
+import { TravelBudgetCalculator } from "@/components/TravelBudgetCalculator"
 import { useState, useEffect, useCallback } from "react"
 
 interface ExchangeRate {
@@ -14,7 +15,7 @@ interface ExchangeRate {
   flag: string;
 }
 
-const exchangeRates: ExchangeRate[] = [
+const mockExchangeRates: ExchangeRate[] = [
   { currency: "USD", rate: 0.0012, change24h: -0.5, symbol: "$", flag: "🇺🇸" },
   { currency: "GBP", rate: 0.00095, change24h: 0.3, symbol: "£", flag: "🇬🇧" },
   { currency: "EUR", rate: 0.0011, change24h: -0.2, symbol: "€", flag: "🇪🇺" },
@@ -26,58 +27,38 @@ const exchangeRates: ExchangeRate[] = [
 ];
 
 export default function CurrencyPage() {
-  const [amount, setAmount] = useState<string>("1000");
-  const [fromCurrency, setFromCurrency] = useState<string>("NGN");
-  const [toCurrency, setToCurrency] = useState<string>("USD");
-  const [convertedAmount, setConvertedAmount] = useState<number>(0);
+  const [exchangeRates, setExchangeRates] = useState<ExchangeRate[]>(mockExchangeRates);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const convertCurrency = useCallback(() => {
-    const numAmount = parseFloat(amount) || 0;
-    
-    if (fromCurrency === "NGN") {
-      const rate = exchangeRates.find(r => r.currency === toCurrency)?.rate || 1;
-      setConvertedAmount(numAmount * rate);
-    } else if (toCurrency === "NGN") {
-      const rate = exchangeRates.find(r => r.currency === fromCurrency)?.rate || 1;
-      setConvertedAmount(numAmount / rate);
-    } else {
-      // Convert through NGN
-      const fromRate = exchangeRates.find(r => r.currency === fromCurrency)?.rate || 1;
-      const toRate = exchangeRates.find(r => r.currency === toCurrency)?.rate || 1;
-      const ngnAmount = numAmount / fromRate;
-      setConvertedAmount(ngnAmount * toRate);
+  const fetchExchangeRates = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/currency?base=NGN');
+      const result = await response.json();
+      
+      if (result.success) {
+        setExchangeRates(result.data.exchangeRates);
+        setLastUpdated(new Date(result.data.lastUpdated));
+      } else {
+        console.error('Currency API error:', result.error);
+        setExchangeRates(mockExchangeRates);
+      }
+    } catch (error) {
+      console.error('Failed to fetch exchange rates:', error);
+      setExchangeRates(mockExchangeRates);
+    } finally {
+      setIsLoading(false);
     }
-  }, [amount, fromCurrency, toCurrency]);
+  }, []);
 
   useEffect(() => {
-    convertCurrency();
-  }, [convertCurrency]);
-
-  const swapCurrencies = () => {
-    setFromCurrency(toCurrency);
-    setToCurrency(fromCurrency);
-  };
+    fetchExchangeRates();
+  }, [fetchExchangeRates]);
 
   const refreshRates = () => {
-    setLastUpdated(new Date());
-    // In a real app, you would fetch new rates from an API
+    fetchExchangeRates();
   };
-
-  const getCurrencySymbol = (currency: string) => {
-    if (currency === "NGN") return "₦";
-    return exchangeRates.find(r => r.currency === currency)?.symbol || currency;
-  };
-
-  const getCurrencyFlag = (currency: string) => {
-    if (currency === "NGN") return "🇳🇬";
-    return exchangeRates.find(r => r.currency === currency)?.flag || "🌍";
-  };
-
-  const allCurrencies = [
-    { code: "NGN", name: "Nigerian Naira", symbol: "₦", flag: "🇳🇬" },
-    ...exchangeRates.map(r => ({ code: r.currency, name: getCurrencyName(r.currency), symbol: r.symbol, flag: r.flag }))
-  ];
 
   function getCurrencyName(code: string): string {
     const names: { [key: string]: string } = {
@@ -113,95 +94,7 @@ export default function CurrencyPage() {
       {/* Currency Converter */}
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
-          <Card className="mb-8">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl">Currency Converter</CardTitle>
-              <CardDescription>
-                Convert between Nigerian Naira and major world currencies
-              </CardDescription>
-              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                <span>Last updated: {lastUpdated.toLocaleTimeString()}</span>
-                <Button variant="ghost" size="sm" onClick={refreshRates} className="p-1">
-                  <RefreshCw className="w-3 h-3" />
-                </Button>
-              </div>
-            </CardHeader>
-            
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                {/* From Currency */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">From</label>
-                  <div className="space-y-2">
-                    <select
-                      value={fromCurrency}
-                      onChange={(e) => setFromCurrency(e.target.value)}
-                      className="w-full p-3 border border-border rounded-md bg-background"
-                    >
-                      {allCurrencies.map((currency) => (
-                        <option key={currency.code} value={currency.code}>
-                          {currency.flag} {currency.code} - {currency.name}
-                        </option>
-                      ))}
-                    </select>
-                    <Input
-                      type="number"
-                      value={amount}
-                      onChange={(e) => setAmount(e.target.value)}
-                      placeholder="Enter amount"
-                      className="text-lg font-semibold"
-                    />
-                  </div>
-                </div>
-
-                {/* Swap Button */}
-                <div className="flex justify-center">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={swapCurrencies}
-                    className="rounded-full p-3"
-                  >
-                    <ArrowUpDown className="w-4 h-4" />
-                  </Button>
-                </div>
-
-                {/* To Currency */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">To</label>
-                  <div className="space-y-2">
-                    <select
-                      value={toCurrency}
-                      onChange={(e) => setToCurrency(e.target.value)}
-                      className="w-full p-3 border border-border rounded-md bg-background"
-                    >
-                      {allCurrencies.map((currency) => (
-                        <option key={currency.code} value={currency.code}>
-                          {currency.flag} {currency.code} - {currency.name}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="p-3 bg-muted rounded-md">
-                      <div className="text-2xl font-bold">
-                        {getCurrencySymbol(toCurrency)}{convertedAmount.toLocaleString(undefined, { 
-                          minimumFractionDigits: 2, 
-                          maximumFractionDigits: 6 
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Exchange Rate Info */}
-              <div className="text-center p-4 bg-muted/50 rounded-lg">
-                <div className="text-sm text-muted-foreground mb-1">Exchange Rate</div>
-                <div className="font-semibold">
-                  1 {getCurrencyFlag(fromCurrency)} {fromCurrency} = {getCurrencySymbol(toCurrency)}{(convertedAmount / parseFloat(amount || "1")).toFixed(6)} {toCurrency}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <CurrencyConverter className="mb-8" />
 
           {/* Exchange Rates Table */}
           <Card>
@@ -218,7 +111,7 @@ export default function CurrencyPage() {
                         <span className="text-lg">{rate.flag}</span>
                         <span className="font-semibold">{rate.currency}</span>
                       </div>
-                      <div className={`flex items-center gap-1 text-sm ${rate.change24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      <div className={`flex items-center gap-1 text-sm ${rate.change24h >= 0 ? 'text-green-600' : 'text-gray-600'}`}>
                         {rate.change24h >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                         {Math.abs(rate.change24h)}%
                       </div>
@@ -236,104 +129,7 @@ export default function CurrencyPage() {
           </Card>
 
           {/* Travel Budget Calculator */}
-          <Card className="mt-8">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5" />
-                Travel Budget Calculator
-              </CardTitle>
-              <CardDescription>
-                Estimate your travel expenses in different currencies
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="space-y-4">
-                  <h4 className="font-semibold">Daily Budget (NGN)</h4>
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-sm">Accommodation:</span>
-                      <span className="font-medium">₦15,000</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Food & Drinks:</span>
-                      <span className="font-medium">₦8,000</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Transportation:</span>
-                      <span className="font-medium">₦5,000</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Activities:</span>
-                      <span className="font-medium">₦7,000</span>
-                    </div>
-                    <div className="border-t pt-2">
-                      <div className="flex justify-between font-bold">
-                        <span>Total per day:</span>
-                        <span>₦35,000</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <h4 className="font-semibold">In USD</h4>
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-sm">Accommodation:</span>
-                      <span className="font-medium">$18</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Food & Drinks:</span>
-                      <span className="font-medium">$10</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Transportation:</span>
-                      <span className="font-medium">$6</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Activities:</span>
-                      <span className="font-medium">$8</span>
-                    </div>
-                    <div className="border-t pt-2">
-                      <div className="flex justify-between font-bold">
-                        <span>Total per day:</span>
-                        <span>$42</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <h4 className="font-semibold">In GBP</h4>
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-sm">Accommodation:</span>
-                      <span className="font-medium">£14</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Food & Drinks:</span>
-                      <span className="font-medium">£8</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Transportation:</span>
-                      <span className="font-medium">£5</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">Activities:</span>
-                      <span className="font-medium">£7</span>
-                    </div>
-                    <div className="border-t pt-2">
-                      <div className="flex justify-between font-bold">
-                        <span>Total per day:</span>
-                        <span>£33</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <TravelBudgetCalculator className="mt-8" />
         </div>
       </section>
     </div>

@@ -66,7 +66,7 @@ export default function FlightsPage() {
     return (
       <div className="min-h-screen bg-background pb-20">
         <section className="relative py-20 px-4">
-          <div className="container mx-auto max-w-5xl">
+          <div className="page-container max-w-6xl">
             <ErrorDisplay
               type="network"
               title="Failed to Load Flights"
@@ -83,21 +83,21 @@ export default function FlightsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background">
       {/* Hero Search Section */}
-      <section className="relative py-20 px-4">
+      <section className="relative py-20 px-4 flex items-center justify-center min-h-screen">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074&auto=format&fit=crop')] bg-cover bg-center opacity-20 dark:opacity-10 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/60 to-background pointer-events-none" />
 
-        <div className="relative z-10 container mx-auto max-w-5xl">
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-4">
           <motion.div
-            className="text-center mb-10"
+            className="text-center mb-12 max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
-              Find Your Way{" "}
+              <span className="text-gray-700 dark:text-gray-300">Find Your Way</span>{" "}
               <span className="text-gray-700 dark:text-gray-300">
                 Home
               </span>
@@ -113,61 +113,64 @@ export default function FlightsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
           >
-            <Card className="glass-strong border-white/10 max-w-4xl mx-auto">
-              <CardContent className="p-5">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
-                  <div className="md:col-span-3 space-y-1.5">
-                    <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                      <Plane className="w-3 h-3 rotate-45" /> From
+            <Card className="glass-strong border-white/10 max-w-5xl mx-auto">
+              <CardContent className="equal-padding">
+                <div className="search-grid items-end">
+                  <div className="md:col-span-3 space-y-3">
+                    <label className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+                      <Plane className="w-4 h-4 rotate-45" /> From
                     </label>
                     <Input
                       placeholder="London (LHR)"
                       value={searchParams.origin}
                       onChange={(e) => setSearchParams(prev => ({ ...prev, origin: e.target.value }))}
-                      className="h-10 text-center md:text-left"
+                      className="h-14 text-center px-4 py-3"
                     />
                   </div>
-                  <div className="md:col-span-3 space-y-1.5">
-                    <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                      <MapPin className="w-3 h-3" /> To
+                  <div className="md:col-span-3 space-y-3">
+                    <label className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+                      <MapPin className="w-4 h-4" /> To
                     </label>
                     <Input
                       placeholder="Lagos (LOS)"
                       value={searchParams.destination}
                       onChange={(e) => setSearchParams(prev => ({ ...prev, destination: e.target.value }))}
-                      className="h-10 text-center md:text-left"
+                      className="h-14 text-center px-4 py-3"
                     />
                   </div>
-                  <div className="md:col-span-2 space-y-1.5">
-                    <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                      <Calendar className="w-3 h-3" /> Depart
+                  <div className="md:col-span-2 space-y-3">
+                    <label className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+                      <Calendar className="w-4 h-4" /> Depart
                     </label>
                     <Input
                       type="date"
-                      className="h-10 text-center md:text-left [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                      className="h-14 text-center px-4 py-3 [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                       value={searchParams.departureDate}
                       onChange={(e) => setSearchParams(prev => ({ ...prev, departureDate: e.target.value }))}
                     />
                   </div>
-                  <div className="md:col-span-2 space-y-1.5">
-                    <label className="text-xs font-medium text-muted-foreground flex items-center justify-center md:justify-start gap-1">
-                      <Calendar className="w-3 h-3" /> Return
+                  <div className="md:col-span-2 space-y-3">
+                    <label className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2">
+                      <Calendar className="w-4 h-4" /> Return
                     </label>
                     <Input
                       type="date"
-                      className="h-10 text-center md:text-left [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+                      className="h-14 text-center px-4 py-3 [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer"
                       value={searchParams.returnDate}
                       onChange={(e) => setSearchParams(prev => ({ ...prev, returnDate: e.target.value }))}
                     />
                   </div>
-                  <div className="md:col-span-2">
+                  <div className="md:col-span-2 space-y-3">
+                    <label className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2 opacity-0 pointer-events-none">
+                      <Search className="w-4 h-4" /> Search
+                    </label>
                     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                       <Button
-                        className="w-full h-10 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 font-semibold"
+                        className="w-full h-14 bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 font-semibold px-6 py-3"
                         onClick={handleSearch}
                         aria-label="Search for flights"
                       >
-                        <Search className="w-4 h-4 mr-2" /> Search
+                        <Search className="w-5 h-5 mr-2" /> Search
                       </Button>
                     </motion.div>
                   </div>
@@ -179,16 +182,21 @@ export default function FlightsPage() {
       </section>
 
       {/* Featured Deals */}
-      <section className="container mx-auto px-4 py-10">
-        <motion.h2
-          className="text-2xl font-bold mb-6 flex items-center gap-2"
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+      <section className="container mx-auto px-4 section-padding">
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <Plane className="w-6 h-6 text-gray-600 dark:text-gray-400" />
-          Popular Flight Deals
-        </motion.h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+            <Plane className="w-7 h-7 text-gray-600 dark:text-gray-400" />
+            Popular Flight Deals
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Compare prices across major airlines and find the best deals for your journey.
+          </p>
+        </motion.div>
 
         {isLoading ? (
           <ListSkeleton count={6} type="flight" />
@@ -226,6 +234,7 @@ export default function FlightsPage() {
         isOpen={isPaymentOpen}
         onClose={() => setIsPaymentOpen(false)}
         itemType="flight"
+        itemId={selectedFlight?.id || ""}
         itemName={`${selectedFlight?.airline} - ${selectedFlight?.flight_number}`}
         itemPrice={selectedFlight?.price || 0}
         itemCurrency={selectedFlight?.currency}
@@ -267,7 +276,7 @@ function FlightCard({ flight, onClick }: { flight: Flight; onClick: () => void }
         className="hover:border-gray-400 dark:hover:border-gray-600 transition-colors group cursor-pointer glass"
         onClick={onClick}
       >
-        <CardContent className="p-5">
+        <CardContent className="card-padding-md">
           <div className="flex justify-between items-start mb-4">
             <div className="bg-muted px-3 py-1 rounded text-xs font-medium text-gray-600 dark:text-gray-400">
               {flight.airline}

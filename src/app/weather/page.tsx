@@ -119,9 +119,25 @@ export default function WeatherPage() {
     loadWeatherData(selectedCity);
   }, [selectedCity]);
 
-  const loadWeatherData = (city: string) => {
-    const data = mockWeatherData[city.toLowerCase()];
-    setWeatherData(data || null);
+  const loadWeatherData = async (city: string) => {
+    try {
+      const response = await fetch(`/api/weather?city=${encodeURIComponent(city)}`);
+      const result = await response.json();
+      
+      if (result.success) {
+        setWeatherData(result.data);
+      } else {
+        console.error('Weather API error:', result.error);
+        // Fallback to mock data
+        const data = mockWeatherData[city.toLowerCase()];
+        setWeatherData(data || null);
+      }
+    } catch (error) {
+      console.error('Failed to fetch weather data:', error);
+      // Fallback to mock data
+      const data = mockWeatherData[city.toLowerCase()];
+      setWeatherData(data || null);
+    }
   };
 
   const handleSearch = () => {
@@ -355,7 +371,7 @@ export default function WeatherPage() {
             
             <Card className="text-center">
               <CardHeader>
-                <Thermometer className="w-12 h-12 mx-auto mb-4 text-red-500" />
+                <Thermometer className="w-12 h-12 mx-auto mb-4 text-gray-500" />
                 <CardTitle>Temperature Guide</CardTitle>
                 <CardDescription>
                   Layer clothing for temperature changes. Coastal areas are milder, inland can be extreme.
