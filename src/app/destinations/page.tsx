@@ -225,26 +225,14 @@ export default function DestinationsPage() {
                     <div className="text-sm text-muted-foreground">From</div>
                     <div className="font-bold text-lg">₦{destination.flightPrice.toLocaleString()}</div>
                   </div>
-                  <div className="flex gap-2">
-                    <Button 
-                      size="sm" 
-                      variant="outline" 
-                      className="gap-1"
-                      onClick={() => handleBookFlight(destination)}
-                    >
-                      <Plane className="w-3 h-3" />
-                      Book Flight
-                    </Button>
-                    <Button 
-                      size="sm" 
-                      variant="primary" 
-                      className="gap-1"
-                      onClick={() => handleBookStay(destination)}
-                    >
-                      <Calendar className="w-3 h-3" />
-                      Book Stay
-                    </Button>
-                  </div>
+                  <Button 
+                    variant="primary" 
+                    className="gap-2"
+                    onClick={() => handleBookFlight(destination)}
+                  >
+                    <Plane className="w-4 h-4" />
+                    Book Now
+                  </Button>
                 </div>
               </CardContent>
             </Card>
