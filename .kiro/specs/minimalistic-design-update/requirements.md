@@ -48,3 +48,4 @@ This feature involves updating the current website design to remove purple gradi
 3. WHEN rendering pages, THE Design_System SHALL maintain or improve current loading performance
 4. WHEN applying new styles, THE Design_System SHALL ensure cross-browser compatibility
 5. WHEN users interact with elements, THE Design_System SHALL provide immediate visual feedback without performance degradation
+Navigation should be smooth and seamless 

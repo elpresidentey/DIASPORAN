@@ -170,7 +170,7 @@ export default function DestinationsPage() {
       <section className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {destinations.map((destination) => (
-            <Card key={destination.id} className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
+            <Card key={destination.id} className="group hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col h-full">
               <div className="relative h-48 overflow-hidden">
                 <Image
                   src={destination.image}
@@ -185,40 +185,42 @@ export default function DestinationsPage() {
                 </div>
               </div>
               
-              <CardHeader>
+              <CardHeader className="flex-shrink-0">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-xl">{destination.name}</CardTitle>
                   <span className="text-sm text-muted-foreground">{destination.country}</span>
                 </div>
-                <CardDescription className="line-clamp-2">
+                <CardDescription className="line-clamp-3 min-h-[4.5rem]">
                   {destination.description}
                 </CardDescription>
               </CardHeader>
               
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Users className="w-4 h-4" />
-                    {destination.reviews} reviews
+              <CardContent className="flex-1 flex flex-col justify-between space-y-4">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <Users className="w-4 h-4" />
+                      {destination.reviews} reviews
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-4 h-4" />
+                      {destination.bestTime}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    {destination.bestTime}
+                  
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-sm">Top Highlights:</h4>
+                    <div className="flex flex-wrap gap-1 min-h-[2rem]">
+                      {destination.highlights.slice(0, 3).map((highlight, index) => (
+                        <span key={index} className="bg-muted px-2 py-1 rounded-full text-xs">
+                          {highlight}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
                 
-                <div className="space-y-2">
-                  <h4 className="font-semibold text-sm">Top Highlights:</h4>
-                  <div className="flex flex-wrap gap-1">
-                    {destination.highlights.slice(0, 3).map((highlight, index) => (
-                      <span key={index} className="bg-muted px-2 py-1 rounded-full text-xs">
-                        {highlight}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="flex items-center justify-between pt-4 border-t">
+                <div className="flex items-center justify-between pt-4 border-t mt-auto">
                   <div>
                     <div className="text-sm text-muted-foreground">From</div>
                     <div className="font-bold text-lg">₦{destination.flightPrice.toLocaleString()}</div>
